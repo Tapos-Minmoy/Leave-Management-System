@@ -1,11 +1,11 @@
 // import React from 'react';
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-
+import logoImage from '../images/logo.png';
 const Header = () => {
     return (
         <Navbar fluid rounded>
           <Navbar.Brand href="https://flowbite-react.com">
-            <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
+            <img src={logoImage}  className="mr-3 h-6 sm:h-9" alt="" />
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">University of Chittagong</span>
           </Navbar.Brand>
           <div className="flex md:order-2">

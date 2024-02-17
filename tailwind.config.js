@@ -8,8 +8,7 @@ export default {
     extend: {},
   },
   plugins: [
-    // eslint-disable-next-line no-undef
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require("daisyui")
   ],
 }
-
