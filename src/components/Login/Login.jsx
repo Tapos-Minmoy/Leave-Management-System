@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
   return (
-    <div className='flex flex-col md:flex-row justify-around bg-orange-50 h-screen'>
+    <div className='flex flex-col md:flex-row justify-around bg-blue-50 h-screen'>
       <div className="flex flex-col justify-center align-center w-full md:w-1/2 p-10">
         <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer ">Study Leave</p>
-        <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer  text-orange-500">Application</p>
+        <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer  text-blue-500">Application</p>
       </div>
 
       <div>
@@ -20,7 +20,7 @@ const Login = () => {
                 <input
                   type="email"
                   id="email"
-                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-yellow-300"
+                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-blue-300"
                   placeholder="name@company.com"
                   required
                 />
@@ -30,26 +30,17 @@ const Login = () => {
                 <input
                   type="password"
                   id="password"
-                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-yellow-300"
+                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-blue-300"
                   placeholder="••••••••"
                   required
                 />
               </div>
-              <div>
-                <label htmlFor="RepeatPassword" className="block font-medium text-white">Repeat password:</label>
-                <input
-                  type="password"
-                  id="RepeatPassword"
-                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-yellow-300"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
+      
               <div>
                 <label htmlFor="roles" className="block font-medium text-white">Roles:</label>
                 <select
                   id="roles"
-                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-yellow-300"
+                  className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-blue-300"
                   required
                 >
                   <option value="">Select Role</option>
@@ -60,7 +51,7 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="w-full py-2 px-4 text-white bg-orange-400 hover:bg-orange-500 rounded focus:ring focus:ring-yellow-300"
+                className="w-full py-2 px-4 text-white bg-blue-400 hover:bg-blue-500 rounded focus:ring focus:ring-blue-300"
               >
                 LogIn
               </button>
@@ -68,7 +59,7 @@ const Login = () => {
                 Forgot Password?
               </Link>
               <p className="text-sm text-white">
-                Do not have an account? <Link to="../SignUp" className="font-medium text-orange-300 hover:underline">Create Account</Link>
+                Do not have an account? <Link to="../SignUp" className="font-medium text-blue-300 hover:underline">Create Account</Link>
               </p>
             </form>
           </div>
