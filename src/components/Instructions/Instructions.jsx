@@ -3,7 +3,7 @@
 const Instructions = () => {
     return (
         <div>
-            
+            <h2>This is Instruction page </h2>
         </div>
     );
 };

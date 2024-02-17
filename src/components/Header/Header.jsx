@@ -33,7 +33,7 @@ const Header = () => {
             </Navbar.Link>
             <Navbar.Link href="/login">Login/Register</Navbar.Link>
             <Navbar.Link href="/instructions">Insturctions</Navbar.Link>
-            <Navbar.Link href="//notices">Notices</Navbar.Link>
+            <Navbar.Link href="/notices">Notices</Navbar.Link>
           </Navbar.Collapse>
         </Navbar>
       );
