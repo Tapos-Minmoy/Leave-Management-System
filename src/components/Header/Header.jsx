@@ -28,10 +28,10 @@ const Header = () => {
             <Navbar.Toggle />
           </div>
           <Navbar.Collapse>
-            <Navbar.Link href="#" active>
+            <Navbar.Link href="#">
               Home
             </Navbar.Link>
-            <Navbar.Link href="/login">Login/Register</Navbar.Link>
+            <Navbar.Link href="/login" active>Login/Register</Navbar.Link>
             <Navbar.Link href="/instructions">Insturctions</Navbar.Link>
             <Navbar.Link href="/notices">Notices</Navbar.Link>
           </Navbar.Collapse>
