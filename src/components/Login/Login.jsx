@@ -2,10 +2,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// eslint-disable-next-line no-unused-vars
+// import React from 'react';
+
 const Login = () => {
   return (
     <div className='flex flex-col md:flex-row justify-around bg-blue-50 h-screen'>
-      <div className="flex flex-col justify-center align-center w-full md:w-1/2 p-10">
+      <div className="flex flex-col justify-center align-center w-full md:w-1/2 p-10 ps-28">
         <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer ">Study Leave</p>
         <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer  text-blue-500">Application</p>
       </div>

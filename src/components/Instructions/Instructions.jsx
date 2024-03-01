@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import capImage from '../images/cap.png';
 import processingImage from '../images/color_processing.webp';
 import leaveImage from '../images/leave.png';

@@ -3,7 +3,7 @@
 const Notices = () => {
     return (
         <div>
-            
+            <h2>This is Notice page</h2>
         </div>
     );
 };
