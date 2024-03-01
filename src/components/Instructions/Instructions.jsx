@@ -1,4 +1,5 @@
 // import React from 'react';
+import { Link } from 'react-router-dom';
 import capImage from '../images/cap.png';
 import processingImage from '../images/color_processing.webp';
 import leaveImage from '../images/leave.png';
@@ -10,17 +11,17 @@ function Instructions() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-white to-blue-500 h-screen">
+    <div className="bg-blue-50 h-screen">
       <div>
         <h2 className="text-center text-xl font-bold p-2 m-5">Application Form</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center items-center gap-5 ms-auto mx-20 px-5">
         <div className="application-section w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <a href="#" onClick={openFormPage} className="flex flex-col items-center pb-10">
+          <Link to="/studyForm" className="flex flex-col items-center pb-10">
             <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={capImage} alt="Cap image"/>
             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Study leave Application</h5>
             <span className="text-sm text-gray-500 dark:text-gray-400">Apply</span>
-          </a>
+          </Link>
         </div>
 
         {/* Demo Application */}

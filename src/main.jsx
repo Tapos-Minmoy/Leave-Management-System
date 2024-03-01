@@ -11,6 +11,7 @@ import Instructions from './components/Instructions/Instructions.jsx';
 import Notices from './components/Notices/Notices.jsx';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
 import SignUp from './components/SignUp/SignUp.jsx';
+import StudyForm from './components/StudyForm/StudyForm.jsx';
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path:"/instructions",
         element: <Instructions></Instructions>
+      },
+      {
+        path:"/studyForm",
+        element: <StudyForm></StudyForm>
       },
       {
         path:"/notices",
