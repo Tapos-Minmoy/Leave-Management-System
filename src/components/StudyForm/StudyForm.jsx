@@ -10,9 +10,6 @@ function StudyForm() {
         <p><strong>(No leave application except in this prescribed form be considered)</strong></p>
       </div>
       <div className="form-container">
-        {/* <h2>University of Chittagong</h2>
-      <h3>Form of Application of Leave (other than study leave)</h3>
-      <p>(No leave application except in this prescribed form be considered)</p> */}
         <form className="leave-form">
           <div className="form-group">
             <label htmlFor="name">1. Name of Applicant:</label>
@@ -43,12 +40,16 @@ function StudyForm() {
             <input type="checkbox" id="refundUndertaking" name="refundUndertaking" />
           </div>
           <div className="form-group">
+            <label htmlFor="refundUndertaking">8.Essential Additional File:</label>
+            <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple></input>
+          </div>
+          <div className="form-group">
             <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>
-            <textarea id="remarks" name="remarks" rows="4"></textarea>
+            <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple></input>
           </div>
           <div className="form-group">
             <label htmlFor="applicantSignature">Signature of the Applicant and date:</label>
-            <input type="text" id="applicantSignature" name="applicantSignature" />
+            <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple></input>
             <input type="date" id="date" name="date" />
           </div>
           <div className='cancel-submit-btn'>
