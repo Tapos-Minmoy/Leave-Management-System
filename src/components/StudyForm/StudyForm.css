@@ -2,7 +2,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-weight: bold;
-    text: size 50px;
+    font-size: 50px;
   }
   
   .header p {
@@ -10,10 +10,10 @@
   }
 .form-container {
     background-color: rgb(227, 242, 253);
-    padding: 20px;
+    padding: 40px;
     border-radius: 10px;
     margin: 20px auto; /* Center the form horizontally */
-    max-width: 600px; /* Limit the maximum width of the form */
+    max-width: 800px; /* Limit the maximum width of the form */
   }
   
   .leave-form {
@@ -44,16 +44,27 @@
   input[type="checkbox"] {
     margin-right: 5px;
   }
+
+  .cancel-submit-btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
   button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color:rgb(8, 8, 83);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
     margin-top: 10px;
+  }
+
+  .cancel-btn:hover{
+    background-color: rgb(159, 22, 22);
   }
   
   button:hover {
