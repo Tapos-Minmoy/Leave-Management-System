@@ -1,80 +1,92 @@
 .header {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-    font-size: 20px;
-  }
-  
-  .header p {
-    font-weight: bold;
-  }
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.header p {
+  font-weight: bold;
+}
+
 .form-container {
-    background-color: rgb(227, 242, 253);
-    padding: 40px;
-    border-radius: 10px;
-    margin: 20px auto; /* Center the form horizontally */
-    max-width: 800px; /* Limit the maximum width of the form */
-  }
-  
-  .leave-form {
-    display: flex;
-    flex-direction: column; /* Arrange fields and instructions side by side */
-    flex-wrap: wrap; /* Wrap items to the next row if necessary */
-  }
-  
-  .form-group {
-    flex: 1; /* Make each field/instruction take equal width */
-    margin-bottom: 15px;
-  }
-  
-  label {
-    font-weight: bold;
-  }
-  
-  input[type="text"],
-  textarea,
-  input[type="date"] {
-    width: calc(100% - 20px); /* Adjust width to accommodate padding */
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
+  background-color: rgb(227, 242, 253);
+  padding: 40px;
+  border-radius: 10px;
+  margin: 20px auto; /* Center the form horizontally */
+  max-width: 800px; /* Limit the maximum width of the form */
+}
 
-  input[type="file"]{
-    width: calc(100% - 20px); /* Adjust width to accommodate padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  input[type="checkbox"] {
-    margin-right: 5px;
-  }
+.leave-form {
+  display: flex;
+  flex-direction: column; /* Arrange fields and instructions side by side */
+  flex-wrap: wrap; /* Wrap items to the next row if necessary */
+}
 
-  .cancel-submit-btn{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color:rgb(8, 8, 83);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-  }
+.form-group {
+  display: flex;
+  margin-bottom: 15px;
+}
 
-  .cancel-btn:hover{
-    background-color: rgb(159, 22, 22);
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+.input-wrapper {
+  flex: 1; /* Make each wrapper take equal width */
+}
+
+
+.input-wrapper label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-wrapper input {
+  width: 100%; /* Fill the available space */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.upload-label {
+  padding: 10px;
+  background-color: rgb(8, 8, 83);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+
+.input-wrapper input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.cancel-submit-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: rgb(8, 8, 83);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cancel-btn:hover {
+  background-color: rgb(159, 22, 22);
+}
+
+button:hover {
+  background-color: #45a049;
+}
