@@ -109,7 +109,6 @@ function StudyForm() {
           <div className="form-group">
             <div className="input-wrapper">
               <textarea id="remarks" name="remarks" rows="3" style={{ width: '90%' }}></textarea>
-              <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>
             </div>
             <div className="input-wrapper">
             {signatureFile ? (
@@ -129,6 +128,14 @@ function StudyForm() {
                   <label htmlFor="signature" className="upload-label">Upload Signature (300x80px)</label>
                 </div>
               )}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <div className="input-wrapper">
+              <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>
+            </div>
+            <div className="input-wrapper">
               <label htmlFor="signature">Signature of the Applicant and date:</label>
             </div>
           </div>
