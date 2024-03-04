@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import avatarImage from '../images/signature3.jpg'; // Replace with the actual path
+
 import './StudyForm.css'; // Import CSS file for styling
 
 function StudyForm() {
+
+
   const [signatureFile, setSignatureFile] = useState(null);
 
   const handleSignatureUpload = (event) => {
@@ -29,7 +33,7 @@ function StudyForm() {
   };
 
   const handleSignatureRemove = () => {
-    setSignatureFile(null);
+    setSignatureFile(null);  
   };
 
   return (
@@ -106,14 +110,19 @@ function StudyForm() {
               <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="additionalFile" type="file" multiple></input>
             </div>
           </div>
+          
+
+
           <div className="form-group">
             <div className="input-wrapper">
               <textarea id="remarks" name="remarks" rows="3" style={{ width: '90%' }}></textarea>
+              <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>
             </div>
             <div className="input-wrapper">
+            <img className="h-20 w-80 rounded-sm border-slate-700 border-2" src={signatureFile} alt="User Avatar" />
             {signatureFile ? (
                 <>
-                  <img src={signatureFile} alt="Signature" style={{ width: '300px', height: '80px' }} />
+                  {/* <img src={signatureFile} alt="Signature" style={{ width: '300px', height: '80px' }} /> */}
                   <button onClick={handleSignatureRemove}>Change</button>
                 </>
               ) : (
@@ -128,17 +137,12 @@ function StudyForm() {
                   <label htmlFor="signature" className="upload-label">Upload Signature (300x80px)</label>
                 </div>
               )}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <div className="input-wrapper">
-              <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>
-            </div>
-            <div className="input-wrapper">
               <label htmlFor="signature">Signature of the Applicant and date:</label>
             </div>
           </div>
+
+
+
           <div className='cancel-submit-btn'>
             <button className='cancel-btn' >Cancel</button>
             <button >Submit</button>

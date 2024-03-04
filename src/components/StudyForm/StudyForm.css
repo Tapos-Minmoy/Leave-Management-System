@@ -66,6 +66,15 @@
   margin-right: 5px;
 }
 
+.input-wrapper input[type="file"]{
+  width: 100%; /* Fill the available space */
+  /* padding: 8px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+}
+
 .cancel-submit-btn {
   display: flex;
   justify-content: space-between;
