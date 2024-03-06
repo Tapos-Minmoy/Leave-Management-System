@@ -12,6 +12,7 @@ import Notices from './components/Notices/Notices.jsx';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
 import SignUp from './components/SignUp/SignUp.jsx';
 import StudyForm from './components/StudyForm/StudyForm.jsx';
+import PreviousLeave from './components/PreviousLeave/PreviousLeave.jsx';
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path:"/studyForm",
         element: <StudyForm></StudyForm>
+      },
+      {
+        path:"/previousLeave",
+        element: <PreviousLeave></PreviousLeave>
       },
       {
         path:"/notices",

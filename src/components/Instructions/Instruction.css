@@ -1,4 +1,12 @@
-.application-section:hover {
-    background-color:#65a5ef;
-  }
-  
+.Study_Leave_Application:hover {
+  background-color: #7bb3f2;
+}
+/* For Other_Leave_Application-section */
+.Other_Leave_Application-section:hover {
+  background-color: #7bb3f2;
+}
+
+/* For Previous_Application */
+.Previous_Application:hover {
+  background-color: #7bb3f2;
+}
