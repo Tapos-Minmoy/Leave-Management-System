@@ -4,6 +4,8 @@ import { faCheck, faPenToSquare, faRightLeft } from '@fortawesome/free-solid-svg
 import { Dropdown } from 'flowbite-react';
 import capImage from '../images/cap.png';
 import processingImage from '../images/color_processing.webp';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -133,7 +135,9 @@ function PreviousLeave() {
                 See Progress
               </div>
               <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                <div className="underline grow my-auto cursor-pointer hover:text-blue-500" onClick={openFormPage}>Detailed progress</div>
+              <Link to="/progressBar" className="underline grow my-auto cursor-pointer hover:text-blue-500">
+    Detailed progress
+  </Link>
               </div>
               <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
                 <div className="underline grow my-auto cursor-pointer hover:text-blue-500" onClick={openFormPage}>Detailed progress</div>

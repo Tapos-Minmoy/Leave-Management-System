@@ -13,6 +13,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
 import SignUp from './components/SignUp/SignUp.jsx';
 import StudyForm from './components/StudyForm/StudyForm.jsx';
 import PreviousLeave from './components/PreviousLeave/PreviousLeave.jsx';
+import ProgressBar from './components/ProgressBar/ProgressBar';
 
 
 const router = createBrowserRouter([
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path:"/notices",
         element: <Notices></Notices>
+      },
+      {
+        path:"/progressBar",
+        element: <ProgressBar></ProgressBar>
       },
     ]
   },
