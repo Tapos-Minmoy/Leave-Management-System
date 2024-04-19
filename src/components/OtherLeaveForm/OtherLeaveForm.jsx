@@ -3,10 +3,12 @@ import avatarImage from '../images/signature3.jpg'; // Replace with the actual p
 
 import './OtherLeaveForm.css'; // Import CSS file for styling
 
-function OtherLeaveForm() {
+function OtherLeaveForm({ userID }) {
 
 
   const [signatureFile, setSignatureFile] = useState(null);
+  console.log("OKk");
+  console.log(userID);
 
   const handleSignatureUpload = (event) => {
     const file = event.target.files[0];
@@ -38,7 +40,7 @@ function OtherLeaveForm() {
 
   return (
     <div>
-
+    
       <div className="form-container">
         <div className="header">
           <h2>University of Chittagong</h2>

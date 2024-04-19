@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import capImage from '../images/cap.png';
 import processingImage from '../images/color_processing.webp';
 import leaveImage from '../images/leave.png';
-import './Application.css';
+import './LeaveApplication.css';
 import  Progress  from '../images/progress.jpg';
-function Application() {
+function LeaveApplication() {
   const openFormPage = () => {
     // Logic to open the form page
     console.log("Opening form page...");
@@ -26,7 +26,7 @@ function Application() {
     </div>
 
     <div className="Other_Leave_Application-section w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link to="/studyForm" className="flex flex-col items-center pb-10">
+      <Link to="/noc/otherLeaveForm" className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={processingImage} alt="Cap image"/>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Other Leave Application</h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">Apply</span>
@@ -66,4 +66,4 @@ function Application() {
   );
 }
 
-export default Application;
+export default LeaveApplication;
