@@ -8,12 +8,12 @@ import Application from './components/Application/Application.jsx';
 import Notices from './components/Notices/Notices.jsx';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.jsx';
 import SignUp from './components/SignUp/SignUp.jsx';
-import StudyForm from './components/StudyForm/StudyForm.jsx';
+import OtherLeaveForm from './components/OtherLeaveForm/OtherLeaveForm.jsx';
 import PreviousLeave from './components/PreviousLeave/PreviousLeave.jsx';
 
 const Main = () => {
   // State to store userID
-  const [userID, setUserID] = useState(null); // Initialize with null or default userID
+  const [userID, setUserID] = useState("jokjki0oemkJKJL4565"); // Initialize with null or default userID
 
   const router = createBrowserRouter([
     {
@@ -37,8 +37,8 @@ const Main = () => {
           element: <Application userID={userID}></Application>, // Pass userID here
         },
         {
-          path: '/studyForm',
-          element: <StudyForm></StudyForm>,
+          path: '/noc/otherLeaveForm',
+          element: <OtherLeaveForm></OtherLeaveForm>,
         },
         {
           path: '/previousLeave',

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import avatarImage from '../images/signature3.jpg'; // Replace with the actual path
 
-import './StudyForm.css'; // Import CSS file for styling
+import './OtherLeaveForm.css'; // Import CSS file for styling
 
-function StudyForm() {
+function OtherLeaveForm() {
 
 
   const [signatureFile, setSignatureFile] = useState(null);
@@ -153,4 +153,4 @@ function StudyForm() {
   );
 }
 
-export default StudyForm;
+export default OtherLeaveForm;
