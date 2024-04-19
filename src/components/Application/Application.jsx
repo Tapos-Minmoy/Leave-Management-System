@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import capImage from '../images/cap.png';
 import processingImage from '../images/color_processing.webp';
 import leaveImage from '../images/leave.png';
-import './Instruction.css';
+import './Application.css';
 import  Progress  from '../images/progress.jpg';
-function Instructions() {
+function Application() {
   const openFormPage = () => {
     // Logic to open the form page
     console.log("Opening form page...");
@@ -66,4 +66,4 @@ function Instructions() {
   );
 }
 
-export default Instructions;
+export default Application;
