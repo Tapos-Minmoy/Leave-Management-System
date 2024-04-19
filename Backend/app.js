@@ -44,8 +44,6 @@ app.post('/other_leave_application', async (req, res) => {
       req.body.Leave_Ground,
       req.body.Salary_Acknowledgement,
       req.body.Station_Leaving_Permission,
-
-      //Files not working
       req.body.Attachments, 
       req.body.my_application_chairman,
       req.body.final_application,

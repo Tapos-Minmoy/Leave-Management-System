@@ -38,8 +38,8 @@ const Main = () => {
           element: <OtherLeaveForm userID={userID}></OtherLeaveForm>,
         },
         {
-          path: '/noc/otherLeaveForm',
-          element: <OtherLeaveForm></OtherLeaveForm>,
+          path: '/noc/leaveApplication',
+          element: <LeaveApplication></LeaveApplication>,
         },
         {
           path: '/previousLeave',

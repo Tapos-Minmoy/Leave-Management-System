@@ -4,8 +4,7 @@ import avatarImage from '../images/signature3.jpg'; // Replace with the actual p
 import './OtherLeaveForm.css'; // Import CSS file for styling
 
 function OtherLeaveForm({ userID }) {
-
-
+  
   const [signatureFile, setSignatureFile] = useState(null);
   console.log("OKk");
   console.log(userID);
@@ -15,24 +14,26 @@ function OtherLeaveForm({ userID }) {
     if (file) {
       // Check if file is an image
       if (file.type === 'image/jpeg' || file.type === 'image/png') {
-        const image = new Image();
-        image.src = URL.createObjectURL(file);
-        image.onload = () => {
-          if (image.width <= 300 && image.height <= 80) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-              setSignatureFile(reader.result);
-            };
-          } else {
-            alert('Please upload an image with dimensions not exceeding 300x80 pixels.');
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const imageDataUrl = reader.result;
+          const base64Image = imageDataUrl.split(',')[1]; // Get the base64 image data
+          const byteCharacters = atob(base64Image); // Decode base64 string
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
           }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: file.type });
+          setSignatureFile(blob);
         };
       } else {
         alert('Please upload an image file (JPEG or PNG) for the signature.');
       }
     }
   };
+
 
   const handleSignatureRemove = () => {
     setSignatureFile(null);  
@@ -114,17 +115,15 @@ function OtherLeaveForm({ userID }) {
           </div>
           
 
-
           <div className="form-group">
             <div className="input-wrapper">
               <textarea id="remarks" name="remarks" rows="3" style={{ width: '90%' }}></textarea>
               <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>
             </div>
             <div className="input-wrapper">
-            <img className="h-20 w-80 rounded-sm border-slate-700 border-2" src={signatureFile} alt="User Avatar" />
-            {signatureFile ? (
+              {signatureFile ? (
                 <>
-                  {/* <img src={signatureFile} alt="Signature" style={{ width: '300px', height: '80px' }} /> */}
+                  <img src={URL.createObjectURL(signatureFile)} alt="Signature" className="h-20 w-80 rounded-sm border-slate-700 border-2" />
                   <button onClick={handleSignatureRemove}>Change</button>
                 </>
               ) : (
