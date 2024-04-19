@@ -27,7 +27,7 @@ const upload = multer({ storage: storage });
 app.use(bodyParser.json());
 
 
-app.post('/other_leave_application', (req, res) => {
+app.post('/other_leave_application', async (req, res) => {
     const sql = `INSERT INTO other_leave_application 
                 (Leave_ID, applicant_id, Nature_of_Leave, Duration, Designation, Leave_Start_Date, 
                 Leave_Ground, Salary_Acknowledgement, Station_Leaving_Permission, Attachments, 
@@ -51,23 +51,21 @@ app.post('/other_leave_application', (req, res) => {
       req.body.final_application,
     ];
   
-    pool.query(sql, values, (err, result) => {
-    
-      if (err) {
-        console.error('Error executing query:', err);
-        res.status(500).json({ error: 'An error occurred while processing your request' });
-      } else {
-        console.log('Data inserted successfully');
-        res.status(200).json({ message: 'Data inserted successfully' });
-      }
-    });
-  });
+    const result= await pool.query(sql, values);
+    res.status(201).send("Data Inserted Successfully.")
+
+});  
 
 
 app.get("/roles", async (req, res)=>{
     const roles= await getRoles()
     res.send(roles)
 })
+
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send('Something broke 💩')
+  })
 
 
 app.listen(8080, ()=>{
