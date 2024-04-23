@@ -1,6 +1,6 @@
 import express from 'express'
 import { getRoles, getUser } from './database.js'
-import { createStudyLeaveApplication } from './studyLeaveAPI.js'
+import { createStudyLeaveApplication, getAllStudyLeaveApplication } from './studyLeaveAPI.js'
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
 import multer from 'multer'
@@ -79,30 +79,6 @@ app.get("/roles", async (req, res)=>{
 
 
 
-// Multer configuration for file uploads
-const storageForAttachments = multer.diskStorage({
-    destination: function (req, file, cb) {
-
-        cb(null,'public/attachments')
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
-    }
-  });
-  const uploadAttachments = multer({ storage: storageForAttachments });
-
-  // Multer configuration for file uploads
-const storageForSignature = multer.diskStorage({
-    destination: function (req, file, cb) {
-
-        cb(null,'public/signatures')
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
-    }
-  });
-  const uploadSignature = multer({ storage: storageForSignature });
-
 
 app.post('/study_leave_application', upload.fields([{ name: 'attachedFile', maxCount: 1 }, { name: 'signature', maxCount: 1 }]), async (req, res) => {
     console.log(req)
@@ -139,7 +115,13 @@ app.post('/study_leave_application', upload.fields([{ name: 'attachedFile', maxC
   });
 
 
-
+app.get('/all_study_leave_applications',async (req, res)=>{
+  const applicant_id= req.query.applicant_id
+  
+  const result=await getAllStudyLeaveApplication(applicant_id)
+  console.log(result)
+  res.status(201).send(result)
+});
 
 app.use((err, req, res, next) => {
     console.error(err.stack)

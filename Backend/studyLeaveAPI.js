@@ -22,3 +22,8 @@ export async function createStudyLeaveApplication(applicant_id, name_of_program,
       return result
 
 }
+
+export async function getAllStudyLeaveApplication(applicant_id){
+    const [result]= await pool.query(`select * from webdb_v1.study_leave_application where applicant_id= ?`,applicant_id);
+    return result
+}
