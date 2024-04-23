@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
 
-import './OtherLeaveForm.css'; // Import CSS file for styling
+import './StudyLeaveForm.css'; // Import CSS file for styling
 
 function OtherLeaveForm({ userID }) {
   
@@ -121,8 +121,8 @@ function OtherLeaveForm({ userID }) {
       <div className="form-container">
         <div className="header">
           <h2>University of Chittagong</h2>
-          <h3>Form of Application of Leave (other than study leave)</h3>
-          <p><strong>(No leave application except in this prescribed form be considered)</strong></p>
+          <h3>(Only for Study Leave Application)</h3>
+          <p><strong>(No application except in this prescribed form be considered)</strong></p>
         </div>
         <form className="leave-form" onSubmit={handleSubmit}>
           <div className="form-group">

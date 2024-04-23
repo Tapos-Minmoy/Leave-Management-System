@@ -4,6 +4,8 @@ import mysql from 'mysql2'
 import dotenv from 'dotenv'
 import multer from 'multer'
 import bodyParser from 'body-parser'
+import path from 'path'
+import cors from 'cors'
 
 
 const app= express()
@@ -19,12 +21,9 @@ const pool =mysql.createPool({
 }).promise()
 
 
-
-const storage = multer.memoryStorage(); // Store files in memory
-const upload = multer({ storage: storage });
-
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
+app.use(cors());
 
 
 app.post('/other_leave_application', async (req, res) => {
@@ -54,6 +53,23 @@ app.post('/other_leave_application', async (req, res) => {
 
 });  
 
+//file and image upload
+const storage=multer.diskStorage({
+    destination:(req,file,cb) => {
+        cb(null,'public/images')
+    },
+    filename: (req,file,cb) => {
+        cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname));
+    }
+})
+
+const upload=multer({
+    storage: storage
+})
+
+app.post('/noc/upload/image', upload.single('image') , async(req,res) =>{
+    console.log(req.file);
+})
 
 app.get("/roles", async (req, res)=>{
     const roles= await getRoles()

@@ -41,12 +41,12 @@ function LeaveApplication() {
       </Link>
     </div>
   </div>
-
+    {/*
   <div>
     <h2 className="text-center text-xl font-bold p-2 m-5">Application Update</h2>
   </div>
 
-  {/* Study Leave Application Update */}
+  {/* Study Leave Application Update *
   <div className="grid grid-cols-6 gap-3">
     <div className="col-start-2 col-span-4">
       <a href="#" className="block w-9/10 p-2 bg-gradient-to-r from-blue-500 to-black rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -60,7 +60,7 @@ function LeaveApplication() {
         </div>
       </a>
     </div>
-  </div>
+  </div> */}
 </div>
 
   );

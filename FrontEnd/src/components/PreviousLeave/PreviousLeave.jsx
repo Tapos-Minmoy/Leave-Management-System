@@ -26,7 +26,7 @@ function PreviousLeave() {
           </div>
 
 
-          {/* code for dropdown */}
+          {/* code for dropdown 
           <div className='flex justify-start mt-6'>
 
             <Dropdown label="All Leaves" dismissOnClick={false}>
@@ -40,13 +40,22 @@ function PreviousLeave() {
               </div>
             </Dropdown>
 
-          </div>
+          </div>*/}
 
 
 
           {/* code for checkboxes */}
           <div className='flex justify-end gap-5 mt-9'>
-
+          <Dropdown label="All Leaves" dismissOnClick={false}>
+              <div className="flex gap-1 justify-between items-center p-2.5 tracking-normal bg-white">
+                <Dropdown.Item>Study Leave</Dropdown.Item>
+                <FontAwesomeIcon className='cursor-pointer hover:text-blue-500' icon={faCheck} />
+              </div>
+              <div className="flex gap-1 justify-center items-center p-2.5 tracking-normal bg-white">
+                <Dropdown.Item>Other Leaves</Dropdown.Item>
+                <FontAwesomeIcon className='cursor-pointer hover:text-blue-500' icon={faCheck} />
+              </div>
+            </Dropdown>
             <div class="flex items-center">
               <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
               <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">All</label>
