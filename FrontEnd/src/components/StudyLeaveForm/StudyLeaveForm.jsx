@@ -6,6 +6,28 @@ import './StudyLeaveForm.css'; // Import CSS file for styling
 function StudyLeaveForm({ userID }) {
   
   const [signatureFile, setSignatureFile] = useState(null);
+  const [formData, setFormData] = useState({
+    name_of_program: '',
+    destination: '',
+    department: '',
+    duration: 0,
+    destination_country: '',
+    financial_source: '',
+    designation: '',
+    joining_date: "2024-04-24",
+    leave_start_date: '2024-04-24',
+    program_start_date: '2024-04-24',
+    attachedFile: null,
+    signature: null
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+  };
 
   const handleSignatureUpload = (event) => {
     const file = event.target.files[0];
@@ -31,6 +53,7 @@ function StudyLeaveForm({ userID }) {
         };
 
         reader.readAsDataURL(file);
+        setFormData({ ...formData, [event.target.name]: event.target.files[0] })
     }
 };
 
@@ -39,8 +62,40 @@ function StudyLeaveForm({ userID }) {
     setSignatureFile(null);  
   };
 
-  const handleSubmit = async (event) => {
-    // Your form submission logic here...
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formDataToSend = new FormData();
+      for (let key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
+      formDataToSend.append("applicant_id","17846a11-e707-11ee-9dff-68f728f17b7e")
+      const currentDate = new Date();
+      const fullDate = currentDate.toLocaleString(); 
+      formDataToSend.append("applied_date","2024-04-24")
+      console.log(formData)
+      const response = await axios.post('http://localhost:8080/study_leave_application', formDataToSend);
+
+      console.log(response.data); // Log response from the server
+      // Clear form data after successful submission if needed
+      setFormData({
+        name_of_program: '',
+        destination: '',
+        department: '',
+        duration: 0,
+        destination_country: '',
+        financial_source: '',
+        designation: '',
+        joining_date: '"2024-04-24"',
+        leave_start_date: '',
+        program_start_date: '',
+        attachedFile: null,
+        signature: null
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Handle error if needed
+    }
   };
 
   return (
@@ -55,10 +110,10 @@ function StudyLeaveForm({ userID }) {
         <form className="leave-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="programName">1. Name of Program:</label>
+              <label htmlFor="name_of_program">1. Name of Program:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="programName" name="programName" />
+              <input type="text" id="name_of_program" name="name_of_program" value={formData.name_of_program} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -66,7 +121,7 @@ function StudyLeaveForm({ userID }) {
               <label htmlFor="destination">2. Destination University / Organization Name:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="destination" name="destination" />
+              <input type="text" id="destination" name="destination" value={formData.destination} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -74,7 +129,7 @@ function StudyLeaveForm({ userID }) {
               <label htmlFor="department">3. Destination Department:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="department" name="department" />
+              <input type="text" id="department" name="department" value={formData.department} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -82,47 +137,47 @@ function StudyLeaveForm({ userID }) {
               <label htmlFor="duration">4. Program Duration (Years):</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="duration" name="duration" />
+              <input type="number" id="duration" name="duration" value={formData.duration} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="country">5. Destination Country:</label>
+              <label htmlFor="destination_country">5. Destination Country:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="country" name="country" />
-            </div>
-          </div>
-          <div className="form-group">
-            <div className="input-wrapper">
-              <label htmlFor="financialSource">6. Financial Source:</label>
-            </div>
-            <div className="input-wrapper">
-              <input type="text" id="financialSource" name="financialSource" />
+              <input type="text" id="destination_country" name="destination_country" value={formData.destination_country} onChange={handleChange}/>
             </div>
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="dateOfJoining">7. Date of joining (this university):</label>
+              <label htmlFor="financial_source">6. Financial Source:</label>
             </div>
             <div className="input-wrapper">
-              <input type="date" id="dateOfJoining" name="dateOfJoining" />
-            </div>
-          </div>
-          <div className="form-group">
-            <div className="input-wrapper">
-              <label htmlFor="leaveStartDate">8. Leave Start Date:</label>
-            </div>
-            <div className="input-wrapper">
-              <input type="date" id="leaveStartDate" name="leaveStartDate" />
+              <input type="text" id="financial_source" name="financial_source" value={formData.financial_source} onChange={handleChange}/>
             </div>
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="programEndDate">9. Program End Date:</label>
+              <label htmlFor="joining_date">7. Date of joining (this university):</label>
             </div>
             <div className="input-wrapper">
-              <input type="date" id="programEndDate" name="programEndDate" />
+              <input type="date" id="joining_date" name="joining_date" value={formData.joining_date} onChange={handleChange}/>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="input-wrapper">
+              <label htmlFor="leave_start_date">8. Leave Start Date:</label>
+            </div>
+            <div className="input-wrapper">
+              <input type="date" id="leave_start_date" name="leave_start_date" value={formData.leave_start_date} onChange={handleChange} />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="input-wrapper">
+              <label htmlFor="program_start_date">9. Program Start Date:</label>
+            </div>
+            <div className="input-wrapper">
+              <input type="date" id="program_start_date" name="program_start_date" value={formData.program_start_date} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -130,7 +185,7 @@ function StudyLeaveForm({ userID }) {
               <label htmlFor="attachedFile">10. Please Attach important file:</label>
             </div>
             <div className="input-wrapper">
-              <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="attachedFile" type="file"></input>
+              <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"id="attachedFile" name="attachedFile" onChange={handleFileChange} type="file"></input>
             </div>
           </div>
           <div className="form-group">
@@ -147,7 +202,7 @@ function StudyLeaveForm({ userID }) {
                 <div>
                   <input
                     type="file"
-                    id="signature"
+                    id="signature" name="signature" 
                     accept="image/*"
                     onChange={handleSignatureUpload}
                     style={{ display: 'none' }}

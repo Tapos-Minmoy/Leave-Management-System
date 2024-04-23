@@ -1,5 +1,6 @@
 import express from 'express'
 import { getRoles, getUser } from './database.js'
+import { createStudyLeaveApplication } from './studyLeaveAPI.js'
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
 import multer from 'multer'
@@ -76,6 +77,70 @@ app.get("/roles", async (req, res)=>{
     res.send(roles)
 })
 
+
+
+// Multer configuration for file uploads
+const storageForAttachments = multer.diskStorage({
+    destination: function (req, file, cb) {
+
+        cb(null,'public/attachments')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+    }
+  });
+  const uploadAttachments = multer({ storage: storageForAttachments });
+
+  // Multer configuration for file uploads
+const storageForSignature = multer.diskStorage({
+    destination: function (req, file, cb) {
+
+        cb(null,'public/signatures')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+    }
+  });
+  const uploadSignature = multer({ storage: storageForSignature });
+
+
+app.post('/study_leave_application', upload.fields([{ name: 'attachedFile', maxCount: 1 }, { name: 'signature', maxCount: 1 }]), async (req, res) => {
+    console.log(req)
+    try {
+      const {
+        applicant_id,
+        name_of_program,
+        destination,
+        department,
+        duration,
+        destination_country,
+        financial_source,
+        designation,
+        joining_date,
+        leave_start_date,
+        program_start_date,
+        applied_date,
+      } = req.body;
+      console.log(req)
+
+       const attachmentPath = req.files['attachedFile'] ? req.files['attachedFile'][0].path : null; // Get the attachment file path
+    const signaturePath = req.files['signature'] ? req.files['signature'][0].path : null; // Get the signature file path
+
+      const result= createStudyLeaveApplication(applicant_id,name_of_program,destination,department,duration,destination_country,financial_source,designation,joining_date,leave_start_date,program_start_date,applied_date, attachmentPath,signaturePath)
+    
+      res.status(201).send("Data Inserted Successfully.")
+    
+  
+
+    } catch (error) {
+      console.error('Error processing request:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+
+
+
 app.use((err, req, res, next) => {
     console.error(err.stack)
     res.status(500).send('Something broke 💩')
@@ -85,3 +150,5 @@ app.use((err, req, res, next) => {
 app.listen(8080, ()=>{
     console.log('server is running on port 8080')
 })
+
+
