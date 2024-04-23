@@ -1,6 +1,6 @@
 import express from 'express'
 import { getRoles, getUser } from './database.js'
-import { createStudyLeaveApplication, getAllStudyLeaveApplication } from './studyLeaveAPI.js'
+import { createStudyLeaveApplication, getAllStudyLeaveApplication,getStudyLeaveApplication } from './studyLeaveAPI.js'
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
 import multer from 'multer'
@@ -119,6 +119,14 @@ app.get('/all_study_leave_applications',async (req, res)=>{
   const applicant_id= req.query.applicant_id
   
   const result=await getAllStudyLeaveApplication(applicant_id)
+  console.log(result)
+  res.status(201).send(result)
+});
+
+app.get('/study_leave_application/:leave_id',async (req, res)=>{
+  const leave_id= req.params.leave_id
+  console.log(leave_id)
+  const result=await getStudyLeaveApplication(leave_id)
   console.log(result)
   res.status(201).send(result)
 });
