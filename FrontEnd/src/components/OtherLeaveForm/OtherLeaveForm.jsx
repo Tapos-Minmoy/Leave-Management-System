@@ -6,6 +6,7 @@ import './OtherLeaveForm.css'; // Import CSS file for styling
 function OtherLeaveForm({ userID }) {
   
   const [signatureFile, setSignatureFile] = useState(null);
+  const [natureOfLeave, setNatureOfLeave] = useState('');
 
   const handleSignatureUpload = (event) => {
     const file = event.target.files[0];
@@ -114,6 +115,9 @@ function OtherLeaveForm({ userID }) {
     }
   };
   
+  const handleNatureOfLeaveChange = (event) => {
+    setNatureOfLeave(event.target.value);
+  };
 
   return (
     <div>
@@ -139,6 +143,24 @@ function OtherLeaveForm({ userID }) {
             </div>
             <div className="input-wrapper">
               <input type="text" id="designation" name="designation" />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="input-wrapper">
+              <label htmlFor="natureOfLeave">3. Nature of leave applied for:</label>
+            </div>
+            <div className="input-wrapper">
+              <select id="natureOfLeave" name="natureOfLeave" value={natureOfLeave} onChange={handleNatureOfLeaveChange}  className="full-width-select">
+                <option value="">Select</option>
+                <option value="Casual Leave">Casual Leave</option>
+                <option value="Maternity Leave">Maternity Leave</option>
+                <option value="Medical Leave">Medical Leave</option>
+                <option value="Earned Leave">Earned Leave</option>
+                <option value="Special Disability Leave">Special Disability Leave</option>
+                <option value="Duty Leave">Duty Leave</option>
+                <option value="Leave on Deputation">Leave on Deputation</option>
+                <option value="Quarantine Leave">Quarantine Leave</option>
+              </select>
             </div>
           </div>
           <div className="form-group">
@@ -191,9 +213,8 @@ function OtherLeaveForm({ userID }) {
           
 
           <div className="form-group">
-            <div className="input-wrapper">
-             {/*  <textarea id="remarks" name="remarks" rows="3" style={{ width: '90%' }}></textarea>
-              <label htmlFor="remarks">Remarks and/or recommendation of the Head of the Departments/office:</label>*/}
+          <div className="input-wrapper">
+              <label htmlFor="additionalFile">8. Signature of the Applicant and date:</label>
             </div>
             <div className="input-wrapper">
               {signatureFile ? (
@@ -213,7 +234,6 @@ function OtherLeaveForm({ userID }) {
                   <label htmlFor="signature" className="upload-label">Upload Signature (300x80px)</label>
                 </div>
               )}
-              <label htmlFor="signature">Signature of the Applicant and date:</label>
             </div>
           </div>
 

@@ -8,11 +8,12 @@ import {
 import { Dropdown } from "flowbite-react";
 import capImage from "../images/cap.png";
 import processingImage from "../images/color_processing.webp";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function PreviousLeave() {
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("http://localhost:8080/all_study_leave_applications", {
@@ -28,9 +29,8 @@ function PreviousLeave() {
         console.error("Error:", error);
       });
   }, []);
-  const openFormPage = () => {
-    // Logic to open the form page
-    console.log("Opening form page...");
+  const openFormPage = (leaveId) => {
+    navigate('/study-leave-details', { state: { id: leaveId } });
   };
   return (
     <div className="overflow-y-hidden">
@@ -178,7 +178,7 @@ function PreviousLeave() {
                 />
                 <a
                   className=" grow my-auto cursor-pointer hover:text-blue-500"
-                  onClick={openFormPage}
+                  onClick={() => openFormPage(application.leave_id)}
                 >
                   Click here
                 </a>

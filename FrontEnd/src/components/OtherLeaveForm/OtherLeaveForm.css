@@ -100,3 +100,6 @@ button {
 button:hover {
   background-color: #45a049;
 }
+.full-width-select {
+  width: 100%;
+}
