@@ -14,9 +14,9 @@ function StudyLeaveForm({ userID }) {
     destination_country: '',
     financial_source: '',
     designation: '',
-    joining_date: "2024-04-24",
-    leave_start_date: '2024-04-24',
-    program_start_date: '2024-04-24',
+    joining_date: '',
+    leave_start_date: '',
+    program_start_date: '',
     attachedFile: null,
     signature: null
   });

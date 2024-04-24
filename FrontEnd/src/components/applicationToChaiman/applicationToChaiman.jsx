@@ -11,7 +11,7 @@ import processingImage from "../images/color_processing.webp";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function PreviousLeave() {
+function applicationToChaiman() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -31,7 +31,7 @@ function PreviousLeave() {
   }, []);
   const openFormPage = (leaveId) => {
     console.log("From previous pg" + leaveId);
-    navigate('/study-leave-details', { state: { id: leaveId } });
+    navigate('/noc/chairman/study-leave-details', { state: { id: leaveId } });
   };
   return (
     <div className="overflow-y-hidden">
@@ -196,4 +196,4 @@ function PreviousLeave() {
   );
 }
 
-export default PreviousLeave;
+export default applicationToChaiman;

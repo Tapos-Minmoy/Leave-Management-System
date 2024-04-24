@@ -21,7 +21,7 @@ function LeaveApplication() {
       <Link to="/noc/studyLeaveForm" className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={capImage} alt="Cap image"/>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Study leave Application</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">Apply</span>
+        <span className="text text-white-500 dark:text-gray-400 bg-green-500 px-3 py-1 rounded">Apply</span>
       </Link>
     </div>
 
@@ -29,7 +29,7 @@ function LeaveApplication() {
       <Link to="/noc/otherLeaveForm" className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={processingImage} alt="Cap image"/>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Other Leave Application</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">Apply</span>
+        <span className="text text-white-500 dark:text-gray-400 bg-green-500 px-3 py-1 rounded">Apply</span>
       </Link>
     </div>
     
@@ -37,7 +37,7 @@ function LeaveApplication() {
       <Link to="/noc/previousLeave" className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 p-3 rounded-full shadow-lg" src={Progress} alt="Cap image"/>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Previous Application</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">See</span>
+        <span className="text text-white-500 dark:text-gray-400 bg-green-500 px-3 py-1 rounded">View</span>
       </Link>
     </div>
   </div>

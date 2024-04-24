@@ -13,6 +13,8 @@ import PreviousLeave from './components/PreviousLeave/PreviousLeave.jsx';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import StudyLeaveForm from './components/StudyLeaveForm/StudyLeaveForm.jsx';
 import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.jsx';
+import ApplicationToChaiman from './components/applicationToChaiman/applicationToChaiman.jsx'
+import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx'
 
 const Main = () => {
   // State to store userID
@@ -62,6 +64,14 @@ const Main = () => {
         {
           path: '/study-leave-details',
           element: <StudyLeaveDetails ></StudyLeaveDetails>,
+        },
+        {
+          path: '/noc/applicationToChaiman',
+          element : <ApplicationToChaiman></ApplicationToChaiman>
+        },
+        {
+          path: '/noc/chairman/study-leave-details',
+          element: <StudyLeaveDetailsForChairman></StudyLeaveDetailsForChairman>
         }
       ],
     },

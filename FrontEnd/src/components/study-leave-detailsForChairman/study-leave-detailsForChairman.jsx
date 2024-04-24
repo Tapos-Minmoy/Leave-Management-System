@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-function StudyLeaveDetails({  }) {
+function StudyLeaveDetailsForChairman({  }) {
   const [formData, setFormData] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState(null);
   const location = useLocation();
@@ -218,4 +218,4 @@ function StudyLeaveDetails({  }) {
   );
 }
 
-export default StudyLeaveDetails;
+export default StudyLeaveDetailsForChairman;
