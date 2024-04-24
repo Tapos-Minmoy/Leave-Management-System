@@ -44,7 +44,7 @@ const Main = () => {
           element: <LeaveApplication></LeaveApplication>,
         },
         {
-          path: '/previousLeave',
+          path: '/noc/previousLeave',
           element: <PreviousLeave></PreviousLeave>,
         },
         {

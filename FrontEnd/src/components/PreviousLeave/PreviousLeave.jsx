@@ -8,7 +8,7 @@ import {
 import { Dropdown } from "flowbite-react";
 import capImage from "../images/cap.png";
 import processingImage from "../images/color_processing.webp";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function PreviousLeave() {
@@ -30,7 +30,7 @@ function PreviousLeave() {
       });
   }, []);
   const openFormPage = (leaveId) => {
-    console.log("From previous pg"+leaveId);
+    console.log("From previous pg" + leaveId);
     navigate('/study-leave-details', { state: { id: leaveId } });
   };
   return (
@@ -134,61 +134,60 @@ function PreviousLeave() {
             </div>
           </div>
 
-       {/* code for table */}
-      {/* code for table */}
-<table className="table-auto w-full border-collapse border border-gray-200">
-  <thead>
-    <tr>
-      <th className="border border-gray-200 px-4 py-2">Categories</th>
-      <th className="border border-gray-200 px-4 py-2">Leave Type Details</th>
-      <th className="border border-gray-200 px-4 py-2">Progress Summary</th>
-      <th className="border border-gray-200 px-4 py-2">See Applications</th>
-      <th className="border border-gray-200 px-4 py-2">See Progress</th>
-    </tr>
-  </thead>
-  <tbody>
-    {data && data.map(application => (
-      <tr key={application.leave_id}>
-        <td className="border border-gray-200 px-4 py-2">
-          <div>
-            <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-              <img
-                className="w-5 h-5 rounded-full shadow-lg"
-                src={capImage}
-                alt="Cap image"
-              />
-              <div className="grow my-auto">Study Leave Application</div>
-            </div>
-          </div>
-        </td>
-        <td className="border border-gray-200 px-4 py-2">{application.name_of_program}</td>
-        <td className="border border-gray-200 px-4 py-2">{/* Progress Summary Data Here */}</td>
-        <td className="border border-gray-200 px-4 py-2">
-          <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
-            <FontAwesomeIcon
-              className="cursor-pointer hover:text-blue-500"
-              icon={faPenToSquare}
-            />
-            <a
-              className="grow my-auto cursor-pointer hover:text-blue-500"
-              onClick={() => openFormPage(application.leave_id)}
-            >
-              Click here
-            </a>
-          </div>
-        </td>
-        <td className="border border-gray-200 px-4 py-2">
-          <Link
-            to="/progressBar"
-            className="underline grow my-auto cursor-pointer hover:text-blue-500"
-          >
-            Detailed progress
-          </Link>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+          {/* code for table */}
+          <table className="table-auto w-full border-collapse border border-gray-200">
+            <thead>
+              <tr>
+                <th className="border border-gray-200 px-4 py-2">Categories</th>
+                <th className="border border-gray-200 px-4 py-2">Leave Type Details</th>
+                <th className="border border-gray-200 px-4 py-2">Progress Summary</th>
+                <th className="border border-gray-200 px-4 py-2">See Applications</th>
+                <th className="border border-gray-200 px-4 py-2">See Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data && data.map(application => (
+                <tr key={application.leave_id}>
+                  <td className="border border-gray-200 px-4 py-2">
+                    <div>
+                      <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
+                        <img
+                          className="w-5 h-5 rounded-full shadow-lg"
+                          src={capImage}
+                          alt="Cap image"
+                        />
+                        <div className="grow my-auto">Study Leave Application</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="border border-gray-200 px-4 py-2">{application.name_of_program}</td>
+                  <td className="border border-gray-200 px-4 py-2">{/* Progress Summary Data Here */}</td>
+                  <td className="border border-gray-200 px-4 py-2">
+                    <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
+                      <FontAwesomeIcon
+                        className="cursor-pointer hover:text-blue-500"
+                        icon={faPenToSquare}
+                      />
+                      <a
+                        className="grow my-auto cursor-pointer hover:text-blue-500"
+                        onClick={() => openFormPage(application.leave_id)}
+                      >
+                        Click here
+                      </a>
+                    </div>
+                  </td>
+                  <td className="border border-gray-200 px-4 py-2">
+                    <Link
+                      to="/progressBar"
+                      className="underline grow my-auto cursor-pointer hover:text-blue-500"
+                    >
+                      Detailed progress
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
 
         </div>

@@ -18,7 +18,7 @@ function LeaveApplication() {
   </div>
   <div className="mt-5 flex justify-center items-center gap-10">
     <div className="Study_Leave_Application w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link className="flex flex-col items-center pb-10">
+      <Link to="/noc/studyLeaveForm" className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={capImage} alt="Cap image"/>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Study leave Application</h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">Apply</span>
@@ -34,10 +34,10 @@ function LeaveApplication() {
     </div>
     
     <div className="Previous_Application w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link to="/previousLeave" className="flex flex-col items-center pb-10">
+      <Link to="/noc/previousLeave" className="flex flex-col items-center pb-10">
         <img className="w-24 h-24 mb-3 p-3 rounded-full shadow-lg" src={Progress} alt="Cap image"/>
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Previous Application</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">Apply</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">See</span>
       </Link>
     </div>
   </div>
