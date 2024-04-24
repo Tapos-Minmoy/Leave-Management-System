@@ -27,3 +27,8 @@ export async function getAllStudyLeaveApplication(applicant_id){
     const [result]= await pool.query(`select * from webdb_v1.study_leave_application where applicant_id= ?`,applicant_id);
     return result
 }
+
+export async function getStudyLeaveApplication(leave_id){
+    const [result]= await pool.query(`select * from webdb_v1.study_leave_application where leave_id= ?`,leave_id);
+    return result[0]
+}

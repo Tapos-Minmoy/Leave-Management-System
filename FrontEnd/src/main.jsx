@@ -12,6 +12,7 @@ import OtherLeaveForm from './components/OtherLeaveForm/OtherLeaveForm.jsx';
 import PreviousLeave from './components/PreviousLeave/PreviousLeave.jsx';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import StudyLeaveForm from './components/StudyLeaveForm/StudyLeaveForm.jsx';
+import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.jsx';
 
 const Main = () => {
   // State to store userID
@@ -57,6 +58,10 @@ const Main = () => {
         {
           path: '/noc/studyLeaveForm',
           element: <StudyLeaveForm></StudyLeaveForm>
+        },
+        {
+          path: '/study-leave-details',
+          element: <StudyLeaveDetails ></StudyLeaveDetails>,
         }
       ],
     },
