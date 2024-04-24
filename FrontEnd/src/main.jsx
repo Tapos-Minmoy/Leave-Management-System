@@ -15,6 +15,7 @@ import StudyLeaveForm from './components/StudyLeaveForm/StudyLeaveForm.jsx';
 import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.jsx';
 import ApplicationToChaiman from './components/applicationToChaiman/applicationToChaiman.jsx'
 import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx'
+import Letter from './components/LetterToChaiman/LetterToChaiman.jsx';
 
 const Main = () => {
   // State to store userID
@@ -72,6 +73,10 @@ const Main = () => {
         {
           path: '/noc/chairman/study-leave-details',
           element: <StudyLeaveDetailsForChairman></StudyLeaveDetailsForChairman>
+        },
+        {
+          path: '/noc/LetterToChaiman',
+          element: <Letter></Letter>
         }
       ],
     },
