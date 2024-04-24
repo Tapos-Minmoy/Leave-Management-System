@@ -30,6 +30,7 @@ function PreviousLeave() {
       });
   }, []);
   const openFormPage = (leaveId) => {
+    console.log("From previous pg"+leaveId);
     navigate('/study-leave-details', { state: { id: leaveId } });
   };
   return (
@@ -133,75 +134,61 @@ function PreviousLeave() {
             </div>
           </div>
 
-          {/* code for table */}
-          {data && data.map(application => (
-          <div key={application.leave_id} className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-            
-            <div className="flex mt-10 gap-0 px-3 py-2.5  text-sm max-md:flex-wrap max-md:max-w-full">
-            <div className="flex flex-col flex-1 text-gray-700 whitespace-nowrap">
-              <div className="justify-center items-start py-1.5 pr-16 pl-2.5 text-xl font-bold leading-8 text-black bg-gray-200 max-md:pr-5">
-                Categories
-              </div>
-              <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                <img
-                  className="w-5 h-5 rounded-full shadow-lg"
-                  src={capImage}
-                  alt="Cap image"
-                />
-                <div className="grow my-auto">Study Leave Application</div>
-              </div>
-            </div>
-            <div className="flex flex-col flex-1 text-gray-700 whitespace-nowrap">
-              <div className="justify-center items-start py-1.5 pr-16 pl-2.5 text-xl font-bold leading-8 text-black bg-gray-200 max-md:pr-5">
-                Leave Type Details
-              </div>
-              <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                <div className="grow my-auto">{application.name_of_program}</div>
-              </div>
-            </div>
-            <div className="flex flex-col flex-1 text-gray-700 whitespace-nowrap">
-              <div className="justify-center items-start py-1.5 pr-16 pl-2.5 text-xl font-bold leading-8 text-black bg-gray-200 max-md:pr-5">
-                Progress Summery
-              </div>
-              <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                <div className="grow my-auto">Pending</div>
-              </div>
-            </div>
-            <div className="flex flex-col flex-1 text-gray-700 whitespace-nowrap">
-              <div className="justify-center items-start py-1.5 pr-12 pl-2 text-xl font-bold leading-8 text-black bg-gray-200 max-md:pr-5">
-                See Applications
-              </div>
-              <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
-                <FontAwesomeIcon
-                  className="cursor-pointer hover:text-blue-500"
-                  icon={faPenToSquare}
-                />
-                <a
-                  className=" grow my-auto cursor-pointer hover:text-blue-500"
-                  onClick={() => openFormPage(application.leave_id)}
-                >
-                  Click here
-                </a>
-              </div>
-            </div>
-            <div className="flex flex-col flex-1 text-gray-700 whitespace-nowrap">
-              <div className="justify-center items-start py-1.5 pr-16 pl-2.5 text-xl font-bold leading-8 text-black bg-gray-200 max-md:pr-5">
-                See Progress
-              </div>
-              <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                <Link
-                  to="/progressBar"
-                  className="underline grow my-auto cursor-pointer hover:text-blue-500"
-                >
-                  Detailed progress
-                </Link>
-              </div>
+       {/* code for table */}
+      {/* code for table */}
+<table className="table-auto w-full border-collapse border border-gray-200">
+  <thead>
+    <tr>
+      <th className="border border-gray-200 px-4 py-2">Categories</th>
+      <th className="border border-gray-200 px-4 py-2">Leave Type Details</th>
+      <th className="border border-gray-200 px-4 py-2">Progress Summary</th>
+      <th className="border border-gray-200 px-4 py-2">See Applications</th>
+      <th className="border border-gray-200 px-4 py-2">See Progress</th>
+    </tr>
+  </thead>
+  <tbody>
+    {data && data.map(application => (
+      <tr key={application.leave_id}>
+        <td className="border border-gray-200 px-4 py-2">
+          <div>
+            <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
+              <img
+                className="w-5 h-5 rounded-full shadow-lg"
+                src={capImage}
+                alt="Cap image"
+              />
+              <div className="grow my-auto">Study Leave Application</div>
             </div>
           </div>
-
-
+        </td>
+        <td className="border border-gray-200 px-4 py-2">{application.name_of_program}</td>
+        <td className="border border-gray-200 px-4 py-2">{/* Progress Summary Data Here */}</td>
+        <td className="border border-gray-200 px-4 py-2">
+          <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
+            <FontAwesomeIcon
+              className="cursor-pointer hover:text-blue-500"
+              icon={faPenToSquare}
+            />
+            <a
+              className="grow my-auto cursor-pointer hover:text-blue-500"
+              onClick={() => openFormPage(application.leave_id)}
+            >
+              Click here
+            </a>
           </div>
-        ))}
+        </td>
+        <td className="border border-gray-200 px-4 py-2">
+          <Link
+            to="/progressBar"
+            className="underline grow my-auto cursor-pointer hover:text-blue-500"
+          >
+            Detailed progress
+          </Link>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
 
         </div>

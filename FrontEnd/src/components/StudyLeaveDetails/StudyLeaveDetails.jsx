@@ -7,6 +7,8 @@ function StudyLeaveDetails({ leaveId }) {
   const [attachmentUrl, setAttachmentUrl] = useState(null);
   const location = useLocation();
   const leave_id = location.state.id;
+  console.log("In study Leave Details");
+  console.log(leave_id);
 
   useEffect(() => {
     const fetchLeaveDetails = async () => {
@@ -35,6 +37,16 @@ function StudyLeaveDetails({ leaveId }) {
     console.log(formData);
   }, [formData]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = month < 10 ? `0${month}` : month;
+    let day = date.getDate();
+    day = day < 10 ? `0${day}` : day;
+    return `${year}-${month}-${day}`;
+  };
+  
   const downloadAttachment = () => {
     // Implement the logic to download the attachment file
     // You can use the attachmentUrl state variable to get the URL of the attachment
@@ -67,6 +79,7 @@ function StudyLeaveDetails({ leaveId }) {
                   name="name_of_program"
                   value={formData.name_of_program}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -83,6 +96,7 @@ function StudyLeaveDetails({ leaveId }) {
                   name="destination"
                   value={formData.destination}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -97,6 +111,7 @@ function StudyLeaveDetails({ leaveId }) {
                   name="department"
                   value={formData.department}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -111,6 +126,7 @@ function StudyLeaveDetails({ leaveId }) {
                   name="duration"
                   value={formData.duration}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -127,6 +143,7 @@ function StudyLeaveDetails({ leaveId }) {
                   name="destination_country"
                   value={formData.destination_country}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -141,6 +158,7 @@ function StudyLeaveDetails({ leaveId }) {
                   name="financial_source"
                   value={formData.financial_source}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -155,8 +173,9 @@ function StudyLeaveDetails({ leaveId }) {
                   type="date"
                   id="joining_date"
                   name="joining_date"
-                  value={formData.joining_date}
+                  value={formatDate(formData.joining_date)}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -169,8 +188,9 @@ function StudyLeaveDetails({ leaveId }) {
                   type="date"
                   id="leave_start_date"
                   name="leave_start_date"
-                  value={formData.leave_start_date}
+                  value={formatDate(formData.leave_start_date)}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
@@ -185,8 +205,9 @@ function StudyLeaveDetails({ leaveId }) {
                   type="date"
                   id="program_start_date"
                   name="program_start_date"
-                  value={formData.program_start_date}
+                  value={formatDate(formData.program_start_date)}
                   disabled
+                  style={{ border: "none" }} // Remove border from disabled input fields
                 />
               </div>
             </div>
