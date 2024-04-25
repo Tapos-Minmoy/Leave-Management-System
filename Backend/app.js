@@ -1,6 +1,7 @@
 import express from 'express'
 import { getRoles, getUser } from './database.js'
 import { createStudyLeaveApplication, getAllStudyLeaveApplication,getStudyLeaveApplication } from './studyLeaveAPI.js'
+import {asignToEvaluate,updateEvaluationStatus}  from './studyLeaveProgressAPI.js'
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
 import multer from 'multer'
@@ -78,8 +79,6 @@ app.get("/roles", async (req, res)=>{
 })
 
 
-
-
 app.post('/study_leave_application', upload.fields([{ name: 'attachedFile', maxCount: 1 }, { name: 'signature', maxCount: 1 }]), async (req, res) => {
     console.log(req)
     try {
@@ -138,7 +137,6 @@ app.post('/noc/assignToEvaluate', async (req, res) => {
     try {
         const { evaluation_type, leave_id, applicant_id, le_status, le_evaluation_time, le_comment } = req.body;
         
-        // Call the asignToEvaluate function passing the parameters
         const result = await asignToEvaluate(evaluation_type, leave_id, applicant_id, le_status, le_evaluation_time, le_comment);
 
         res.status(200).json({ success: true, message: 'Evaluation assigned successfully.', result });
@@ -153,7 +151,6 @@ app.post('/noc/updateEvaluationStatus', async (req, res) => {
   try {
       const { evaluation_type, leave_id, applicant_id, le_status, le_comment } = req.body;
       
-      // Call the updateEvaluationStatus function passing the parameters
       const result = await updateEvaluationStatus(evaluation_type, leave_id, applicant_id, le_status, null, le_comment);
 
       res.status(200).json({ success: true, message: 'Evaluation status updated successfully.', result });
