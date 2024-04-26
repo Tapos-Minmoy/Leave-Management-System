@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ERP Web server | API Doc | Authentication Endpoints</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-slate-200">
+        <main class="flex flex-col gap-2 p-4">
+            <h1 class="font-bold text-4xl underline decoration-4 decoration-green-500">
+                Auth Endpoints Documentation
+            </h1>
+            <p class="text-lg font-semibold">
+                All endpoints have the same base URL:
+                <code>
+                    <a href='http://bike-csecu.com:5000' class="font-medium text-blue-600 dark:text-blue-500 hover:underline">http://bike-csecu.com:5000</a>
+                </code>
+            </p>
+            <h2 class="font-bold text-2xl underline decoration-4 decoration-green-500">Endpoints</h2>
+            <ul class="list list-disc list-inside">
+                <li>
+                    <a href="/docs/auth/login" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Login</a> - Provide user email or id with a password to authenticate a user.
+                </li>
+                <li>
+                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="/docs/auth/logout">Logout</a> - Revoke authentication from a user using their session id.
+                </li>
+                <li>
+                    <a href="/docs/auth/signup" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Sign up</a> - Create a new user.
+                </li>
+            </ul>
+        </main>
+    </body>
+</html>

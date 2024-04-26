@@ -1,6 +1,7 @@
 import express from 'express'
 import { getRoles, getUser } from './database.js'
 import { createStudyLeaveApplication, getAllStudyLeaveApplication,getStudyLeaveApplication } from './studyLeaveAPI.js'
+import {asignToEvaluate,updateEvaluationStatus}  from './studyLeaveProgressAPI.js'
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
 import multer from 'multer'
@@ -78,8 +79,6 @@ app.get("/roles", async (req, res)=>{
 })
 
 
-
-
 app.post('/study_leave_application', upload.fields([{ name: 'attachedFile', maxCount: 1 }, { name: 'signature', maxCount: 1 }]), async (req, res) => {
     console.log(req)
     try {
@@ -123,6 +122,7 @@ app.get('/all_study_leave_applications',async (req, res)=>{
   res.status(201).send(result)
 });
 
+
 app.get('/study_leave_application/:leave_id',async (req, res)=>{
   const leave_id= req.params.leave_id
   console.log(leave_id)
@@ -130,6 +130,37 @@ app.get('/study_leave_application/:leave_id',async (req, res)=>{
   console.log(result)
   res.status(201).send(result)
 });
+
+
+//assign to different role for evaluation
+app.post('/noc/assignToEvaluate', async (req, res) => {
+    try {
+        const { evaluation_type, leave_id, applicant_id, le_status, le_evaluation_time, le_comment } = req.body;
+        
+        const result = await asignToEvaluate(evaluation_type, leave_id, applicant_id, le_status, le_evaluation_time, le_comment);
+
+        res.status(200).json({ success: true, message: 'Evaluation assigned successfully.', result });
+    } catch (error) {
+        console.error('Error assigning evaluation:', error);
+        res.status(500).json({ success: false, message: 'Failed to assign evaluation.', error: error.message });
+    }
+});
+
+//update evaulation status for a particular role
+app.post('/noc/updateEvaluationStatus', async (req, res) => {
+  try {
+      const { evaluation_type, leave_id, applicant_id, le_status, le_comment } = req.body;
+      
+      const result = await updateEvaluationStatus(evaluation_type, leave_id, applicant_id, le_status, null, le_comment);
+
+      res.status(200).json({ success: true, message: 'Evaluation status updated successfully.', result });
+  } catch (error) {
+      console.error('Error updating evaluation status:', error);
+      res.status(500).json({ success: false, message: 'Failed to update evaluation status.', error: error.message });
+  }
+});
+
+
 
 app.use((err, req, res, next) => {
     console.error(err.stack)
