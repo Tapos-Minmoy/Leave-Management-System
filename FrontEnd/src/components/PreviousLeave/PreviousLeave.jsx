@@ -16,9 +16,9 @@ function PreviousLeave() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:8080/all_study_leave_applications", {
+      .get("http://localhost:5000/api/leave/study", {
         params: {
-          applicant_id: "17846a11-e707-11ee-9dff-68f728f17b7e",
+          applicant_id: "1f0c4c07-e70c-11ee-9dff-68f728f17b7e",
         },
       })
       .then((response) => {
