@@ -12,8 +12,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function applicationToChaiman() {
+
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+
+  const pdfRef = useRef();
   useEffect(() => {
     axios
       .get("http://localhost:8080/all_study_leave_applications", {
