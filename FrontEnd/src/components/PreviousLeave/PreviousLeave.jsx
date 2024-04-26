@@ -16,14 +16,14 @@ function PreviousLeave() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:8080/all_study_leave_applications", {
+      .get("http://localhost:5000/api/leave/study", {
         params: {
           applicant_id: "17846a11-e707-11ee-9dff-68f728f17b7e",
         },
       })
       .then((response) => {
-        setData(response.data);
-        console.log(data);
+        setData(response.data.data);
+        console.log(response.data.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -146,7 +146,7 @@ function PreviousLeave() {
               </tr>
             </thead>
             <tbody>
-              {data && data.map(application => (
+            {data && data.map(application => (
                 <tr key={application.leave_id}>
                   <td className="border border-gray-200 px-4 py-2">
                     <div>
@@ -185,7 +185,7 @@ function PreviousLeave() {
                     </Link>
                   </td>
                 </tr>
-              ))}
+              ))} 
             </tbody>
           </table>
 
