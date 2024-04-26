@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify', // Align text to justify
   },
   title: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'justify', // Align text to justify
