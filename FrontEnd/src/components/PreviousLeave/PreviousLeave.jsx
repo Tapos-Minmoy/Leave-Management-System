@@ -22,8 +22,8 @@ function PreviousLeave() {
         },
       })
       .then((response) => {
-        setData(response.data);
-        console.log(data);
+        setData(response.data.data);
+        console.log(response.data.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -146,7 +146,7 @@ function PreviousLeave() {
               </tr>
             </thead>
             <tbody>
-              {data && data.map(application => (
+            {data && data.map(application => (
                 <tr key={application.leave_id}>
                   <td className="border border-gray-200 px-4 py-2">
                     <div>
@@ -185,7 +185,7 @@ function PreviousLeave() {
                     </Link>
                   </td>
                 </tr>
-              ))}
+              ))} 
             </tbody>
           </table>
 
