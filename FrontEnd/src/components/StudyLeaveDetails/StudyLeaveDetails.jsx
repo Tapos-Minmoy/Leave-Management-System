@@ -12,21 +12,19 @@ function StudyLeaveDetails({  }) {
 
   useEffect(() => {
     const fetchLeaveDetails = async () => {
-      const linkadd =
-        "http://localhost:8080/study_leave_application/" + leave_id;
-
-      try {
-        const response = await axios.get(linkadd);
-        console.log(response.data);
-        setFormData(response.data);
-        if (response.data.attachedFile) {
-          setAttachmentUrl(
-            `http://localhost:8080/${response.data.attachedFile}`
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching leave details:", error);
-      }
+      axios
+      .get("http://localhost:5000/api/leave/study", {
+        params: {
+          leave_id: leave_id,
+        },
+      })
+      .then((response) => {
+        setFormData(response.data.data[0]);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     };
 
     fetchLeaveDetails();

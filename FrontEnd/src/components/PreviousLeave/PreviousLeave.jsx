@@ -178,7 +178,7 @@ function PreviousLeave() {
                   </td>
                   <td className="border border-gray-200 px-4 py-2">
                     <Link
-                      to="/progressBar"
+                      to="/noc/progressBar"
                       className="underline grow my-auto cursor-pointer hover:text-blue-500"
                     >
                       Detailed progress
