@@ -16,6 +16,7 @@ import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.
 import ApplicationToChaiman from './components/applicationToChaiman/applicationToChaiman.jsx'
 import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx'
 import Letter from './components/LetterToChaiman/LetterToChaiman.jsx';
+import ImageUploader from './components/ImageUploader/ImageUploader.jsx';
 
 const Main = () => {
   // State to store userID
@@ -77,6 +78,10 @@ const Main = () => {
         {
           path: '/noc/LetterToChaiman',
           element: <Letter></Letter>
+        },
+        {
+          path: 'imageUploader',
+          element: <ImageUploader></ImageUploader>
         }
       ],
     },

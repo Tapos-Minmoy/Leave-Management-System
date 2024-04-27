@@ -2,6 +2,7 @@ import "./loadEnvironment";
 import express, { Request, Response } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
+import fs from "fs";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -12,6 +13,10 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.SECRET_KEY));
+
+
+// Serve static files
+app.use(express.static(path.join(__dirname, "../../files"))); // Make files directory publicly accessible
 
 // Doc routes
 
@@ -42,6 +47,7 @@ app.get("/docs/public", (req, res) => {
 app.get("/docs/protected", (req, res) => {
   res.sendFile(`${htmlPath}/protected.html`);
 });
+
 
 import formRouter from "./routes/form";
 app.use("/forms", formRouter);
@@ -87,10 +93,17 @@ import studyLeaveApplicationRouter from "./routes/study_leave_application";
 import otherLeaveApplicationRouter from "./routes/other_leave_application";
 import studyLeaveEvaluationRouter from "./routes/study_leave_evaluation";
 import otherLeaveEvaluationRouter from "./routes/other_leave_evaluation";
+import fileUploadRouter from "./routes/fileUpload";
 app.use("/api/leave/study",studyLeaveApplicationRouter);
 app.use("/api/leave/other",otherLeaveApplicationRouter);
 app.use("/api/leave/evaluates/study",studyLeaveEvaluationRouter);
 app.use("/api/leave/evaluates/other",otherLeaveEvaluationRouter);
+app.use("/api/leave/upload", fileUploadRouter);
+app.use("/api/leave/files",fileUploadRouter);
+// Define routes to serve uploaded files
+
+
+
 
 app.listen(port, () => {
   console.log(
