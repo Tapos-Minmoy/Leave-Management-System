@@ -56,11 +56,19 @@ loginRouter.post("/student", async (req, res) => {
       });
     }
 
+    // Get user role
+    const role = await db
+    .selectFrom("Roles")
+    .selectAll()
+    .where("user_id", "=", user.user_id)
+    .executeTakeFirst();
+
     // Return the session id
     res.status(200).send({
       message: "Successfully logged in",
       session_id: session?.session_id,
       user: user,
+      role: role ?? 'student',
     });
   } catch (error) {
     var typeError: z.ZodError | undefined;
@@ -127,11 +135,19 @@ loginRouter.post("/teacher", async (req, res) => {
       });
     }
 
+    // Get user role
+    const role = await db
+    .selectFrom("Roles")
+    .selectAll()
+    .where("user_id", "=", user.user_id)
+    .executeTakeFirst();
+
     // Return the session id
     res.status(200).send({
       message: "Successfully logged in",
       session_id: session?.session_id,
       user: user,
+      role: role ?? 'teacher'
     });
   } catch (error) {
     var typeError: z.ZodError | undefined;
@@ -199,11 +215,19 @@ loginRouter.post("/", async (req, res) => {
       });
     }
 
+    // Get user role
+    const role = await db
+    .selectFrom("Roles")
+    .selectAll()
+    .where("user_id", "=", user.user_id)
+    .executeTakeFirst();
+
     // Return the session id
     res.status(200).send({
       message: "Successfully logged in",
       session_id: session?.session_id,
       user: user,
+      role: role
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

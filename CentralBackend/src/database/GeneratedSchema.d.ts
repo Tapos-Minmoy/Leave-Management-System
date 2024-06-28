@@ -1,4 +1,5 @@
 import type { ColumnType } from "kysely";
+import CourseType from "../helper/enum/CourseEnum";
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
@@ -125,7 +126,7 @@ export interface Course {
   course_code: string;
   course_id: Generated<number>;
   course_title: string;
-  course_type: "Lab" | "Project" | "Theory" | "Thesis" | "Viva" | null;
+  course_type: CourseType | null ;
   credit: number;
   department_id: number;
   exam_minutes: number;

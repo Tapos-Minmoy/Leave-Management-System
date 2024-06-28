@@ -1,8 +1,7 @@
-import { SelectQueryBuilder } from "kysely";
-import { Database, TableName } from "../../database";
-import { DepartmentFilter } from "../../filters/DepartmentFilter";
 import { Request } from "express";
+import { SelectQueryBuilder } from "kysely";
 import { z } from "zod";
+import { Database } from "../../database";
 
 export function addDepartmentFilters(
   req: Request,

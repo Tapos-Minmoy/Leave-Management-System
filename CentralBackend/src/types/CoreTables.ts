@@ -1,11 +1,4 @@
-import {
-  ColumnType,
-  Generated,
-  Insertable,
-  JSONColumnType,
-  Selectable,
-  Updateable,
-} from "kysely";
+import { Generated, Insertable, Selectable, Updateable } from "kysely";
 
 export interface AuthSessionTable {
   created_at: Generated<Date>;
@@ -146,6 +139,32 @@ export interface TeacherTable {
 export interface FormCoursesTable {
   form_id: number;
   course_id: number;
+}
+
+export interface UniversityTable {
+  university_abbrev: string;
+  university_id: Generated<number>;
+  university_name: string;
+}
+
+export interface UserTable {
+  address_id: number;
+  blood_group: string | null;
+  dob: Date;
+  email: string;
+  ethnicity: string | null;
+  first_name: string;
+  first_name_bn: string | null;
+  gender: string | null;
+  last_name: string;
+  last_name_bn: string | null;
+  nationality: string | null;
+  password: string;
+  phone: string | null;
+  profile_image_id: number | null;
+  religion: string | null;
+  sign_id: number | null;
+  user_id: Generated<string>;
 }
 
 export type Address = Selectable<AddressTable>;

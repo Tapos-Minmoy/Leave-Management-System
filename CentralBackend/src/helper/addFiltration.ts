@@ -14,6 +14,7 @@ import { addStudyLeaveApplicationFilter } from "./filterHelpers/addStudyLeaveApp
 import { addOtherLeaveApplicationFilter } from "./filterHelpers/addOtherLeaveApplicationFilter";
 import { addStudyLeaveEvaluationFilter } from "./filterHelpers/addStudyLeaveEvaluationFilter";
 import { addOtherLeaveEvaluationFilter } from "./filterHelpers/addOtherLeaveEvaluationFilter";
+import { addCourseFilters } from "./filterHelpers/addCourseFilters";
 
 export function addFiltration(
   table: TableName,
@@ -57,6 +58,8 @@ export function addFiltration(
     query = addFormFilters(req, query as any);
   } else if (table === "Form_Evaluation") {
     query = addFormEvaluationFilters(req, query as any);
+  } else if (table === "Course") {	
+    query = addCourseFilters(req, query as SelectQueryBuilder<Database, "Course", {}>);
   }
   else if(table==="Study_Leave_Application"){
     query=addStudyLeaveApplicationFilter(req, query as any)

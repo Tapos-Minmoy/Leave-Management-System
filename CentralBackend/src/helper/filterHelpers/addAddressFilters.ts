@@ -3,8 +3,14 @@ import { Database, TableName } from "../../database";
 import { AddressFilter } from "../../filters/AddressFilter";
 import { Request } from "express";
 import { z } from "zod";
+import { zCoercedEnum } from "../../types/coreredEnum";
 
-const AddressTypeEnum = z.enum(["Present", "Permanent"]);
+enum AddressTypes {
+  "Present",
+  "Permanent",
+}
+
+const AddressTypeEnum = zCoercedEnum(AddressTypes);
 
 export function addAddressFilters(
   req: Request,
@@ -24,7 +30,7 @@ export function addAddressFilters(
     query = query.where(
       "Address.address_type",
       "=",
-      AddressTypeEnum.parse(req.query.address_type),
+      req.query.address_type as any,
     );
   }
   if (req.query.district && z.string().safeParse(req.query.district).success) {

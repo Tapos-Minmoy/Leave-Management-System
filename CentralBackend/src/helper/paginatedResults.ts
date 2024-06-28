@@ -24,6 +24,10 @@ export async function paginatedResults(
 
     const totalRecords = count ? count.total : 0;
 
+    // console.log(`Received ${req.method} request for ${req.url}`);
+    // console.log('Query Parameters:', req.query);
+    // console.log('Body:', req.body); 
+
     const result = {
       total_records: totalRecords,
       total_data: data.length,

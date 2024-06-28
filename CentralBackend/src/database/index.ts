@@ -60,6 +60,10 @@ export type TableName =
   |"Other_Leave_Application"
   |"Other_Leave_Evaluation";
 
+ 
+
+
+
 const dialect = new MysqlDialect({
   pool: createPool(AdminCreds),
 });
