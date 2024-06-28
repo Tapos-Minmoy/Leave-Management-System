@@ -28,15 +28,15 @@ const Main = () => {
       element: <Home></Home>,
       children: [
         {
-          path: '/login',
+          path: '/noc/login',
           element: <Login></Login>,
         },
         {
-          path: '/forgotPassword',
+          path: '/noc/forgotPassword',
           element: <ForgotPassword></ForgotPassword>,
         },
         {
-          path: '/signUp',
+          path: '/noc/signUp',
           element: <SignUp></SignUp>,
         },
         {
@@ -52,7 +52,7 @@ const Main = () => {
           element: <PreviousLeave></PreviousLeave>,
         },
         {
-          path: '/notices',
+          path: '/noc/AssignToDepartments',
           element: <Notices></Notices>,
         },
         {
