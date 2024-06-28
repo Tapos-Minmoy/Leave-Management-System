@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [role, setRole] = useState('');
@@ -12,7 +13,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const loginData = role === 'applicant' ? { teacher_id: teacherId, password } : { email, password };
+    const loginData = role === 'applicant'
+      ? { teacher_id: Number(teacherId), password }
+      : { email, password };
 
     const endpoint = role === 'applicant' ? '/api/login/teacher' : '/api/login/';
 
@@ -26,13 +29,19 @@ const Login = () => {
       });
 
       const result = await response.json();
+      console.log(result)
 
       if (response.ok) {
-        // Cache the session ID, user, and role
-        localStorage.setItem('session_id', result.session_id);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        localStorage.setItem('role', result.role);
+        // Store the session ID, user, and role in cookies
+        Cookies.set('session_id', result.session_id, { expires: 7 }); // Expires in 7 days
+        Object.entries(result.user).forEach(([key, value]) => {
+          Cookies.set(`user_${key}`, value === null ? '' : value.toString(), { expires: 7 });
+        });
 
+        // Store each field of the role object individually
+        Object.entries(result.role).forEach(([key, value]) => {
+          Cookies.set(`role_${key}`, value === null ? '' : value.toString(), { expires: 7 });
+        });
         // Redirect to a protected route or dashboard
         navigate('/noc/leaveApplication'); // Adjust the route as necessary
       } else {
