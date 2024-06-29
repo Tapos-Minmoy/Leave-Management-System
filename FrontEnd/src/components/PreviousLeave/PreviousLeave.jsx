@@ -35,7 +35,7 @@ function PreviousLeave() {
   };
   return (
     <div className="overflow-y-hidden">
-      <div className="h-screen flex justify-center items-center  bg-white max-md:px-5">
+      <div className="h-screen flex justify-center  bg-white max-md:px-5 mt-10">
         <div className=" flex flex-col w-full max-w-[1123px] max-md:mt-10 max-md:max-w-full">
           {/* code for header */}
           <div className="self-center text-4xl font-bold leading-9 text-center text-black max-md:max-w-full">

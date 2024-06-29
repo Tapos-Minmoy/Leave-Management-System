@@ -43,7 +43,9 @@ const Login = () => {
           Cookies.set(`role_${key}`, value === null ? '' : value.toString(), { expires: 7 });
         });
         // Redirect to a protected route or dashboard
-        navigate('/noc/leaveApplication'); // Adjust the route as necessary
+        const loggedInUserRole = Cookies.get('role_role') || '';
+        if(loggedInUserRole==='chairman') navigate('/noc/chairman');
+        else navigate('/noc/leaveApplication'); // Adjust the route as necessary
       } else {
         alert(result.message);
       }
