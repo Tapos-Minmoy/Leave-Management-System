@@ -14,22 +14,26 @@ function Chaiman() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   
+
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/leave/study", {
-        params: {
-          applicant_id: "1f0c4c07-e70c-11ee-9dff-68f728f17b7e",
-        },
-      })
-      .then((response) => {
-        setData(response.data.data);
-        console.log(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/join", {
+          params: {
+            evaluation_type: "chairman approval", // Replace with your evaluation_type value
+            le_status: "Rejected", // Replace with your le_status value
+          },
+        });
+        setData(response.data);
+      } catch (error) {
+        setError(error.response?.data?.message || "Something went wrong");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
-  
+
   const openFormPage = (leaveId) => {
     console.log("From previous pg" + leaveId);
     navigate('/study-leave-details', { state: { id: leaveId } });
@@ -100,7 +104,7 @@ function Chaiman() {
                     </div>
                   </td>
                   <td className="border border-gray-200 px-4 py-2">{application.name_of_program}</td>
-                  <td className="border border-gray-200 px-4 py-2">{/* Progress Summary Data Here */}</td>
+                  <td className="border border-gray-200 px-4 py-2">Pending To chairman</td>
                   <td className="border border-gray-200 px-4 py-2">
                     <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
                       <FontAwesomeIcon

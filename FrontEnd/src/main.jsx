@@ -21,6 +21,7 @@ import Oops from './components/Opps/Opps.jsx';
 import CheckPermissionForleaveApplication from './components/ProtectedRoute/CheckPermissionForleaveApplication.jsx';
 import CheckPermissionChairman from './components/ProtectedRoute/CheckPermissionChairman.jsx'
 import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermissionForLogin.jsx'
+import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
 
 const Main = () => {
   // State to store userID
@@ -71,7 +72,9 @@ const Main = () => {
         },
         {
           path: '/noc/studyLeaveForm',
-          element: <StudyLeaveForm></StudyLeaveForm>,
+          element: <CheckPermissionForstudyLeaveForm>
+                    <StudyLeaveForm></StudyLeaveForm>
+                 </CheckPermissionForstudyLeaveForm>,
         },
         {
           path: '/study-leave-details',
@@ -96,7 +99,7 @@ const Main = () => {
           element: <Oops></Oops>
         },
         {
-          path: 'imageUploader',
+          path: '/imageUploader',
           element: <ImageUploader></ImageUploader>
         }
       ],
