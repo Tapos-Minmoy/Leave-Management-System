@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
+import {  useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import './StudyLeaveForm.css'; // Import CSS file for styling
 
-function StudyLeaveForm({ userID }) {
-  
+function StudyLeaveForm({  }) {
+  const navigate = useNavigate();
+
   const [signatureFile, setSignatureFile] = useState(null);
   const [formData, setFormData] = useState({
-    name_of_program: '',
-    destination: '',
+    attachments: null,
     department: '',
-    duration: 0,
-    destination_country: '',
-    financial_source: '',
     designation: '',
+    destination: '',
+    destination_country: '',
+    duration: 0,
+    final_application: '',
+    financial_source: '',
     joining_date: '',
     leave_start_date: '',
+    my_application_chairman: '',
+    my_application_registrar: '',
+    name_of_program: '',
     program_start_date: '',
-    attachedFile: null,
-    signature: null
+    signature: null,
   });
 
   const handleChange = (e) => {
@@ -33,74 +39,128 @@ function StudyLeaveForm({ userID }) {
     const file = event.target.files[0];
 
     if (file) {
-        const reader = new FileReader();
+      const reader = new FileReader();
 
-        reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
 
-            img.onload = () => {
-                const width = img.width;
-                const height = img.height;
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
 
-                if (width <= 300 && height <= 80) {
-                    // Image meets the required dimensions, proceed with handling the file
-                    setSignatureFile(file);
-                } else {
-                    alert('Please upload an image with dimensions up to 300px width and 80px height for the signature.');
-                }
-            };
+          if (width <= 300 && height <= 80) {
+            // Image meets the required dimensions, proceed with handling the file
+            setSignatureFile(file);
+          } else {
+            alert('Please upload an image with dimensions up to 300px width and 80px height for the signature.');
+          }
         };
+      };
 
-        reader.readAsDataURL(file);
-        setFormData({ ...formData, [event.target.name]: event.target.files[0] })
+      reader.readAsDataURL(file);
+      setFormData({ ...formData, [event.target.name]: event.target.files[0] })
     }
-};
+  };
 
 
   const handleSignatureRemove = () => {
-    setSignatureFile(null);  
+    setSignatureFile(null);
   };
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formDataToSend = new FormData();
-      for (let key in formData) {
-        formDataToSend.append(key, formData[key]);
-      }
-      formDataToSend.append("applicant_id","17846a11-e707-11ee-9dff-68f728f17b7e")
-      const currentDate = new Date();
-      const fullDate = currentDate.toLocaleString(); 
-      formDataToSend.append("applied_date","2024-04-24")
-      console.log(formData)
-      const response = await axios.post('http://localhost:8080/study_leave_application', formDataToSend);
+  const handleFileUploadToServer = async (file) => {
+    if (!file) {
+      setUploadMessage("Please select a PDF file to upload.");
+      return;
+    }
 
-      console.log(response.data); // Log response from the server
-      // Clear form data after successful submission if needed
-      setFormData({
-        name_of_program: '',
-        destination: '',
-        department: '',
-        duration: 0,
-        destination_country: '',
-        financial_source: '',
-        designation: '',
-        joining_date: '"2024-04-24"',
-        leave_start_date: '',
-        program_start_date: '',
-        attachedFile: null,
-        signature: null
+    const formData = new FormData();
+    formData.append("items", file); // Ensure the key matches the multer middleware setup on the backend
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/upload/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+
+      // Store the uploaded filename for download
+      const uploadedFileName = response.data.files[0].filename; // Adjust according to your API response structure
+
+
+      return uploadedFileName; // Return the uploaded filename
     } catch (error) {
-      console.error('Error submitting form:', error);
-      // Handle error if needed
+      return null;
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const user_id = Cookies.get('user_user_id');
+      if (!user_id) {
+        alert("Please Logout and login again! Cookies missing...");
+        return;
+      }
+  
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+  
+      const formDataToSend = {
+        applicant_id: user_id,
+        applied_date: formattedDate,
+        attachments: null,
+        department: formData.department,
+        designation: formData.designation,
+        destination: formData.destination,
+        destination_country: formData.destination_country,
+        duration: Number(formData.duration),
+        final_application: formData.final_application,
+        financial_source: formData.financial_source,
+        joining_date: formData.joining_date,
+        leave_start_date: formData.leave_start_date,
+        my_application_chairman: formData.my_application_chairman,
+        my_application_registrar: formData.my_application_registrar,
+        name_of_program: formData.name_of_program,
+        program_start_date: formData.program_start_date,
+        signature: null,
+      };
+  
+      if (formData.attachments) {
+        const uploadedAttachment = await handleFileUploadToServer(formData.attachments);
+        formDataToSend.attachments = uploadedAttachment;
+      }
+  
+      if (signatureFile) {
+        const uploadedSignature = await handleFileUploadToServer(signatureFile);
+        formDataToSend.signature = uploadedSignature;
+      }
+  
+      const response = await axios.post('http://localhost:5000/api/leave/study/add', formDataToSend, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log(response);
+  
+      console.log(response.data); // Log response from the server
+      navigate('/noc/leaveApplication');
+  
+    } catch (error) {
+      alert("Something went wrong. Try again!");
+      console.error('Error submitting form:', error);
+    }
+  };
+  
+
 
   return (
     <div>
-    
+
       <div className="form-container">
         <div className="header">
           <h2>University of Chittagong</h2>
@@ -140,12 +200,13 @@ const handleSubmit = async (e) => {
               <input type="number" id="duration" name="duration" value={formData.duration} onChange={handleChange} />
             </div>
           </div>
+
           <div className="form-group">
             <div className="input-wrapper">
               <label htmlFor="destination_country">5. Destination Country:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="destination_country" name="destination_country" value={formData.destination_country} onChange={handleChange}/>
+              <input type="text" id="destination_country" name="destination_country" value={formData.destination_country} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -153,7 +214,7 @@ const handleSubmit = async (e) => {
               <label htmlFor="financial_source">6. Financial Source:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="financial_source" name="financial_source" value={formData.financial_source} onChange={handleChange}/>
+              <input type="text" id="financial_source" name="financial_source" value={formData.financial_source} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -161,7 +222,7 @@ const handleSubmit = async (e) => {
               <label htmlFor="joining_date">7. Date of joining (this university):</label>
             </div>
             <div className="input-wrapper">
-              <input type="date" id="joining_date" name="joining_date" value={formData.joining_date} onChange={handleChange}/>
+              <input type="date" id="joining_date" name="joining_date" value={formData.joining_date} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -182,10 +243,10 @@ const handleSubmit = async (e) => {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="attachedFile">10. Please Attach important file:</label>
+              <label htmlFor="attachments">10. Please Attach important file:</label>
             </div>
             <div className="input-wrapper">
-              <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"id="attachedFile" name="attachedFile" onChange={handleFileChange} type="file"></input>
+              <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="attachments" name="attachments" onChange={handleFileChange} type="file"></input>
             </div>
           </div>
           <div className="form-group">
@@ -202,7 +263,7 @@ const handleSubmit = async (e) => {
                 <div>
                   <input
                     type="file"
-                    id="signature" name="signature" 
+                    id="signature" name="signature"
                     accept="image/*"
                     onChange={handleSignatureUpload}
                     style={{ display: 'none' }}

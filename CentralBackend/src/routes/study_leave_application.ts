@@ -47,7 +47,7 @@ studyLeaveApplicationRouter.get("/", async (req, res) => {
   
   studyLeaveApplicationRouter.post("/add", async (req, res) => {
     try {
-      console.log("trying to add");
+      console.log(req.body);
       const { applicant_id,
         applied_date,
         attachments,

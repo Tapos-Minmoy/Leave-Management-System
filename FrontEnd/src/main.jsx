@@ -99,7 +99,7 @@ const Main = () => {
           element: <Oops></Oops>
         },
         {
-          path: '/imageUploader',
+          path: '/noc/imageUploader',
           element: <ImageUploader></ImageUploader>
         }
       ],
