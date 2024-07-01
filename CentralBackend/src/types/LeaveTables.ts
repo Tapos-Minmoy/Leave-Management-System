@@ -41,16 +41,17 @@ import {
     applicant_id: string;
     attachments: string | null;
     designation: string;
-    duration: number;
+    duration: Date; // Changed from number to Date for timestamp field
     final_application: string | null;
     leave_ground: string | null;
-    leave_id: Generated<number>;
+    leave_id: Generated<number>; // Assuming this is from the database auto-increment
     leave_start_date: Date;
     my_application_chairman: string | null;
     nature_of_leave: string;
     salary_acknowledgement: number | null;
     signature: string | null;
     station_leaving_permission: string | null;
+    applied_date: Date; // Added applied_date as Date type
   }
   
   export interface OtherLeaveEvaluationTable {

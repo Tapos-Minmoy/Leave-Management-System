@@ -1,127 +1,162 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios
-
-import './OtherLeaveForm.css'; // Import CSS file for styling
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import './OtherLeaveForm.css';
 
 function OtherLeaveForm({ userID }) {
-  
+  const navigate = useNavigate();
   const [signatureFile, setSignatureFile] = useState(null);
-  const [natureOfLeave, setNatureOfLeave] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    designation: '',
+    natureOfLeave: '',
+    leaveStartDate: '',
+    periodYears: '',
+    periodMonths: '',
+    periodDays: '',
+    permissionToLeaveStation: '',
+    groundsForLeave: '',
+    refundUndertaking: 0,
+    additionalFile: null,
+    signature: null,
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckboxChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.checked ? 1 : 0 });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+  };
 
   const handleSignatureUpload = (event) => {
     const file = event.target.files[0];
 
     if (file) {
-        const reader = new FileReader();
+      const fileType = file.type;
+      if (!fileType.startsWith('image/')) {
+        alert('Please upload an image file for the signature.');
+        return;
+      }
 
-        reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
+      const reader = new FileReader();
 
-            img.onload = () => {
-                const width = img.width;
-                const height = img.height;
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
 
-                if (width <= 300 && height <= 80) {
-                    // Image meets the required dimensions, proceed with handling the file
-                    setSignatureFile(file);
-                } else {
-                    alert('Please upload an image with dimensions up to 300px width and 80px height for the signature.');
-                }
-            };
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+
+          if (width <= 300 && height <= 80) {
+            setSignatureFile(file);
+          } else {
+            alert('Please upload an image with dimensions up to 300px width and 80px height for the signature.');
+          }
         };
+      };
 
-        reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+      setFormData({ ...formData, [event.target.name]: event.target.files[0] });
     }
-};
-
+  };
 
   const handleSignatureRemove = () => {
-    setSignatureFile(null);  
+    setSignatureFile(null);
+  };
+
+  const handleFileUploadToServer = async (file) => {
+    if (!file) {
+      alert("Please select a file to upload.");
+      return null;
+    }
+
+    const formData = new FormData();
+    formData.append("items", file);
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/upload/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const uploadedFileName = response.data.files[0].filename;
+
+      return uploadedFileName;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      return null;
+    }
   };
 
   const handleSubmit = async (event) => {
-    ///chk start
-    // Your existing form submission logic here...
-
-    try {
-      // Make POST request to upload image
-      const formData = new FormData();
-      formData.append('image', signatureFile);
-      console.log(signatureFile);
-      await axios.post('http://127.0.0.1:8080/noc/upload/image', formData);
-      
-      // Handle response
-      console.log('Image uploaded successfully.');
-  } catch (error) {
-      console.error('Error occurred while uploading image:', error);
-      // Handle error
-  };
-    return;
-
-    ///chk end
     event.preventDefault();
-    // Get start date
-    const startDate = document.getElementById('leaveStartDate').value;
-  
-    // Get period years, months, and days
-    const periodYears = parseInt(document.getElementById('periodYears').value);
-    const periodMonths = parseInt(document.getElementById('periodMonths').value);
-    const periodDays = parseInt(document.getElementById('periodDays').value);
-  
-    // Prepare form data
-    const formData = new FormData();
-    formData.append('Applicant_Id', userID); // Assuming userID is the applicant's ID
-    formData.append('Name', document.getElementById('name').value); // Get name from input field
-    formData.append('Nature_of_Leave', document.getElementById('natureOfLeave').value); // Get nature of leave from textarea
-    formData.append('Designation', document.getElementById('designation').value); // Get designation from input field
-    formData.append('Leave_Start_Date', startDate); // Set leave start date
-    formData.append('Leave_End_Date', endDate.toISOString().split('T')[0]); // Set leave end date
-    formData.append('Leave_Ground', document.getElementById('groundsForLeave').value); // Get leave ground from textarea
-    formData.append('Salary_Acknowledgement', document.getElementById('salaryAcknowledgement').value); // Get salary acknowledgement from textarea
-    formData.append('Station_Leaving_Permission', document.getElementById('stationLeavingPermission').value); // Get station leaving permission from textarea
-    
-    // Convert essential file to BLOB and append it to form data
-    const essentialFileInput = document.getElementById('additionalFile');
-    if (essentialFileInput.files.length > 0) {
-      const file = essentialFileInput.files[0];
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(file);
-      reader.onload = () => {
-        const fileArray = new Uint8Array(reader.result);
-        const blob = new Blob([fileArray], { type: file.type });
-        formData.append('Attached_File', blob);
-      };
-    }
-  
-    formData.append('Applicant_Signature', signatureFile); // Attach signature file
-    formData.append('Final_Application', null); // Set final_application to null
-  
+
     try {
-      // Make POST request to the server using Axios
-      const response = await axios.post('/other_leave_application', formData);
-  
-      // Handle response
-      if (response.status === 200) {
-        console.log('Data inserted successfully.');
-        // You can add logic here to handle successful form submission
-      } else {
-        console.error('Failed to insert data.');
-        // You can add logic here to handle failed form submission
+      const user_id = Cookies.get('user_user_id');
+      if (!user_id) {
+        alert("Please Logout and login again! Cookies missing...");
+        return;
       }
+
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+
+      const duration = `${formData.periodYears}-${formData.periodMonths.padStart(2, '0')}-${formData.periodDays.padStart(2, '0')}`;
+
+      const formDataToSend = {
+        applicant_id: user_id,
+        applied_date: formattedDate,
+        designation: formData.designation,
+        nature_of_leave: formData.natureOfLeave,
+        leave_start_date: formData.leaveStartDate,
+        leave_ground: formData.groundsForLeave,
+        salary_acknowledgement: formData.refundUndertaking,
+        station_leaving_permission: formData.permissionToLeaveStation,
+        attachments: null,
+        signature: null,
+        duration: duration,
+        final_application: null, // Not captured in the form
+        my_application_chairman: null, // Not captured in the form
+      };
+
+      if (formData.additionalFile) {
+        const uploadedAdditionalFile = await handleFileUploadToServer(formData.additionalFile);
+        formDataToSend.attachments = uploadedAdditionalFile;
+      }
+
+      if (signatureFile) {
+        const uploadedSignature = await handleFileUploadToServer(signatureFile);
+        formDataToSend.signature = uploadedSignature;
+      }
+
+      const response = await axios.post('http://localhost:5000/api/leave/other/add', formDataToSend, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log(response.data);
+      navigate('/noc/leaveApplication');
     } catch (error) {
-      console.error('Error occurred:', error);
-      // You can add logic here to handle errors
+      alert("Something went wrong. Try again!");
+      console.error('Error submitting form:', error);
     }
-  };
-  
-  const handleNatureOfLeaveChange = (event) => {
-    setNatureOfLeave(event.target.value);
   };
 
   return (
     <div>
-    
       <div className="form-container">
         <div className="header">
           <h2>University of Chittagong</h2>
@@ -134,7 +169,7 @@ function OtherLeaveForm({ userID }) {
               <label htmlFor="name">1. Name of Applicant:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="name" name="name" />
+              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -142,7 +177,7 @@ function OtherLeaveForm({ userID }) {
               <label htmlFor="designation">2. Designation:</label>
             </div>
             <div className="input-wrapper">
-              <input type="text" id="designation" name="designation" />
+              <input type="text" id="designation" name="designation" value={formData.designation} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -150,7 +185,7 @@ function OtherLeaveForm({ userID }) {
               <label htmlFor="natureOfLeave">3. Nature of leave applied for:</label>
             </div>
             <div className="input-wrapper">
-              <select id="natureOfLeave" name="natureOfLeave" value={natureOfLeave} onChange={handleNatureOfLeaveChange}  className="full-width-select">
+              <select id="natureOfLeave" name="natureOfLeave" value={formData.natureOfLeave} onChange={handleChange} className="full-width-select">
                 <option value="">Select</option>
                 <option value="Casual Leave">Casual Leave</option>
                 <option value="Maternity Leave">Maternity Leave</option>
@@ -170,12 +205,12 @@ function OtherLeaveForm({ userID }) {
             <div className="input-wrapper">
               <div>
                 <label style={{ marginLeft: '120px' }}>Period:</label>
-                <input type="text" id="periodYears" name="periodYears" placeholder="Years" style={{ width: '30%' }} />
-                <input type="text" id="periodMonths" name="periodMonths" placeholder="Months" style={{ width: '30%' }} />
-                <input type="text" id="periodDays" name="periodDays" placeholder="Days" style={{ width: '30%' }} />
+                <input type="text" id="periodYears" name="periodYears" placeholder="Years" value={formData.periodYears} onChange={handleChange} style={{ width: '30%' }} />
+                <input type="text" id="periodMonths" name="periodMonths" placeholder="Months" value={formData.periodMonths} onChange={handleChange} style={{ width: '30%' }} />
+                <input type="text" id="periodDays" name="periodDays" placeholder="Days" value={formData.periodDays} onChange={handleChange} style={{ width: '30%' }} />
               </div>
               <label style={{ marginLeft: '90px' }}>leaveStartDate:</label>
-              <input type="date" id="leaveStartDate" name="leaveStartDate" />
+              <input type="date" id="leaveStartDate" name="leaveStartDate" value={formData.leaveStartDate} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
@@ -183,62 +218,49 @@ function OtherLeaveForm({ userID }) {
               <label htmlFor="permissionToLeaveStation">5. Whether permission to leave the station is required:</label>
             </div>
             <div className="input-wrapper">
-              <textarea id="permissionToLeaveStation" name="permissionToLeaveStation" rows="3" style={{ width: '100%' }}></textarea>
+              <input type="text" id="permissionToLeaveStation" name="permissionToLeaveStation" value={formData.permissionToLeaveStation} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="groundsForLeave">6. Grounds on which the leave is applied for:</label>
+              <label htmlFor="groundsForLeave">6. Grounds for leave:</label>
             </div>
             <div className="input-wrapper">
-              <textarea id="groundsForLeave" name="groundsForLeave" rows="3" style={{ width: '100%' }}></textarea>
+              <textarea id="groundsForLeave" name="groundsForLeave" value={formData.groundsForLeave} onChange={handleChange} />
             </div>
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="refundUndertaking">7. I undertake to refund to the University any difference of leave salary or pay that may come to notice subsequently due to this leave:</label>
+              <label htmlFor="refundUndertaking">7. I undertake to refund the difference between the leave salary and other allowances admissible during leave:</label>
             </div>
             <div className="input-wrapper">
-              <textarea id="refundUndertaking" name="refundUndertaking" rows="3" style={{ width: '100%' }}></textarea>
+            
+            <label className="checkbox-label">
+                <input type="checkbox" id="refundUndertaking" name="refundUndertaking" checked={formData.refundUndertaking === 1} onChange={handleCheckboxChange} />
+                Yes
+              </label>            </div>
+          </div>
+          <div className="form-group">
+            <div className="input-wrapper">
+              <label htmlFor="additionalFile">8. Upload additional file (if any):</label>
+            </div>
+            <div className="input-wrapper">
+              <input type="file" id="additionalFile" name="additionalFile" onChange={handleFileChange} />
             </div>
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="additionalFile">8. Essential Additional File:</label>
+              <label htmlFor="signature">9. Upload signature:</label>
             </div>
             <div className="input-wrapper">
-              <input class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="additionalFile" type="file" multiple></input>
-            </div>
-          </div>
-          
-
-          <div className="form-group">
-          <div className="input-wrapper">
-              <label htmlFor="additionalFile">8. Signature of the Applicant and date:</label>
-            </div>
-            <div className="input-wrapper">
-              {signatureFile ? (
-                <>
-                  <img src={URL.createObjectURL(signatureFile)} alt="Signature" className="h-20 w-80 rounded-sm border-slate-700 border-2" />
-                  <button onClick={handleSignatureRemove}>Change</button>
-                </>
-              ) : (
+              <input type="file" id="signature" name="signature" onChange={handleSignatureUpload} />
+              {signatureFile && (
                 <div>
-                  <input
-                    type="file"
-                    id="signature"
-                    accept="image/*"
-                    onChange={handleSignatureUpload}
-                    style={{ display: 'none' }}
-                  />
-                  <label htmlFor="signature" className="upload-label">Upload Signature (300x80px)</label>
+                  <button type="button" onClick={handleSignatureRemove}>Remove Signature</button>
                 </div>
               )}
             </div>
           </div>
-
-
-
           <div className='cancel-submit-btn'>
             <button className='cancel-btn' >Cancel</button>
             <button >Submit</button>
