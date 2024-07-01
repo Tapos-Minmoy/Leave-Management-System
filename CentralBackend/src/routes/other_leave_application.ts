@@ -9,15 +9,10 @@ const otherLeaveApplicationRouter = express.Router();
 
 otherLeaveApplicationRouter.get("/", async (req, res) => {
   try {
-    var query = db
-      .selectFrom("Other_Leave_Application")
-      .selectAll();
-
+    var query = db.selectFrom("Other_Leave_Application").selectAll();
     query = addFiltration("Other_Leave_Application", query as SelectQueryBuilder<Database, TableName, {}>, req) as any;
-
     paginatedResults(query, req, res);
-  }
-  catch (error) {
+  } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
 });
@@ -26,7 +21,7 @@ const otherLeaveReqBody = z.object({
   applicant_id: z.string(),
   attachments: z.string().nullable(),
   designation: z.string(),
-  duration: z.string().transform((val) => new Date(val)),
+  duration: z.string(),
   final_application: z.string().nullable(),
   leave_ground: z.string().nullable(),
   leave_start_date: z.string().transform((val) => new Date(val)),
@@ -40,7 +35,7 @@ const otherLeaveReqBody = z.object({
 
 otherLeaveApplicationRouter.post("/add", async (req, res) => {
   try {
-    console.log("here addding");
+    console.log("here adding");
     console.log(req.body);
     const {
       applicant_id,
@@ -55,10 +50,10 @@ otherLeaveApplicationRouter.post("/add", async (req, res) => {
       salary_acknowledgement,
       signature,
       station_leaving_permission,
-      applied_date
+      applied_date,
     } = otherLeaveReqBody.parse(req.body);
 
-    await db
+    const result = await db
       .insertInto("Other_Leave_Application")
       .values({
         applicant_id: applicant_id,
@@ -73,12 +68,27 @@ otherLeaveApplicationRouter.post("/add", async (req, res) => {
         salary_acknowledgement: salary_acknowledgement,
         signature: signature,
         station_leaving_permission: station_leaving_permission,
-        applied_date: applied_date
+        applied_date: applied_date,
+      })
+      .executeTakeFirst();
+
+    const leave_id = Number(result.insertId); // Assuming result.insertId contains the generated leave_id
+
+    // Add request to Other_Leave_Evaluation table
+    await db
+      .insertInto("Other_Leave_Evaluation")
+      .values({
+        applicant_id: applicant_id,
+        evaluation_type: "Chairman Approval",
+        le_comment: "",
+        le_evaluation_time: new Date(),
+        le_status: "pending",
+        leave_id: leave_id,
       })
       .executeTakeFirst();
 
     res.status(200).send({
-      message: "Data Inserted Successfully in Other_Leave_Application Table.",
+      message: "Data Inserted Successfully in Other_Leave_Application and Other_Leave_Evaluation Tables.",
     });
   } catch (error) {
     var typeError: z.ZodError | undefined;

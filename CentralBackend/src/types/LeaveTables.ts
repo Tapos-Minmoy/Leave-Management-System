@@ -41,7 +41,7 @@ import {
     applicant_id: string;
     attachments: string | null;
     designation: string;
-    duration: Date; // Changed from number to Date for timestamp field
+    duration: string; // Changed from number to Date for timestamp field
     final_application: string | null;
     leave_ground: string | null;
     leave_id: Generated<number>; // Assuming this is from the database auto-increment
