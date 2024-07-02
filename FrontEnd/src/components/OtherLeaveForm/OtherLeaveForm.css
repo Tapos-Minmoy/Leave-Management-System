@@ -32,20 +32,20 @@
   flex: 1; /* Make each wrapper take equal width */
 }
 
-
 .input-wrapper label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.input-wrapper input {
+.input-wrapper input,
+.input-wrapper select,
+.input-wrapper textarea {
   width: 100%; /* Fill the available space */
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-  border-bottom: 1px solid black;
 }
 
 .upload-label {
@@ -61,18 +61,9 @@
   display: inline-block;
 }
 
-
 .input-wrapper input[type="checkbox"] {
+  width: auto; /* Only take up the required space */
   margin-right: 5px;
-}
-
-.input-wrapper input[type="file"]{
-  width: 100%; /* Fill the available space */
-  /* padding: 8px; */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  border-bottom: 1px solid black;
 }
 
 .cancel-submit-btn {
@@ -100,6 +91,7 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
 .full-width-select {
   width: 100%;
 }

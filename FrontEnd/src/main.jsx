@@ -13,10 +13,15 @@ import PreviousLeave from './components/PreviousLeave/PreviousLeave.jsx';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import StudyLeaveForm from './components/StudyLeaveForm/StudyLeaveForm.jsx';
 import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.jsx';
-import ApplicationToChaiman from './components/applicationToChaiman/applicationToChaiman.jsx'
+import Chaiman from './components/Chaiman/Chaiman.jsx'
 import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx'
 import Letter from './components/LetterToChaiman/LetterToChaiman.jsx';
 import ImageUploader from './components/ImageUploader/ImageUploader.jsx';
+import Oops from './components/Opps/Opps.jsx';
+import CheckPermissionForleaveApplication from './components/ProtectedRoute/CheckPermissionForleaveApplication.jsx';
+import CheckPermissionChairman from './components/ProtectedRoute/CheckPermissionChairman.jsx'
+import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermissionForLogin.jsx'
+import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
 
 const Main = () => {
   // State to store userID
@@ -29,7 +34,10 @@ const Main = () => {
       children: [
         {
           path: '/noc/login',
-          element: <Login></Login>,
+          element: <CheckPermissionForLogin> 
+                    <Login></Login>
+          
+                </CheckPermissionForLogin>,
         },
         {
           path: '/noc/forgotPassword',
@@ -45,7 +53,10 @@ const Main = () => {
         },
         {
           path: '/noc/leaveApplication',
-          element: <LeaveApplication></LeaveApplication>,
+          element: <CheckPermissionForleaveApplication>  
+                      <LeaveApplication></LeaveApplication>
+                </CheckPermissionForleaveApplication>,
+                      
         },
         {
           path: '/noc/previousLeave',
@@ -61,15 +72,19 @@ const Main = () => {
         },
         {
           path: '/noc/studyLeaveForm',
-          element: <StudyLeaveForm></StudyLeaveForm>
+          element: <CheckPermissionForstudyLeaveForm>
+                    <StudyLeaveForm></StudyLeaveForm>
+                 </CheckPermissionForstudyLeaveForm>,
         },
         {
           path: '/study-leave-details',
           element: <StudyLeaveDetails ></StudyLeaveDetails>,
         },
         {
-          path: '/noc/applicationToChaiman',
-          element : <ApplicationToChaiman></ApplicationToChaiman>
+          path: '/noc/chairman',
+          element: <CheckPermissionChairman>
+                      <Chaiman></Chaiman>
+                  </CheckPermissionChairman>,
         },
         {
           path: '/noc/chairman/study-leave-details',
@@ -80,7 +95,11 @@ const Main = () => {
           element: <Letter></Letter>
         },
         {
-          path: 'imageUploader',
+          path: '/noc/oops',
+          element: <Oops></Oops>
+        },
+        {
+          path: '/noc/imageUploader',
           element: <ImageUploader></ImageUploader>
         }
       ],

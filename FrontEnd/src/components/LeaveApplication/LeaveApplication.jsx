@@ -27,48 +27,9 @@ function LeaveApplication() {
     setSessionId(sessionId);
   }, []);
 
-  const logout = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/logout', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${sessionId}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.message === 'Logged out successfully') {
-        // Clear all cookies
-        Object.keys(Cookies.get()).forEach(cookieName => {
-          Cookies.remove(cookieName);
-        });
-
-        // Navigate to login page
-        navigate('/noc/login');
-      } else {
-        alert(result.message || 'Logout failed. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error logging out:', error);
-      alert('An error occurred. Please try again.');
-    }
-  };
 
   return (
     <div className="bg-blue-50 h-screen flex flex-col justify-center">
-      <div className="mt-2 text-center">
-        <h2 className="text-xl font-bold p-2">Welcome, {userFirstName} {userLastName}</h2>
-        <p className="text-lg">Role: {role}</p>
-        <p className="text-lg">Session ID: {sessionId}</p>
-        <button
-          onClick={logout}
-          className="mt-4 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          Logout
-        </button>
-      </div>
       <div className="mt-5 flex justify-center items-center gap-10">
         <div className="Study_Leave_Application w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <Link to="/noc/studyLeaveForm" className="flex flex-col items-center pb-10">

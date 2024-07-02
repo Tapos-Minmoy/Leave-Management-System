@@ -22,92 +22,128 @@ studyLeaveEvaluationRouter.get("/", async (req, res) => {
       }
   });
 
-  const studyLeaveEvaluatesReqBody = z.object({
-    applicant_id: z.string(),
-    evaluation_type: z.string(),
-    le_comment: z.string().nullable(),
-    le_evaluation_time: z.string().transform((val) => new Date(val)),
-    le_status: z.string(),
-    leave_id: z.number(),
-  });
-  
-  studyLeaveEvaluationRouter.post("/add", async (req, res) => {
-    try {
-      const { applicant_id,
-        evaluation_type,
-        le_comment,
-        le_evaluation_time,
-        le_status,
-        leave_id } = studyLeaveEvaluatesReqBody.parse(req.body);
-  
-        await db
-          .insertInto("Study_Leave_Evaluation")
-          .values({
-            applicant_id: applicant_id,
-            evaluation_type: evaluation_type,
-            le_comment: le_comment,
-            le_evaluation_time: le_evaluation_time,
-            le_status: le_status,
-            leave_id: leave_id    
-        })
-        .executeTakeFirst();
-  
-        
-  
-      
-      res.status(200).send({
-        message: "Data Inserted Successfully in Study_Leave_Evaluation Table.",
+const studyLeaveEvaluatesReqBody = z.object({
+  applicant_id: z.string(),
+  evaluation_type: z.string(),
+  le_comment: z.string().nullable(),
+  le_evaluation_time: z.string().transform((val) => new Date(val)),
+  le_status: z.string(),
+  leave_id: z.number(),
+});
+
+studyLeaveEvaluationRouter.post("/add", async (req, res) => {
+  try {
+    const {
+      applicant_id,
+      evaluation_type,
+      le_comment,
+      le_evaluation_time,
+      le_status,
+      leave_id,
+    } = studyLeaveEvaluatesReqBody.parse(req.body);
+
+    await db
+      .insertInto("Study_Leave_Evaluation")
+      .values({
+        applicant_id: applicant_id,
+        evaluation_type: evaluation_type,
+        le_comment: le_comment,
+        le_evaluation_time: le_evaluation_time,
+        le_status: le_status,
+        leave_id: leave_id,
+      })
+      .executeTakeFirst();
+
+    res.status(200).send({
+      message: "Data Inserted Successfully in Study_Leave_Evaluation Table.",
+    });
+  } catch (error) {
+    var typeError: z.ZodError | undefined;
+    if (error instanceof z.ZodError) {
+      typeError = error as z.ZodError;
+      return res.status(400).json({
+        name: "Invalid data type.",
+        message: JSON.parse(typeError.message),
       });
-    } catch (error) {
-      var typeError: z.ZodError | undefined;
-      if (error instanceof z.ZodError) {
-        typeError = error as z.ZodError;
-        return res.status(400).json({
-          name: "Invalid data type.",
-          message: JSON.parse(typeError.message),
-        });
-      }
-      return res.status(400).json({ message: "Invalid request body", error });
     }
-  });
+    return res.status(400).json({ message: "Invalid request body", error });
+  }
+});
 
-  studyLeaveEvaluationRouter.put('/update',async (req, res)=>{
-    const { applicant_id,
-        evaluation_type,
-        le_comment,
-        le_evaluation_time,
-        le_status,
-        leave_id } = studyLeaveEvaluatesReqBody.parse(req.body);
-    try{
-        await db
-            .updateTable('Study_Leave_Evaluation')
-            .set({
-                le_status:le_status,
-                le_comment: le_comment,
-                le_evaluation_time: le_evaluation_time
-            })
-            .where('Study_Leave_Evaluation.evaluation_type','=',evaluation_type)
-            .where('Study_Leave_Evaluation.leave_id','=',leave_id)
-            .where('Study_Leave_Evaluation.applicant_id','=',applicant_id)
-        .executeTakeFirst();
+studyLeaveEvaluationRouter.put("/update", async (req, res) => {
+  const {
+    applicant_id,
+    evaluation_type,
+    le_comment,
+    le_evaluation_time,
+    le_status,
+    leave_id,
+  } = studyLeaveEvaluatesReqBody.parse(req.body);
+  try {
+    await db
+      .updateTable("Study_Leave_Evaluation")
+      .set({
+        le_status: le_status,
+        le_comment: le_comment,
+        le_evaluation_time: le_evaluation_time,
+      })
+      .where("Study_Leave_Evaluation.evaluation_type", "=", evaluation_type)
+      .where("Study_Leave_Evaluation.leave_id", "=", leave_id)
+      .where("Study_Leave_Evaluation.applicant_id", "=", applicant_id)
+      .executeTakeFirst();
 
-        res.status(200).send({
-            message: "Data Updated Successfully in Study_Leave_Evaluation Table.",
-          });
-
-    } catch(error){
-        var typeError: z.ZodError | undefined;
-      if (error instanceof z.ZodError) {
-        typeError = error as z.ZodError;
-        return res.status(400).json({
-          name: "Invalid data type.",
-          message: JSON.parse(typeError.message),
-        });
-      }
-      return res.status(400).json({ message: "Invalid request body", error });
-
+    res.status(200).send({
+      message: "Data Updated Successfully in Study_Leave_Evaluation Table.",
+    });
+  } catch (error) {
+    var typeError: z.ZodError | undefined;
+    if (error instanceof z.ZodError) {
+      typeError = error as z.ZodError;
+      return res.status(400).json({
+        name: "Invalid data type.",
+        message: JSON.parse(typeError.message),
+      });
     }
+    return res.status(400).json({ message: "Invalid request body", error });
+  }
+});
 
-  });
+// New route for joining tables
+studyLeaveEvaluationRouter.get("/join", async (req, res) => {
+  try {
+    const { evaluation_type, le_status } = req.query;
 
-  export default studyLeaveEvaluationRouter;
+    // Validate query parameters
+    const paramsSchema = z.object({
+      evaluation_type: z.string(),
+      le_status: z.string(),
+    });
+    const { evaluation_type: evalType, le_status: leStatus } = paramsSchema.parse({
+      evaluation_type,
+      le_status,
+    });
+
+    // Query to join tables
+    const result = await db
+      .selectFrom("Study_Leave_Evaluation as e")
+      .innerJoin("Study_Leave_Application as s", "e.leave_id", "s.leave_id")
+      .select(["e.le_status", "s.leave_id", "s.name_of_program"])
+      .where("e.evaluation_type", "=", evalType)
+      .where("e.le_status", "=", leStatus)
+      .execute();
+
+    res.status(200).json(result);
+  } catch (error) {
+    var typeError: z.ZodError | undefined;
+    if (error instanceof z.ZodError) {
+      typeError = error as z.ZodError;
+      return res.status(400).json({
+        name: "Invalid data type.",
+        message: JSON.parse(typeError.message),
+      });
+    }
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
+
+export default studyLeaveEvaluationRouter;

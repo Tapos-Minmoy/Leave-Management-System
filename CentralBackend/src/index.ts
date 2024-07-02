@@ -71,6 +71,11 @@ app.use("/api/leave/common", commonLeaveUtilitiesRouter);
 //certificate
 app.use("/api/certificate-withdrawal", certificateWithdrawal)
 // Start the server
+
+
+// File access routes
+import fileGetRouter from "./routes/file-get";
+app.use("/files", fileGetRouter);
 app.listen(port, () => {
   console.log(
     `ERP API is listening to port ${port}\nURL: http://localhost:${port}`,
