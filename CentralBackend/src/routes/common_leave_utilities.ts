@@ -45,10 +45,12 @@ commonLeaveUtilitiesRouter.get("/appliedLeaveForIndividuals", async (req, res) =
     }
 
     const [results1, results2] = await Promise.all([query1.execute(), query2.execute()]);
-    res.status(200).json({ studyLeaveEvaluations: results1, otherLeaveEvaluations: results2 });
+    const unifiedResults = [...results1, ...results2];
+
+    res.status(200).json({ evaluations: unifiedResults });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }
-  });
+});
 
 export default commonLeaveUtilitiesRouter;
