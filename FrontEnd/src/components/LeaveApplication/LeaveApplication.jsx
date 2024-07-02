@@ -20,6 +20,8 @@ function LeaveApplication() {
     const userRole = Cookies.get('role_role') || '';
     const sessionId = Cookies.get('session_id') || '';
 
+    console.log(firstName);
+
     // Set state with retrieved values
     setUserFirstName(firstName);
     setUserLastName(lastName);
