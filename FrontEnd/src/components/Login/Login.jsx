@@ -1,65 +1,144 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login = () => {
-  const [role, setRole] = useState('');
-  const [teacherId, setTeacherId] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [role, setRole] = useState("");
+  const [teacherId, setTeacherId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const loginData = role === 'applicant'
-      ? { teacher_id: Number(teacherId), password }
-      : { email, password };
+    const loginData =
+      role === "applicant"
+        ? { teacher_id: Number(teacherId), password }
+        : { email, password };
 
-    const endpoint = role === 'applicant' ? '/api/login/teacher' : '/api/login/';
+    const endpoint =
+      role === "applicant" ? "/api/login/teacher" : "/api/login/";
 
     try {
       const response = await fetch(`http://localhost:5000${endpoint}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(loginData),
       });
 
       const result = await response.json();
-      console.log(result)
+      console.log(result);
+      console.log(result.message);
 
-      if (response.ok) {
+      if (result.message == "The user is already logged in") {
+
+        try {
+          const responseLogout = await fetch("http://localhost:5000/api/logout", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${result.session_id}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          const resultlogout = await responseLogout.json();
+
+          if (responseLogout.ok && resultlogout.message === "Logged out successfully") {
+            // Clear all cookies
+            Object.keys(Cookies.get()).forEach((cookieName) => {
+              Cookies.remove(cookieName);
+            });
+
+            try {
+              const responselogin = await fetch(`http://localhost:5000${endpoint}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(loginData),
+              });
+
+              const resultlogin = await responselogin.json();
+              console.log(resultlogin);
+              console.log(resultlogin.message);
+              if (resultlogin.message == "Successfully logged in") {
+                // Store the session ID, user, and role in cookies
+                Cookies.set("session_id", resultlogin.session_id, { expires: 7 }); // Expires in 7 days
+                Object.entries(resultlogin.user).forEach(([key, value]) => {
+                  Cookies.set(
+                    `user_${key}`,
+                    value === null ? "" : value.toString(),
+                    { expires: 7 }
+                  );
+                });
+
+                // Store each field of the role object individually
+                Object.entries(resultlogin.role).forEach(([key, value]) => {
+                  Cookies.set(
+                    `role_${key}`,
+                    value === null ? "" : value.toString(),
+                    { expires: 7 }
+                  );
+                });
+                // Redirect to a protected route or dashboard
+                const loggedInUserRole = Cookies.get("role_role") || "";
+                if (loggedInUserRole === "chairman") navigate("/noc/chairman");
+                else navigate("/noc/leaveApplication"); // Adjust the route as necessary
+              } else {
+                alert(resultlogin.message);
+              }
+            } catch (error) {
+              console.error("Error logging in:", error);
+              alert("An error occurred. Please try again.");
+            }
+          } else {
+            alert(resultlogin.message || "Logout failed. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error logging out:", error);
+          alert("An error occurred. Please try again.");
+        }
+      } else if (result.message == "Successfully logged in") {
         // Store the session ID, user, and role in cookies
-        Cookies.set('session_id', result.session_id, { expires: 7 }); // Expires in 7 days
+        Cookies.set("session_id", result.session_id, { expires: 7 }); // Expires in 7 days
         Object.entries(result.user).forEach(([key, value]) => {
-          Cookies.set(`user_${key}`, value === null ? '' : value.toString(), { expires: 7 });
+          Cookies.set(`user_${key}`, value === null ? "" : value.toString(), {
+            expires: 7,
+          });
         });
 
         // Store each field of the role object individually
         Object.entries(result.role).forEach(([key, value]) => {
-          Cookies.set(`role_${key}`, value === null ? '' : value.toString(), { expires: 7 });
+          Cookies.set(`role_${key}`, value === null ? "" : value.toString(), {
+            expires: 7,
+          });
         });
         // Redirect to a protected route or dashboard
-        const loggedInUserRole = Cookies.get('role_role') || '';
-        if(loggedInUserRole==='chairman') navigate('/noc/chairman');
-        else navigate('/noc/leaveApplication'); // Adjust the route as necessary
+        const loggedInUserRole = Cookies.get("role_role") || "";
+        if (loggedInUserRole === "chairman") navigate("/noc/chairman");
+        else navigate("/noc/leaveApplication"); // Adjust the route as necessary
       } else {
         alert(result.message);
       }
     } catch (error) {
-      console.error('Error logging in:', error);
-      alert('An error occurred. Please try again.');
+      console.error("Error logging in:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
   return (
-    <div className='flex flex-col md:flex-row justify-around bg-blue-50 h-screen'>
+    <div className="flex flex-col md:flex-row justify-around bg-blue-50 h-screen">
       <div className="flex flex-col justify-center align-center w-full md:w-1/2 p-10 ps-28">
-        <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer ">Study Leave</p>
-        <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer text-blue-500">Application</p>
+        <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer ">
+          Study Leave
+        </p>
+        <p className="font-sans hover:font-serif text-4xl font-bold cursor-pointer text-blue-500">
+          Application
+        </p>
       </div>
 
       <div>
@@ -68,7 +147,9 @@ const Login = () => {
             <h1 className="text-2xl font-bold text-white mb-4">Log in</h1>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="roles" className="block font-medium text-white">Roles:</label>
+                <label htmlFor="roles" className="block font-medium text-white">
+                  Roles:
+                </label>
                 <select
                   id="roles"
                   className="w-full p-2 border border-gray-500 rounded focus:ring focus:ring-blue-300"
@@ -82,9 +163,14 @@ const Login = () => {
                 </select>
               </div>
 
-              {role === 'applicant' ? (
+              {role === "applicant" ? (
                 <div>
-                  <label htmlFor="teacherId" className="block font-medium text-white">Teacher ID:</label>
+                  <label
+                    htmlFor="teacherId"
+                    className="block font-medium text-white"
+                  >
+                    Teacher ID:
+                  </label>
                   <input
                     type="number"
                     id="teacherId"
@@ -97,7 +183,12 @@ const Login = () => {
                 </div>
               ) : (
                 <div>
-                  <label htmlFor="email" className="block font-medium text-white">Your Email:</label>
+                  <label
+                    htmlFor="email"
+                    className="block font-medium text-white"
+                  >
+                    Your Email:
+                  </label>
                   <input
                     type="email"
                     id="email"
@@ -111,7 +202,12 @@ const Login = () => {
               )}
 
               <div>
-                <label htmlFor="password" className="block font-medium text-white">Password:</label>
+                <label
+                  htmlFor="password"
+                  className="block font-medium text-white"
+                >
+                  Password:
+                </label>
                 <input
                   type="password"
                   id="password"
@@ -129,11 +225,20 @@ const Login = () => {
               >
                 Log In
               </button>
-              <Link to="../ForgotPassword" className="text-sm mt-2 text-white hover:underline">
+              <Link
+                to="../ForgotPassword"
+                className="text-sm mt-2 text-white hover:underline"
+              >
                 Forgot Password?
               </Link>
               <p className="text-sm text-white">
-                Do not have an account? <Link to="../SignUp" className="font-medium text-blue-300 hover:underline">Create Account</Link>
+                Do not have an account?{" "}
+                <Link
+                  to="../SignUp"
+                  className="font-medium text-blue-300 hover:underline"
+                >
+                  Create Account
+                </Link>
               </p>
             </form>
           </div>
