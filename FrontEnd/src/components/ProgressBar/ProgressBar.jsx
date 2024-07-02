@@ -54,7 +54,7 @@ const ProgressBar = () => {
                 </svg>
               </div>
               <div className="flex-grow sm:pl-6 mt-6 sm:mt-0">
-                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Register Primary Approval</h2>
+                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Primary Approval</h2>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ProgressBar = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-10 h-10"><path d="M374.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 178.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l80 80c12.5 12.5 32.8 12.5 45.3 0l160-160zm96 128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7 86.6 297.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l256-256z" /></svg>
               </div>
               <div className="flex-grow sm:pl-6 mt-0 sm:mt-0">
-                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Register Secondary Approval</h2>
+                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Secondary Approval</h2>
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@ const ProgressBar = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-10 h-10"><path d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zM329 305c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-95 95-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L329 305z" /></svg>
               </div>
               <div className="flex-grow sm:pl-6 mt-0 sm:mt-0">
-                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Register Final Approval</h2>
+                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Final Approval</h2>
               </div>
             </div>
           </div>
