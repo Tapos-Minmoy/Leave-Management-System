@@ -37,8 +37,7 @@ function Chaiman() {
   }, []);
 
   const openStudyLeaveFormPage = (leaveId) => {
-    console.log("From previous pg (Study Leave) " + leaveId);
-    navigate('/study-leave-details', { state: { id: leaveId } });
+    navigate('/noc/studyLeaveDetailsToChariman', { state: { id: leaveId } });
   };
 
   const openOtherLeaveFormPage = (leaveId) => {

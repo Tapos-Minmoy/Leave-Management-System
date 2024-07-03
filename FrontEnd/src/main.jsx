@@ -79,18 +79,14 @@ const Main = () => {
                  </CheckPermissionForstudyLeaveForm>,
         },
         {
-          path: '/study-leave-details',
-          element: <StudyLeaveDetails ></StudyLeaveDetails>,
+          path: '/noc/studyLeaveDetailsToChariman',
+          element: <StudyLeaveDetailsForChairman></StudyLeaveDetailsForChairman>,
         },
         {
           path: '/noc/chairman',
           element: <CheckPermissionChairman>
                       <Chaiman></Chaiman>
                   </CheckPermissionChairman>,
-        },
-        {
-          path: '/noc/chairman/study-leave-details',
-          element: <StudyLeaveDetailsForChairman></StudyLeaveDetailsForChairman>
         },
         {
           path: '/noc/LetterToChaiman',
