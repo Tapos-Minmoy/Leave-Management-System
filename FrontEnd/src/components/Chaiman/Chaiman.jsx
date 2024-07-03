@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "flowbite-react";
 import capImage from "../images/cap.png";
+import processingImage from "../images/color_processing.webp";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -18,10 +19,11 @@ function Chaiman() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/join", {
+        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/ApplicationToChaiman", {
           params: {
             evaluation_type: "chairman approval", // Replace with your evaluation_type value
-            le_status: "Rejected", // Replace with your le_status value
+            le_status: "Pending", // Replace with your le_status 
+            factor: "CSE"
           },
         });
         setData(response.data);
@@ -34,11 +36,25 @@ function Chaiman() {
     fetchData();
   }, []);
 
-  const openFormPage = (leaveId) => {
-    console.log("From previous pg" + leaveId);
+  const openStudyLeaveFormPage = (leaveId) => {
+    console.log("From previous pg (Study Leave) " + leaveId);
     navigate('/study-leave-details', { state: { id: leaveId } });
   };
-  
+
+  const openOtherLeaveFormPage = (leaveId) => {
+    console.log("From previous pg (Other Leave) " + leaveId);
+    navigate('/other-leave-details', { state: { id: leaveId } });
+  };
+
+  const openStudyLeaveProgress = (leaveId) => {
+    console.log("From progress pg (Study Leave) " + leaveId);
+    navigate('/noc/progressBar', { state: { id: leaveId } });
+  };
+
+  const openOtherLeaveProgress = (leaveId) => {
+    console.log("From progress pg (Other Leave) " + leaveId);
+    navigate('/other-leave-progress', { state: { id: leaveId } });
+  };
   return (
     <div className="overflow-y-hidden">
       <div className="h-screen flex justify-center bg-white max-md:px-5 mt-10">
@@ -79,8 +95,8 @@ function Chaiman() {
             </Dropdown>
           </div>
 
-          {/* Table */}
-          <table className="table-auto w-full border-collapse border border-gray-200 mt-5">
+          {/* code for table */}
+          <table className="table-auto w-full border-collapse border border-gray-200">
             <thead>
               <tr>
                 <th className="border border-gray-200 px-4 py-2">Categories</th>
@@ -94,17 +110,27 @@ function Chaiman() {
               {data && data.map(application => (
                 <tr key={application.leave_id}>
                   <td className="border border-gray-200 px-4 py-2">
-                    <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                      <img
-                        className="w-5 h-5 rounded-full shadow-lg"
-                        src={capImage}
-                        alt="Cap image"
-                      />
-                      <div className="grow my-auto">Study Leave Application</div>
+                    <div>
+                      <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
+                        <img
+                          className="w-5 h-5 rounded-full shadow-lg"
+                          src={
+                            ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
+                              ? processingImage // Replace with a suitable image for other leaves
+                              : capImage // Default image for study leave
+                          }
+                          alt="Leave type image"
+                        />
+                        <div className="grow my-auto">
+                          {["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
+                            ? "Other Leave Application"
+                            : "Study Leave Application"}
+                        </div>
+                      </div>
                     </div>
                   </td>
-                  <td className="border border-gray-200 px-4 py-2">{application.name_of_program}</td>
-                  <td className="border border-gray-200 px-4 py-2">Pending To chairman</td>
+                  <td className="border border-gray-200 px-4 py-2">{application.Leave_Type_Details}</td>
+                  <td className="border border-gray-200 px-4 py-2">{"Chairman Approval (" + application.le_status + ")"}</td>
                   <td className="border border-gray-200 px-4 py-2">
                     <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
                       <FontAwesomeIcon
@@ -113,22 +139,22 @@ function Chaiman() {
                       />
                       <a
                         className="grow my-auto cursor-pointer hover:text-blue-500"
-                        onClick={() => openFormPage(application.leave_id)}
+                        onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveFormPage(application.leave_id) : openStudyLeaveFormPage(application.leave_id)}
                       >
                         Click here
                       </a>
                     </div>
                   </td>
                   <td className="border border-gray-200 px-4 py-2">
-                    <Link
-                      to="/noc/progressBar"
+                    <a
                       className="underline grow my-auto cursor-pointer hover:text-blue-500"
+                      onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveProgress(application.leave_id) : openStudyLeaveProgress(application.leave_id)}
                     >
                       Detailed progress
-                    </Link>
+                    </a>
                   </td>
                 </tr>
-              ))} 
+              ))}
             </tbody>
           </table>
         </div>
