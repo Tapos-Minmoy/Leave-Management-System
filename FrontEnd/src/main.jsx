@@ -22,6 +22,7 @@ import CheckPermissionForleaveApplication from './components/ProtectedRoute/Chec
 import CheckPermissionChairman from './components/ProtectedRoute/CheckPermissionChairman.jsx'
 import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermissionForLogin.jsx'
 import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
+import FinalLetter from './components/FinalLetter/FinalLetter.jsx';
 
 const Main = () => {
   // State to store userID
@@ -93,6 +94,10 @@ const Main = () => {
         {
           path: '/noc/LetterToChaiman',
           element: <Letter></Letter>
+        },
+        {
+          path: '/noc/FinalLetter',
+          element: <FinalLetter></FinalLetter>
         },
         {
           path: '/noc/oops',
