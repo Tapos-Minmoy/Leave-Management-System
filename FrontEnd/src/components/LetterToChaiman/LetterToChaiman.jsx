@@ -1,21 +1,20 @@
-import React from 'react';
-import './LetterToChaiman.css'; // Import CSS file for styling
-import { PDFDownloadLink, Document, Page, Text, View, StyleSheet ,Font} from '@react-pdf/renderer';
+import React, { useState, useEffect } from 'react';
+import './LetterToChaiman.css';
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf'
+import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf';
 
 Font.register({
   family: 'Roboto-Regular',
-  src: MyCustomFont
-})
-
+  src: MyCustomFont,
+});
 
 // Define styles for PDF document
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     padding: '1in', // Adjust the padding to set the margin
-    fontFamily: "Roboto-Regular",
+    fontFamily: 'Roboto-Regular',
     fontSize: 12,
   },
   header: {
@@ -41,43 +40,78 @@ const styles = StyleSheet.create({
     textAlign: 'justify', // Align text to justify
   },
 });
-const PdfDocument = () => (
+
+const PdfDocument = ({ applicantData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text >To</Text>
+        <Text>To</Text>
         <Text>The Chairman</Text>
         <Text>University of Chittagong</Text>
         <Text>Chittagong, Bangladesh</Text>
       </View>
       <View style={styles.body}>
-        <Text style={styles.title}>Subject: Prayer for issuing study leave to pursue Master's Degree Program in Harvard University, United States</Text>
+        <Text style={styles.title}>
+          Subject: Prayer for issuing study leave to pursue {applicantData.program} at {applicantData.university}, {applicantData.country}
+        </Text>
         <Text>Dear Sir,</Text>
         <Text style={styles.paragraph}>
-          I, the undersigned, joined the Department of Computer Science and Engineering at the University of Chittagong as a lecturer on 2023-06-09. It is my immense pleasure to inform you that I have been offered admission to pursue the Master's Degree Program at Harvard University, United States, starting from 2023-07-08. Along with the admission, I have also been awarded the "Chittagong University Welfare Fund," which covers my living allowances, registration/training/teaching fees, traveling costs, installation, and visa-related expenses.
+          I, the undersigned, joined the Department of {applicantData.department} at the University of Chittagong as a lecturer on {applicantData.joinDate}. It is my immense pleasure to inform you that I have been offered admission to pursue the {applicantData.program} at {applicantData.university}, {applicantData.country}, starting from {applicantData.startDate}. Along with the admission, I have also been awarded the "{applicantData.scholarship}" which covers my living allowances, registration/training/teaching fees, traveling costs, installation, and visa-related expenses.
         </Text>
         <Text style={styles.paragraph}>
-          To participate in this 1-year program, it is required to have study leave from the University of Chittagong.
+          To participate in this {applicantData.programDuration} program, it is required to have study leave from the University of Chittagong.
         </Text>
         <Text style={styles.paragraph}>
-          Therefore, I earnestly request you to take necessary steps for issuing me study leave from 2023-07-08 and allowing me to join this very important academic program.
+          Therefore, I earnestly request you to take necessary steps for issuing me study leave from {applicantData.startDate} and allowing me to join this very important academic program.
         </Text>
         <Text style={styles.title}>Kind Regards.</Text>
         <Text>
-          Shajidul Islam {'\n'}
+          {applicantData.name} {'\n'}
           Lecturer {'\n'}
-          Department of Computer Science and Engineering {'\n'}
+          Department of {applicantData.department} {'\n'}
           Chittagong, Bangladesh {'\n'}
           University of Chittagong {'\n'}
           Chittagong-4331
         </Text>
       </View>
-
     </Page>
   </Document>
 );
 
 const Letter = () => {
+  const [applicantData, setApplicantData] = useState({
+    name: 'Shajidul Islam',
+    department: 'Computer Science and Engineering',
+    joinDate: '2023-06-09',
+    program: "Master's Degree Program",
+    university: 'Harvard University',
+    country: 'United States',
+    startDate: '2023-07-08',
+    scholarship: 'Chittagong University Welfare Fund',
+    programDuration: '1-year',
+  });
+
+  // Simulate fetching data from the database
+  useEffect(() => {
+    const fetchData = async () => {
+      // Replace with actual API call
+      const data = {
+        name: 'Shajidul Islam',
+        department: 'Computer Science and Engineering',
+        joinDate: '2023-06-09',
+        program: "Master's Degree Program",
+        university: 'Harvard University',
+        country: 'United States',
+        startDate: '2023-07-08',
+        scholarship: 'Chittagong University Welfare Fund',
+        programDuration: '1-year',
+      };
+      setApplicantData(data);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="letter-container">
       <div className="letter-header">
@@ -87,22 +121,24 @@ const Letter = () => {
         <p>Chittagong, Bangladesh</p>
       </div>
       <div className="letter-body">
-        <h2>Subject: Prayer for issuing study leave to pursue Master's Degree Program program in Harvard University, United States</h2>
+        <h2>
+          Subject: Prayer for issuing study leave to pursue {applicantData.program} at {applicantData.university}, {applicantData.country}
+        </h2>
         <p>Dear Sir,</p>
         <p style={{ textAlign: 'justify' }}>
-          I, the undersigned, joined the Department of Computer Science and Engineering at the University of Chittagong as a lecturer on 2023-06-09. It is my immense pleasure to inform you that I have been offered admission to pursue the Master's Degree Program at Harvard University, United States, starting from 2023-07-08. Along with the admission, I have also been awarded the "Chittagong University Welfare Fund," which covers my living allowances, registration/training/teaching fees, traveling costs, installation, and visa-related expenses.
+          I, the undersigned, joined the Department of {applicantData.department} at the University of Chittagong as a lecturer on {applicantData.joinDate}. It is my immense pleasure to inform you that I have been offered admission to pursue the {applicantData.program} at {applicantData.university}, {applicantData.country}, starting from {applicantData.startDate}. Along with the admission, I have also been awarded the "{applicantData.scholarship}" which covers my living allowances, registration/training/teaching fees, traveling costs, installation, and visa-related expenses.
         </p>
         <p style={{ textAlign: 'justify' }}>
-          To participate in this 1-year program, it is required to have study leave from the University of Chittagong.
+          To participate in this {applicantData.programDuration} program, it is required to have study leave from the University of Chittagong.
         </p>
         <p style={{ textAlign: 'justify' }}>
-          Therefore, I earnestly request you to take necessary steps for issuing me study leave from 2023-07-08 and allowing me to join this very important academic program.
+          Therefore, I earnestly request you to take necessary steps for issuing me study leave from {applicantData.startDate} and allowing me to join this very important academic program.
         </p>
         <h2>Kind Regards.</h2>
         <p>
-          Shajidul Islam <br />
+          {applicantData.name} <br />
           Lecturer <br />
-          Department of Computer Science and Engineering <br />
+          Department of {applicantData.department} <br />
           Chittagong, Bangladesh <br />
           University of Chittagong <br />
           Chittagong-4331
@@ -110,14 +146,16 @@ const Letter = () => {
       </div>
       <div className="letter-footer">
         {/* PDF download link */}
-        <PDFDownloadLink document={<PdfDocument />} fileName="StudyLeaveRequest.pdf">
-          {({ blob, url, loading, error }) =>
-            loading ? 'Loading document...' : 'Download PDF'
-          }
+        <PDFDownloadLink document={<PdfDocument applicantData={applicantData} />} fileName="StudyLeaveRequest.pdf">
+          {({ blob, url, loading, error }) => (
+            <button className="pdf-download-button">
+              {loading ? 'Loading document...' : 'Download PDF'}
+            </button>
+          )}
         </PDFDownloadLink>
       </div>
     </div>
   );
-}
+};
 
 export default Letter;

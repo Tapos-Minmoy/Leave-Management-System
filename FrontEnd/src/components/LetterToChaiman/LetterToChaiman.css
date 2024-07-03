@@ -1,24 +1,44 @@
 .letter-container {
-    font-family: Arial, sans-serif;
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .letter-header {
-    margin-bottom: 20px;
-  }
-  
-  .letter-header h2 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-  }
-  
-  .letter-body h2 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-  
-  .letter-body p {
-    margin-bottom: 10px;
-  }
+  font-family: Arial, sans-serif;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.letter-header {
+  margin-bottom: 20px;
+}
+
+.letter-header h2 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.letter-body h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.letter-body p {
+  margin-bottom: 10px;
+}
+
+.letter-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pdf-download-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pdf-download-button:hover {
+  background-color: #0056b3;
+}

@@ -5,10 +5,28 @@ import Cookies from 'js-cookie';
 import logoImage from '../images/logo.png';
 
 const Header = () => {
+  const [userFirstName, setUserFirstName] = useState('');
+  const [userLastName, setUserLastName] = useState('');
+  const [role, setRole] = useState('');
+  const [sessionId, setSessionId] = useState('');
   const navigate = useNavigate();
+  useEffect(() => {
+    // Retrieve values from cookies
+    const firstName = Cookies.get('user_first_name') || '';
+    const lastName = Cookies.get('user_last_name') || '';
+    const userRole = Cookies.get('role_role') || '';
+    const sessionId = Cookies.get('session_id') || '';
 
+
+    // Set state with retrieved values
+    setUserFirstName(firstName);
+    setUserLastName(lastName);
+    setRole(userRole);
+    setSessionId(sessionId);
+  }, []);
   const logout = async () => {
     const sessionId = Cookies.get('session_id') || '';
+
     try {
       const response = await fetch('http://localhost:5000/api/logout', {
         method: 'POST',
@@ -25,6 +43,18 @@ const Header = () => {
         Object.keys(Cookies.get()).forEach(cookieName => {
           Cookies.remove(cookieName);
         });
+
+    const firstName ='';
+    const lastName ='';
+    const userRole ='';
+    const sessionId ='';
+
+
+    // Reset state with retrieved values
+    setUserFirstName(firstName);
+    setUserLastName(lastName);
+    setRole(userRole);
+    setSessionId(sessionId);
 
         // Navigate to login page
         navigate('/noc/login');
@@ -52,8 +82,8 @@ const Header = () => {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+            <span className="block text-sm">{userFirstName+ " "+ userLastName}</span>
+            <span className="block truncate text-sm font-medium">{role}</span>
           </Dropdown.Header>
           <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>

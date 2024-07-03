@@ -92,10 +92,12 @@ import studyLeaveApplicationRouter from "./routes/study_leave_application";
 import otherLeaveApplicationRouter from "./routes/other_leave_application";
 import studyLeaveEvaluationRouter from "./routes/study_leave_evaluation";
 import otherLeaveEvaluationRouter from "./routes/other_leave_evaluation";
+import commonLeaveUtilitiesRouter from "./routes/common_leave_utilities";
 app.use("/api/leave/study", studyLeaveApplicationRouter);
 app.use("/api/leave/other", otherLeaveApplicationRouter);
 app.use("/api/leave/evaluates/study", studyLeaveEvaluationRouter);
 app.use("/api/leave/evaluates/other", otherLeaveEvaluationRouter);
+app.use("/api/leave/common", commonLeaveUtilitiesRouter);
 
 
 
