@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './LetterToChaiman.css'
+import './LetterToChaiman.css';
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf';
@@ -147,7 +147,11 @@ const Letter = () => {
       <div className="letter-footer">
         {/* PDF download link */}
         <PDFDownloadLink document={<PdfDocument applicantData={applicantData} />} fileName="StudyLeaveRequest.pdf">
-          {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
+          {({ blob, url, loading, error }) => (
+            <button className="pdf-download-button">
+              {loading ? 'Loading document...' : 'Download PDF'}
+            </button>
+          )}
         </PDFDownloadLink>
       </div>
     </div>

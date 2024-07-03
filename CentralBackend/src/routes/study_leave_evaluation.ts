@@ -146,4 +146,37 @@ studyLeaveEvaluationRouter.get("/join", async (req, res) => {
   }
 });
 
+
+studyLeaveEvaluationRouter.get("/latest", async (req, res) => {
+  try {
+    // Validate and convert query parameters
+    const leaveIdSchema = z.object({
+      leave_id: z.preprocess((val) => Number(val), z.number().int()),  // Convert to number
+    });
+    const { leave_id } = leaveIdSchema.parse(req.query);
+
+    // Query the database
+    const result = await db
+      .selectFrom("Study_Leave_Evaluation")
+      .selectAll()
+      .where("leave_id", "=", leave_id)
+      .orderBy("le_evaluation_time", "desc")
+      .executeTakeFirst();
+
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "No evaluation found for the given leave_id." });
+    }
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({
+        name: "Invalid data type.",
+        message: error.errors,
+      });
+    }
+    console.error("Database connection error:", error);  // Log detailed error information
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
 export default studyLeaveEvaluationRouter;

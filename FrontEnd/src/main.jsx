@@ -22,8 +22,12 @@ import CheckPermissionForleaveApplication from './components/ProtectedRoute/Chec
 import CheckPermissionChairman from './components/ProtectedRoute/CheckPermissionChairman.jsx'
 import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermissionForLogin.jsx'
 import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
+<<<<<<< HEAD
 import FinalLetter from './components/FinalLetter/FinalLetter';
 
+=======
+import Register from './components/Register/register.jsx'
+>>>>>>> 81e0c0d02e0766f4d26d686f7d0538b843cf68fb
 const Main = () => {
   // State to store userID
   const [userID, setUserID] = useState("jokjki0oemkJKJL4565"); // Initialize with null or default userID
@@ -102,6 +106,10 @@ const Main = () => {
         {
           path: '/noc/oops',
           element: <Oops></Oops>
+        },
+        {
+          path: '/noc/registrar',
+          element: <Register></Register>
         },
         {
           path: '/noc/imageUploader',
