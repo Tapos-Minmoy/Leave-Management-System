@@ -1,0 +1,25 @@
+.letter-container {
+  font-family: Arial, sans-serif;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.letter-header {
+  margin: 0; /* Ensure no margin around the header */
+  padding: 0; /* Ensure no padding around the header */
+}
+
+.letter-header h2 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.letter-body h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.letter-body p {
+  margin-bottom: 10px;
+}
