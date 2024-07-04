@@ -14,7 +14,8 @@ import ProgressBar from './components/ProgressBar/ProgressBar';
 import StudyLeaveForm from './components/StudyLeaveForm/StudyLeaveForm.jsx';
 import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.jsx';
 import Chaiman from './components/Chaiman/Chaiman.jsx'
-import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx'
+import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx';
+import StudyLeaveDetailsForRegistrar from './components/study-leave-detailsForRegistrar/study-leave-detailsForRegistrar.jsx';
 import Letter from './components/LetterToChaiman/LetterToChaiman.jsx';
 import ImageUploader from './components/ImageUploader/ImageUploader.jsx';
 import Oops from './components/Opps/Opps.jsx';
@@ -25,7 +26,7 @@ import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckP
 import FinalLetter from './components/FinalLetter/FinalLetter.jsx';
 
 
-import Register from './components/Register/register.jsx'
+import Registrar from './components/Registrar/registrar.jsx'
 const Main = () => {
   // State to store userID
   const [userID, setUserID] = useState("jokjki0oemkJKJL4565"); // Initialize with null or default userID
@@ -84,6 +85,10 @@ const Main = () => {
           element: <StudyLeaveDetailsForChairman></StudyLeaveDetailsForChairman>,
         },
         {
+          path: '/noc/studyLeaveDetailsForRegistrar',
+          element: <StudyLeaveDetailsForRegistrar></StudyLeaveDetailsForRegistrar>,
+        },
+        {
           path: '/noc/chairman',
           element: <CheckPermissionChairman>
                       <Chaiman></Chaiman>
@@ -103,7 +108,7 @@ const Main = () => {
         },
         {
           path: '/noc/registrar',
-          element: <Register></Register>
+          element: <Registrar></Registrar>
         },
         {
           path: '/noc/imageUploader',

@@ -88,6 +88,7 @@ const Login = () => {
                 // Redirect to a protected route or dashboard
                 const loggedInUserRole = Cookies.get("role_role") || "";
                 if (loggedInUserRole === "chairman") navigate("/noc/chairman");
+                if (loggedInUserRole === "register") navigate("/noc/registrar");
                 else navigate("/noc/leaveApplication"); // Adjust the route as necessary
               } else {
                 alert(resultlogin.message);
