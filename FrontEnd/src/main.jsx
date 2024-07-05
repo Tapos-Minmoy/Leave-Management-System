@@ -16,6 +16,7 @@ import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.
 import Chaiman from './components/Chaiman/Chaiman.jsx'
 import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx';
 import StudyLeaveDetailsForRegistrar from './components/study-leave-detailsForRegistrar/study-leave-detailsForRegistrar.jsx';
+import OtherLeaveDetailsForRegistrar from './components/Other-leave-detailsForRegistrar/Other-leave-detailsForRegistrar.jsx';
 import Letter from './components/LetterToChaiman/LetterToChaiman.jsx';
 import ImageUploader from './components/ImageUploader/ImageUploader.jsx';
 import Oops from './components/Opps/Opps.jsx';
@@ -87,6 +88,10 @@ const Main = () => {
         {
           path: '/noc/studyLeaveDetailsForRegistrar',
           element: <StudyLeaveDetailsForRegistrar></StudyLeaveDetailsForRegistrar>,
+        },
+        {
+          path: '/noc/otherLeaveDetailsForRegistrar',
+          element: <OtherLeaveDetailsForRegistrar></OtherLeaveDetailsForRegistrar>,
         },
         {
           path: '/noc/chairman',

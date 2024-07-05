@@ -18,14 +18,16 @@ function Registrar() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/ApplicationToOtherEvaluators", {
+        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/ApplicationToRegistrar", {
           params: {
             evaluation_type: "Registrar Primary Approval",
-            evaluation_type2: "Registrar Final Approval", // Replace with your evaluation_type value
+            evaluation_type2: "Registrar Secondary Approval", 
+            evaluation_type3: "Registrar Final Approval",
             le_status: "pending", // Replace with your le_status value
           },
         });
         setData(response.data);
+        console.log(response.data);
       } catch (error) {
         setError(error.response?.data?.message || "Something went wrong");
         setLoading(false);
@@ -39,9 +41,9 @@ function Registrar() {
     navigate('/noc/studyLeaveDetailsForRegistrar', { state: { id: leaveId, evaluation_type: evaluation_type } });
   };
 
-  const openOtherLeaveFormPage = (leaveId) => {
+  const openOtherLeaveFormPage = (leaveId, evaluation_type) => {
     console.log("From previous pg (Other Leave) " + leaveId);
-    navigate('/other-leave-details', { state: { id: leaveId } });
+    navigate('/noc/otherLeaveDetailsForRegistrar', { state: { id: leaveId, evaluation_type: evaluation_type } });
   };
 
   const openStudyLeaveProgress = (leaveId) => {
@@ -114,7 +116,7 @@ function Registrar() {
                           className="w-5 h-5 rounded-full shadow-lg"
                           src={
                             ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
-                              ? processingImage // Replace with a suitable image for other leaves
+                              ? capImage // Replace with a suitable image for other leaves
                               : capImage // Default image for study leave
                           }
                           alt="Leave type image"
@@ -137,7 +139,7 @@ function Registrar() {
                       />
                       <a
                         className="grow my-auto cursor-pointer hover:text-blue-500"
-                        onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveFormPage(application.leave_id) : openStudyLeaveFormPage(application.leave_id, application.evaluation_type)}
+                        onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveFormPage(application.leave_id , application.evaluation_type) : openStudyLeaveFormPage(application.leave_id, application.evaluation_type)}
                       >
                         Click here
                       </a>

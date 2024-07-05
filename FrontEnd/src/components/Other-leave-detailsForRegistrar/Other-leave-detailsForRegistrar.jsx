@@ -3,28 +3,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Letter from '../LetterToChaiman/LetterToChaiman';
 import axios from "axios";
 
-function StudyLeaveDetailsForRegistrar() {
+function OtherLeaveDetailsForRegistrar() {
   const [formData, setFormData] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const location = useLocation();
-  const leave_id = location.state?.id; 
+  const leave_id = location.state?.id;
   const evaluation_type = location.state?.evaluation_type;
   const navigate = useNavigate();
-  const [registrarComment, setRegistrarComment] = useState(""); 
-  var instruction =
-   evaluation_type==="Registrar Secondary Approval"?"Forward To VC" : "Forward to Higher Studies";
-  
+  const [registrarComment, setRegistrarComment] = useState("");
+  var instruction = "Forward to Higher Studies";
+
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       if (leave_id) {
         axios
-          .get("http://localhost:5000/api/leave/study", {
+          .get("http://localhost:5000/api/leave/other", {
             params: {
               leave_id: leave_id,
             },
           })
           .then((response) => {
+            console.log(response.data.data[0]);
             setFormData(response.data.data[0]);
             setAttachmentUrl(response.data.data[0]?.attachments);
           })
@@ -84,7 +84,7 @@ function StudyLeaveDetailsForRegistrar() {
 
   const handleForwardOfRegistrar = async () => {
     console.log(leave_id + " " + evaluation_type);
-    
+
     if (formData) {
       const currentTime = new Date().toISOString();
       const updateData = {
@@ -95,49 +95,21 @@ function StudyLeaveDetailsForRegistrar() {
         le_evaluation_time: currentTime,
         le_status: "approved"
       };
-      var evaluation_type_update;
-      if(evaluation_type==="Register Primary Approval")evaluation_type_update="Higher Study Primary Approval"
-      else if(evaluation_type==="Register Secondary Approval")evaluation_type_update="VC Approval"
-      else evaluation_type_update="Higher Study Final Approval" 
-
-      const addData = {
-        leave_id,
-        evaluation_type: evaluation_type_update,
-        applicant_id: formData.applicant_id,
-        le_comment: "",
-        le_evaluation_time: currentTime,
-        le_status: "pending"
-      };
 
       
 
       try {
-        const response = await axios.put(`http://localhost:5000/api/leave/evaluates/study/update`, updateData, {
+        const response = await axios.put(`http://localhost:5000/api/leave/evaluates/other/update`, updateData, {
           headers: {
             "Content-Type": "application/json",
           },
         });
-        var result=response.data;
-        if(result.message==="Data Updated Successfully in Study_Leave_Evaluation Table."){
-          try{
-            const response2 = await axios.post(`http://localhost:5000/api/leave/evaluates/study/add`, addData, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            result=response2.data;
-
-          }
-          catch (error) {
-            console.error("Error Encountered...", error);
-            alert("An error occurred. Please try again.");
-          }
-          
-        }
-        if(result.message==="Data Inserted Successfully in Study_Leave_Evaluation Table.") {
+        var result = response.data;
+        if (result.message === "Data Updated Successfully in Other_Leave_Evaluation Table.") {
           alert("Response Successfully Submitted.");
           navigate("/noc/registrar");
         }
+        
       } catch (error) {
         console.error("Error Encountered...", error);
         alert("An error occurred. Please try again.");
@@ -155,7 +127,7 @@ function StudyLeaveDetailsForRegistrar() {
         <div className="form-container">
           <div className="header">
             <h2>University of Chittagong</h2>
-            <h3>(Only for Study Leave Application)</h3>
+            <h3>(Only for Other Leave Application)</h3>
             <p>
               <strong>
                 (No application except in this prescribed form be considered)
@@ -165,14 +137,14 @@ function StudyLeaveDetailsForRegistrar() {
           <form className="leave-form">
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="name_of_program">1. Name of Program:</label>
+                <label htmlFor="name">1. Name of Applicant:</label>
               </div>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="name_of_program"
-                  name="name_of_program"
-                  value={formData.name_of_program}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   disabled
                   style={{ border: "none" }}
                 />
@@ -180,16 +152,14 @@ function StudyLeaveDetailsForRegistrar() {
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="destination">
-                  2. Destination University / Organization Name:
-                </label>
+                <label htmlFor="designation">2. Designation:</label>
               </div>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="destination"
-                  name="destination"
-                  value={formData.destination}
+                  id="designation"
+                  name="designation"
+                  value={formData.designation}
                   disabled
                   style={{ border: "none" }}
                 />
@@ -197,14 +167,14 @@ function StudyLeaveDetailsForRegistrar() {
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="department">3. Destination Department:</label>
+                <label htmlFor="nature_of_leave">3. Nature of leave applied for:</label>
               </div>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="department"
-                  name="department"
-                  value={formData.department}
+                  id="nature_of_leave"
+                  name="nature_of_leave"
+                  value={formData.nature_of_leave}
                   disabled
                   style={{ border: "none" }}
                 />
@@ -212,78 +182,14 @@ function StudyLeaveDetailsForRegistrar() {
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="duration">4. Program Duration (Years):</label>
-              </div>
-              <div className="input-wrapper">
-                <input
-                  type="number"
-                  id="duration"
-                  name="duration"
-                  value={formData.duration}
-                  disabled
-                  style={{ border: "none" }}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="destination_country">
-                  5. Destination Country:
-                </label>
+                <label htmlFor="leave_start_date">4. The period for and date from which the leave is required:</label>
               </div>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="destination_country"
-                  name="destination_country"
-                  value={formData.destination_country}
-                  disabled
-                  style={{ border: "none" }}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="financial_source">6. Financial Source:</label>
-              </div>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  id="financial_source"
-                  name="financial_source"
-                  value={formData.financial_source}
-                  disabled
-                  style={{ border: "none" }}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="joining_date">
-                  7. Date of joining (this university):
-                </label>
-              </div>
-              <div className="input-wrapper">
-                <input
-                  type="date"
-                  id="joining_date"
-                  name="joining_date"
-                  value={formatDate(formData.joining_date)}
-                  disabled
-                  style={{ border: "none" }}
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="leave_start_date">8. Leave Start Date:</label>
-              </div>
-              <div className="input-wrapper">
-                <input
-                  type="date"
                   id="leave_start_date"
                   name="leave_start_date"
-                  value={formatDate(formData.leave_start_date)}
+                  value={`${formData.duration} `}
                   disabled
                   style={{ border: "none" }}
                 />
@@ -291,16 +197,14 @@ function StudyLeaveDetailsForRegistrar() {
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="program_start_date">
-                  9. Program Start Date:
-                </label>
+                <label htmlFor="permissionToLeaveStation">5. Whether permission to leave the station is required:</label>
               </div>
               <div className="input-wrapper">
                 <input
-                  type="date"
-                  id="program_start_date"
-                  name="program_start_date"
-                  value={formatDate(formData.program_start_date)}
+                  type="text"
+                  id="permissionToLeaveStation"
+                  name="permissionToLeaveStation"
+                  value={formData.station_leaving_permission}
                   disabled
                   style={{ border: "none" }}
                 />
@@ -308,23 +212,38 @@ function StudyLeaveDetailsForRegistrar() {
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="signature">10. Attached Signature:</label>
+                <label htmlFor="groundsForLeave">6. Grounds for leave:</label>
               </div>
               <div className="input-wrapper">
-                {formData.signature ? (
-                  <img
-                    src={`http://localhost:5000/files/${formData.signature}`}
-                    alt="Signature"
-                    style={{ maxWidth: "300px", maxHeight: "80px" }}
-                  />
-                ) : (
-                  <p>No signature attached</p>
-                )}
+                <textarea
+                  id="groundsForLeave"
+                  name="groundsForLeave"
+                  value={formData.leave_ground
+                  }
+                  disabled
+                  style={{ border: "none" }}
+                />
               </div>
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="attachment">11. Attached Document:</label>
+                <label htmlFor="refundUndertaking">7. I undertake to refund the difference between the leave salary and other allowances admissible during leave:</label>
+              </div>
+              <div className="input-wrapper">
+                <input
+                  type="checkbox"
+                  id="refundUndertaking"
+                  name="refundUndertaking"
+                  checked={formData.
+                    salary_acknowledgement === 1}
+                  disabled
+                  style={{ border: "none" }}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="additionalFile">8. Uploaded file (if any):</label>
               </div>
               <div className="input-wrapper">
                 {attachmentUrl ? (
@@ -346,67 +265,34 @@ function StudyLeaveDetailsForRegistrar() {
                     Download Attachment
                   </button>
                 ) : (
-                  <p>No document attached</p>
+                  <p>No attachment found</p>
                 )}
               </div>
             </div>
+            
+            
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="application_to_chairman">12. Application to Chairman:</label>
-              </div>
-              <div className="input-wrapper">
-                <button
-                  type="button"
-                  onClick={openPopup}
-                  style={{
-                    display: "inline-block",
-                    padding: "10px 20px",
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                >
-                  View
-                </button>
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="registrar_comment">Registrar's Comment:</label>
+                <label htmlFor="registrarComment">9. Comment of the Registrar:</label>
               </div>
               <div className="input-wrapper">
                 <textarea
-                  id="registrar_comment"
-                  name="registrar_comment"
-                  rows="4"
-                  cols="50"
+                  id="registrarComment"
+                  name="registrarComment"
                   value={registrarComment}
                   onChange={handleCommentChange}
-                  placeholder="Enter comment here..."
                 />
               </div>
             </div>
-            <div className='cancel-submit-btn'>
-              <button className='cancel-btn'>Cancel</button>
-              <button type="button" onClick={handleForwardOfRegistrar}>{instruction}</button>
-            </div>
           </form>
-        </div>
-      )}
-      {isPopupOpen && (
-        <div className="popup">
-          <div className="popup-inner">
-            <button className="close-btn" onClick={closePopup}>
-              &times;
-            </button>
-            <Letter /> {/* Include the Letter component here */}
+          <div className="button-container">
+            <button className="forward-button" onClick={handleForwardOfRegistrar}>Approve Leave</button>
           </div>
         </div>
       )}
+      
     </div>
   );
 }
 
-export default StudyLeaveDetailsForRegistrar;
+export default OtherLeaveDetailsForRegistrar;
