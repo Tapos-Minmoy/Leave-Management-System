@@ -14,7 +14,7 @@ import ProgressBar from './components/ProgressBar/ProgressBar';
 import StudyLeaveForm from './components/StudyLeaveForm/StudyLeaveForm.jsx';
 import StudyLeaveDetails from './components/StudyLeaveDetails/StudyLeaveDetails.jsx';
 import Chaiman from './components/Chaiman/Chaiman.jsx'
-import StudyLeaveDetailsForChairman from './components/study-leave-detailsForChairman/study-leave-detailsForChairman.jsx';
+import StudyLeaveDetailsForChairman from './components/studyLeaveDetailsToChiarman/studyLeaveDetailsToChiarman.jsx';
 import StudyLeaveDetailsForRegistrar from './components/study-leave-detailsForRegistrar/study-leave-detailsForRegistrar.jsx';
 import Letter from './components/LetterToChaiman/LetterToChaiman.jsx';
 import ImageUploader from './components/ImageUploader/ImageUploader.jsx';

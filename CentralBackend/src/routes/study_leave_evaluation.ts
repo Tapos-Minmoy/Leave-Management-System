@@ -241,17 +241,15 @@ studyLeaveEvaluationRouter.get("/ApplicationToChaiman", async (req, res) => {
 
 studyLeaveEvaluationRouter.get("/ApplicationToOtherEvaluators", async (req, res) => { 
   try {
-    const { evaluation_type,evaluation_type2, le_status } = req.query;
+    const { evaluation_type, le_status } = req.query;
 
     // Validate query parameters
     const paramsSchema = z.object({
       evaluation_type: z.string(),
-      evaluation_type2: z.string(),
       le_status: z.string(),
     });
-    const { evaluation_type: evalType,evaluation_type2: evalType2, le_status: leStatus } = paramsSchema.parse({
+    const { evaluation_type: evalType, le_status: leStatus } = paramsSchema.parse({
       evaluation_type,
-      evaluation_type2,
       le_status,
     });
 
@@ -260,12 +258,11 @@ studyLeaveEvaluationRouter.get("/ApplicationToOtherEvaluators", async (req, res)
       .selectFrom("Study_Leave_Evaluation as e")
       .innerJoin("Study_Leave_Application as s", "e.leave_id", "s.leave_id")
       .select([
-        "e.evaluation_type",
         "e.le_status", 
         "s.leave_id", 
         "s.name_of_program as Leave_Type_Details",
       ])
-      .where("e.evaluation_type", "in", [evalType,evalType2])
+      .where("e.evaluation_type", "=", evalType)
       .where("e.le_status", "=", leStatus);
 
     // Query to join tables for Other Leave
@@ -273,12 +270,11 @@ studyLeaveEvaluationRouter.get("/ApplicationToOtherEvaluators", async (req, res)
       .selectFrom("Other_Leave_Evaluation as e")
       .innerJoin("Other_Leave_Application as s", "e.leave_id", "s.leave_id")
       .select([
-        "e.evaluation_type",
         "e.le_status", 
         "s.leave_id", 
         "s.nature_of_leave as Leave_Type_Details",
       ])
-      .where("e.evaluation_type", "in", [evalType,evalType2])
+      .where("e.evaluation_type", "=", evalType)
       .where("e.le_status", "=", leStatus);
 
     // Combine the two queries using union

@@ -27,6 +27,7 @@ function Chaiman() {
           },
         });
         setData(response.data);
+        console.log(response.data);
       } catch (error) {
         setError(error.response?.data?.message || "Something went wrong");
         setLoading(false);
