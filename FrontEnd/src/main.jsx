@@ -26,6 +26,8 @@ import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermission
 import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
 import FinalLetter from './components/FinalLetter/FinalLetter.jsx';
 
+import OtherProgressBar from './components/ProgressBar/OtherLeaveProgress.jsx';
+
 
 import Registrar from './components/Registrar/registrar.jsx'
 const Main = () => {
@@ -75,6 +77,11 @@ const Main = () => {
           path: '/noc/progressBar',
           element: <ProgressBar></ProgressBar>
         },
+        {
+          path: '/OtherLeave/progressBar',
+          element: <OtherProgressBar></ OtherProgressBar>
+        },
+        
         {
           path: '/noc/studyLeaveForm',
           element: <CheckPermissionForstudyLeaveForm>
