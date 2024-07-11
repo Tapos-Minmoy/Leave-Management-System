@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";  // Import axios
 import { useLocation } from "react-router-dom";
-const leaveId = 1; //take leave id from location state
+//take leave id from location state
 const ProgressBar = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);  // Define setError
   const [loading, setLoading] = useState(true);  // Define setLoading
-
+  const location = useLocation();
+  const [leaveId, setLeaveId] = useState(location.state?.id || null);
   useEffect(() => {
+    if (location.state?.leave_id) {
+      console.log('Setting leaveId from location:', location.state.id);
+      setLeaveId(location.state.id );
+    }
+  }, [location.state]);
+  useEffect(() => {
+     if(!leaveId)return ;
     const fetchData = async () => {
+   //   if(!leaveId)return ;
       try {
         const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/latest", {
           params: {
@@ -45,9 +54,9 @@ const ProgressBar = () => {
   for (let i = 0; i < 7; i++) {
     // console.log(approvalStages[i]);
   }
-   let stageName = 'nai';
-   let leStatus='pending';
-  if (data) stageName = data.evaluation_type,leStatus=data.le_status;
+  let stageName = 'nai';
+  let leStatus = 'pending';
+  if (data) stageName = data.evaluation_type, leStatus = data.le_status;
   let stageNum = -1;
   for (let i = 0; i < 7; i++) {
     if (approvalStages[i] == stageName)
@@ -60,7 +69,7 @@ const ProgressBar = () => {
   for (let i = 0; i < 7; i++) {
     if (i < stageNum) status[i] = 0;
     if (i == stageNum) status[i] = 1;
-    if(leStatus=='approved')status[i]=0;
+    if (leStatus == 'approved') status[i] = 0;
   }
 
   console.log(status);
@@ -89,9 +98,9 @@ const ProgressBar = () => {
           {/* Step 1 */}
           <div className="flex relative pt-5 pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-500' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-500' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
-            <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-400' :'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>1</div>
+            <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>1</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
               <div className="flex-shrink-0 w-24 h-24 bg-indigo-100 text-indigo-500 rounded-full inline-flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-12 h-12"><path d="M224 256A128 128 0 1 1 224 0a128 128 0 1 1 0 256zM209.1 359.2l-18.6-31c-6.4-10.7 1.3-24.2 13.7-24.2H224h19.7c12.4 0 20.1 13.6 13.7 24.2l-18.6 31 33.4 123.9 36-146.9c2-8.1 9.8-13.4 17.9-11.3c70.1 17.6 121.9 81 121.9 156.4c0 17-13.8 30.7-30.7 30.7H285.5c-2.1 0-4-.4-5.8-1.1l.3 1.1H168l.3-1.1c-1.8 .7-3.8 1.1-5.8 1.1H30.7C13.8 512 0 498.2 0 481.3c0-75.5 51.9-138.9 121.9-156.4c8.1-2 15.9 3.3 17.9 11.3l36 146.9 33.4-123.9z" /></svg>
@@ -104,7 +113,7 @@ const ProgressBar = () => {
           {/* Step 2 */}
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[1] === 0 ? 'bg-green-500' : status[1] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[1] === 0 ? 'bg-green-500' : status[1] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
             <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[1] === 0 ? 'bg-green-500' : status[1] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>2</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
@@ -120,7 +129,7 @@ const ProgressBar = () => {
           </div>
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[2] === 0 ? 'bg-green-500' : status[2] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[2] === 0 ? 'bg-green-500' : status[2] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
             <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[2] === 0 ? 'bg-green-500' : status[2] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>3</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
@@ -155,7 +164,7 @@ const ProgressBar = () => {
 
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[3] === 0 ? 'bg-green-500' : status[3] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[3] === 0 ? 'bg-green-500' : status[3] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
             <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[3] === 0 ? 'bg-green-500' : status[3] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>4</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
@@ -170,7 +179,7 @@ const ProgressBar = () => {
 
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[4] === 0 ? 'bg-green-500' : status[4] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[4] === 0 ? 'bg-green-500' : status[4] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
             <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[4] === 0 ? 'bg-green-500' : status[4] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>5</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
@@ -184,7 +193,7 @@ const ProgressBar = () => {
           </div>
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[5] === 0 ? 'bg-green-500' : status[5] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[5] === 0 ? 'bg-green-500' : status[5] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
             <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[5] === 0 ? 'bg-green-500' : status[5] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>6</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
@@ -199,7 +208,7 @@ const ProgressBar = () => {
 
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-            <div className={`h-full w-1 ${status[6] === 0 ? 'bg-green-500' : status[6] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[6] === 0 ? 'bg-green-500' : status[6] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
             </div>
             <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[6] === 0 ? 'bg-green-500' : status[6] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>7</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
