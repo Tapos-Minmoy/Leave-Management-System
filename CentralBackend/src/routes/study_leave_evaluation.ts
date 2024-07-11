@@ -208,7 +208,8 @@ studyLeaveEvaluationRouter.get("/ApplicationToChaiman", async (req, res) => {
       ])
       .where("e.evaluation_type", "=", evalType)
       .where("e.le_status", "=", leStatus)
-      .where("r.factor", "=", roleFactor);
+      .where("r.factor", "=", roleFactor)
+      .distinct();
 
     // Query to join tables for Other Leave
     const otherLeaveQuery = db
@@ -222,7 +223,8 @@ studyLeaveEvaluationRouter.get("/ApplicationToChaiman", async (req, res) => {
       ])
       .where("e.evaluation_type", "=", evalType)
       .where("e.le_status", "=", leStatus)
-      .where("r.factor", "=", roleFactor);
+      .where("r.factor", "=", roleFactor)
+      .distinct();
 
     // Combine the two queries using union
     const result = await studyLeaveQuery.unionAll(otherLeaveQuery).execute();
@@ -275,65 +277,6 @@ studyLeaveEvaluationRouter.get("/ApplicationToOtherEvaluators", async (req, res)
         "s.nature_of_leave as Leave_Type_Details",
       ])
       .where("e.evaluation_type", "=", evalType)
-      .where("e.le_status", "=", leStatus);
-
-    // Combine the two queries using union
-    const result = await studyLeaveQuery.unionAll(otherLeaveQuery).execute();
-
-    res.status(200).json(result);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({
-        name: "Invalid data type.",
-        message: JSON.parse(error.message),
-      });
-    }
-    res.status(500).json({ message: "Internal server error", error });
-  }
-});
-
-studyLeaveEvaluationRouter.get("/ApplicationToRegistrar", async (req, res) => { 
-  try {
-    const { evaluation_type,evaluation_type2, evaluation_type3, le_status } = req.query;
-
-    // Validate query parameters
-    const paramsSchema = z.object({
-      evaluation_type: z.string(),
-      evaluation_type2: z.string(),
-      evaluation_type3: z.string(),
-      le_status: z.string(),
-    });
-    const { evaluation_type: evalType,evaluation_type2: evalType2,evaluation_type3: evalType3, le_status: leStatus } = paramsSchema.parse({
-      evaluation_type,
-      evaluation_type2,
-      evaluation_type3,
-      le_status,
-    });
-
-    // Query to join tables for Study Leave
-    const studyLeaveQuery = db
-      .selectFrom("Study_Leave_Evaluation as e")
-      .innerJoin("Study_Leave_Application as s", "e.leave_id", "s.leave_id")
-      .select([
-        "e.evaluation_type",
-        "e.le_status", 
-        "s.leave_id", 
-        "s.name_of_program as Leave_Type_Details",
-      ])
-      .where("e.evaluation_type", "in", [evalType,evalType2,evalType3])
-      .where("e.le_status", "=", leStatus);
-
-    // Query to join tables for Other Leave
-    const otherLeaveQuery = db
-      .selectFrom("Other_Leave_Evaluation as e")
-      .innerJoin("Other_Leave_Application as s", "e.leave_id", "s.leave_id")
-      .select([
-        "e.evaluation_type",
-        "e.le_status", 
-        "s.leave_id", 
-        "s.nature_of_leave as Leave_Type_Details",
-      ])
-      .where("e.evaluation_type", "in", [evalType,evalType2])
       .where("e.le_status", "=", leStatus);
 
     // Combine the two queries using union

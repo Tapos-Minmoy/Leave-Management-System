@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation ,useNavigate} from "react-router-dom";
 import Letter from '../LetterToChaiman/LetterToChaiman'
 import axios from "axios";
 
@@ -10,6 +10,7 @@ function StudyLeaveDetails() {
   const location = useLocation();
   const leave_id = location.state.id;
   const [chairmanComment, setChairmanComment] = useState(""); // State for chairman's comment
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -130,10 +131,7 @@ function StudyLeaveDetails() {
             alert("An error occurred. Please try again.");
           }
         }
-        if (result.message === "Data Inserted Successfully in Study_Leave_Evaluation Table.") {
-          alert("Response Successfully Submitted.");
           navigate("/noc/chairman");
-        }
       } catch (error) {
         console.error("Error Encountered...", error);
         alert("An error occurred. Please try again.");
@@ -384,8 +382,8 @@ function StudyLeaveDetails() {
               </div>
             </div>
             <div className='cancel-submit-btn'>
-            <button type="button" className='cancel-btn' >Cancel</button>
-            <button type="button" onClick={handleForwardOfChairman}>Forward To Registrar</button>
+            <button className='cancel-btn' >Cancel</button>
+            <button onClick={handleForwardOfChairman}>Forward To Registrar</button>
           </div>
           </form>
         </div>
