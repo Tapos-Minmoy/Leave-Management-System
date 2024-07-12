@@ -27,9 +27,11 @@ import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckP
 import FinalLetter from './components/FinalLetter/FinalLetter.jsx';
 
 import OtherProgressBar from './components/ProgressBar/OtherLeaveProgress.jsx';
+import HigherStudy from './components/HigherStudy/higherStudy.jsx';
 
 
 import Registrar from './components/Registrar/registrar.jsx'
+import StudyLeaveDetailsForHigherPrimary from './components/HigherStudyLeaveDetails/higherPrimary.jsx';
 const Main = () => {
   // State to store userID
   const [userID, setUserID] = useState("jokjki0oemkJKJL4565"); // Initialize with null or default userID
@@ -93,6 +95,10 @@ const Main = () => {
           element: <StudyLeaveDetailsForChairman></StudyLeaveDetailsForChairman>,
         },
         {
+          path: '/noc/studyLeaveDetailsToHigherPrimary',
+          element: <StudyLeaveDetailsForHigherPrimary></StudyLeaveDetailsForHigherPrimary>,
+        },
+        {
           path: '/noc/studyLeaveDetailsForRegistrar',
           element: <StudyLeaveDetailsForRegistrar></StudyLeaveDetailsForRegistrar>,
         },
@@ -105,6 +111,10 @@ const Main = () => {
           element: <CheckPermissionChairman>
                       <Chaiman></Chaiman>
                   </CheckPermissionChairman>,
+        },
+        {
+          path: '/noc/HigherStudyBranch',
+          element: <HigherStudy></HigherStudy>
         },
         {
           path: '/noc/LetterToChaiman',
