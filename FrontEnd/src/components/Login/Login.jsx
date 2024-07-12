@@ -1,5 +1,3 @@
-
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -36,7 +34,6 @@ const Login = () => {
       console.log(result.message);
 
       if (result.message == "The user is already logged in") {
-
         try {
           const responseLogout = await fetch("http://localhost:5000/api/logout", {
             method: "POST",
@@ -64,8 +61,7 @@ const Login = () => {
               });
 
               const resultlogin = await responselogin.json();
-              console.log(resultlogin);
-              console.log(resultlogin.message);
+
               if (resultlogin.message == "Successfully logged in") {
                 // Store the session ID, user, and role in cookies
                 Cookies.set("session_id", resultlogin.session_id, { expires: 7 }); // Expires in 7 days
@@ -86,9 +82,10 @@ const Login = () => {
                   );
                 });
                 // Redirect to a protected route or dashboard
-                const loggedInUserRole = Cookies.get("role_role") || "";
-                if (loggedInUserRole === "chairman") navigate("/noc/chairman");
-                if (loggedInUserRole === "register") navigate("/noc/registrar");
+                const loggedInUserRole = resultlogin.role.role;
+                console.log("role is " + loggedInUserRole);
+                if (resultlogin.role.role === "chairman") navigate("/noc/chairman");
+                else if (resultlogin.role.role === "register") navigate("/noc/registrar");
                 else navigate("/noc/leaveApplication"); // Adjust the route as necessary
               } else {
                 alert(resultlogin.message);
@@ -98,7 +95,7 @@ const Login = () => {
               alert("An error occurred. Please try again.");
             }
           } else {
-            alert(resultlogin.message || "Logout failed. Please try again.");
+            alert(resultlogout.message || "Logout failed. Please try again.");
           }
         } catch (error) {
           console.error("Error logging out:", error);
@@ -122,6 +119,7 @@ const Login = () => {
         // Redirect to a protected route or dashboard
         const loggedInUserRole = Cookies.get("role_role") || "";
         if (loggedInUserRole === "chairman") navigate("/noc/chairman");
+        else if (loggedInUserRole === "register") navigate("/noc/registrar");
         else navigate("/noc/leaveApplication"); // Adjust the route as necessary
       } else {
         alert(result.message);
