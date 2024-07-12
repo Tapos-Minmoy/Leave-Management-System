@@ -25,6 +25,7 @@ import CheckPermissionChairman from './components/ProtectedRoute/CheckPermission
 import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermissionForLogin.jsx'
 import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
 import FinalLetter from './components/FinalLetter/FinalLetter.jsx';
+import OtherLeaveDetailsForChairman from './components/OtherLeaveDetailsForChairman/OtherLeaveDetailsForChairman.jsx';
 
 import OtherProgressBar from './components/ProgressBar/OtherLeaveProgress.jsx';
 import HigherStudy from './components/HigherStudy/higherStudy.jsx';
@@ -83,7 +84,10 @@ const Main = () => {
           path: '/OtherLeave/progressBar',
           element: <OtherProgressBar></ OtherProgressBar>
         },
-        
+        {
+          path: '/noc/OtherLeaveProgressBar',
+          element: <OtherProgressBar></OtherProgressBar>
+        },
         {
           path: '/noc/studyLeaveForm',
           element: <CheckPermissionForstudyLeaveForm>
@@ -105,6 +109,10 @@ const Main = () => {
         {
           path: '/noc/otherLeaveDetailsForRegistrar',
           element: <OtherLeaveDetailsForRegistrar></OtherLeaveDetailsForRegistrar>,
+        },
+        {
+          path: '/noc/otherLeaveDetailsForChairman',
+          element: <OtherLeaveDetailsForChairman></OtherLeaveDetailsForChairman>
         },
         {
           path: '/noc/chairman',

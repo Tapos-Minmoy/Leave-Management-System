@@ -16,6 +16,7 @@ const ProgressBar = () => {
   }, [location.state]);
   useEffect(() => {
      if(!leaveId)return ;
+     console.log(leaveId);
     const fetchData = async () => {
    //   if(!leaveId)return ;
       try {
