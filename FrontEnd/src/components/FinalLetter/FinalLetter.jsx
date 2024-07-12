@@ -8,43 +8,37 @@ Font.register({
     family: 'Roboto-Regular',
     src: MyCustomFont,
 });
-
+// Define styles for PDF document
 const styles = StyleSheet.create({
     page: {
-        flexDirection: 'column',
-        padding: '0.5in',
-        fontFamily: 'Roboto-Regular',
-        fontSize: 10,
+      flexDirection: 'column',
+      padding: '1in', // Adjust the padding to set the margin
+      fontFamily: 'Roboto-Regular',
+      fontSize: 11,
     },
     header: {
-        marginBottom: 10,
+      marginBottom: 40,
+      textAlign: 'justify', // Align text to justify
     },
     body: {
-        marginBottom: 10,
+      marginBottom: 40,
+      textAlign: 'justify', // Align text to justify
     },
     footer: {
-        marginTop: 10,
+      marginTop: 40,
+      textAlign: 'justify', // Align text to justify
     },
     title: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        marginBottom: 5,
+      fontSize: 12,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      textAlign: 'justify', // Align text to justify
     },
     paragraph: {
-        marginBottom: 5,
-        textAlign: 'justify',
+      marginBottom: 20,
+      textAlign: 'justify', // Align text to justify
     },
-    letterHeader: {
-        width: '100%',
-        height: 'auto',
-        marginBottom: 10,
-    },
-    input: {
-        borderBottom: '1px solid black',
-        marginLeft: 5,
-        marginRight: 5,
-    },
-});
+  });
 
 const PdfDocument = ({ applicantData }) => (
     <Document>
@@ -72,9 +66,7 @@ const PdfDocument = ({ applicantData }) => (
                 </Text>
                 <Text style={styles.paragraph}>
                     Additionally, 10 percent of your Monthly Basic Pay during the period of your Study Leave will be deposited in the Chittagong University Account and the total amount will be refunded to you according to the terms & conditions of the Service Bond executed by you with this University.
-                </Text>
-                <Text style={styles.paragraph}>
-                    The University of Chittagong or the Govt. of Bangladesh will have no financial responsibilities for your proposed study in {applicantData.country}.
+               The University of Chittagong or the Govt. of Bangladesh will have no financial responsibilities for your proposed study in {applicantData.country}.
                 </Text>
                 <Text style={styles.paragraph}>
                     I request you to apply, along with the consents of the Surety Holders who signed in the Surety Bond at the time of your going on Study Leave, three months before the expiry of the above leave if you need an extension. The extension will depend on a Satisfactory Progress Report from your Course Supervisor, the Opinion of the Departmental (CU) Planning Committee, or you may return from abroad and join your duties at this University by {applicantData.endDate}. Prior permission from this University is required for any change of Course/Field of Study or Institution, along with proper documents.

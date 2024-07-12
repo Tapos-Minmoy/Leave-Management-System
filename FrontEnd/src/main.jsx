@@ -29,10 +29,11 @@ import OtherLeaveDetailsForChairman from './components/OtherLeaveDetailsForChair
 
 import OtherProgressBar from './components/ProgressBar/OtherLeaveProgress.jsx';
 import HigherStudy from './components/HigherStudy/higherStudy.jsx';
-
+import FinalOtherLeaveLetter from './components/FinalOtherLeaveLetter/FinalOtherLeaveLetter.jsx';
 
 import Registrar from './components/Registrar/registrar.jsx'
 import StudyLeaveDetailsForHigherPrimary from './components/HigherStudyLeaveDetails/higherPrimary.jsx';
+import LetterToRegistrar from './components/LetterToRegistrar/LetterToRegistrar';
 const Main = () => {
   // State to store userID
   const [userID, setUserID] = useState("jokjki0oemkJKJL4565"); // Initialize with null or default userID
@@ -105,6 +106,14 @@ const Main = () => {
         {
           path: '/noc/studyLeaveDetailsForRegistrar',
           element: <StudyLeaveDetailsForRegistrar></StudyLeaveDetailsForRegistrar>,
+        },
+        {
+          path:'/noc/letterToRegistrar',
+          element:<LetterToRegistrar></LetterToRegistrar>
+        },
+        {
+          path:'/noc/finalOtherLeaveLetter',
+          element:<FinalOtherLeaveLetter></FinalOtherLeaveLetter>
         },
         {
           path: '/noc/otherLeaveDetailsForRegistrar',
