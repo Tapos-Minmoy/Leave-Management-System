@@ -43,7 +43,7 @@ function Chaiman() {
 
   const openOtherLeaveFormPage = (leaveId) => {
     console.log("From previous pg (Other Leave) " + leaveId);
-    navigate('/other-leave-details', { state: { id: leaveId } });
+    navigate('/noc/otherLeaveDetailsForChairman', { state: { id: leaveId } });
   };
 
   const openStudyLeaveProgress = (leaveId) => {
