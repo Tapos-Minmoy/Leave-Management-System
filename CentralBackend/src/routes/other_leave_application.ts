@@ -35,8 +35,6 @@ const otherLeaveReqBody = z.object({
 
 otherLeaveApplicationRouter.post("/add", async (req, res) => {
   try {
-    console.log("here adding");
-    console.log(req.body);
     const {
       applicant_id,
       attachments,
@@ -100,6 +98,31 @@ otherLeaveApplicationRouter.post("/add", async (req, res) => {
       });
     }
     return res.status(400).json({ message: "Invalid request body", error });
+  }
+});
+
+otherLeaveApplicationRouter.get("/otherLeaveDetails", async (req, res) => {
+  try {
+    const leaveIdSchema = z.object({
+      leave_id: z.preprocess((val) => Number(val), z.number().int()),  // Convert to number
+    });
+    const { leave_id } = leaveIdSchema.parse(req.query);
+    const results = await db
+      .selectFrom("Other_Leave_Application as o")
+      .innerJoin("User as u", "u.user_id", "o.applicant_id")
+      .leftJoin("Teacher as t", "t.user_id", "u.user_id")
+      .select([
+        "o.applicant_id", "o.applied_date", "o.attachments", "o.designation", "o.duration", "o.final_application", "o.station_leaving_permission",
+        "o.leave_ground", "o.leave_id", "o.leave_start_date", "o.my_application_chairman", "o.nature_of_leave", "o.signature",
+        "o.salary_acknowledgement", "u.first_name", "u.last_name", "t.title"
+      ])
+      .where("o.leave_id", "=", leave_id )
+      .execute();
+
+
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
   }
 });
 

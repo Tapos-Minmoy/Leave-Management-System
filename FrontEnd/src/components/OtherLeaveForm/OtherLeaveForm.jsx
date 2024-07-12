@@ -113,7 +113,7 @@ function OtherLeaveForm({ userID }) {
       const formattedDate = `${year}-${month}-${day}`;
 
 
-      const duration = `${formData.periodYears}-${formData.periodMonths.padStart(2, '0')}-${formData.periodDays.padStart(2, '0')}`;
+      const duration = `${formData.periodYears}(years)-${formData.periodMonths}(months)-${formData.periodDays.padStart(2, '0')}(days)`;
 
       const formDataToSend = {
         applicant_id: user_id,
@@ -164,17 +164,17 @@ function OtherLeaveForm({ userID }) {
           <p><strong>(No leave application except in this prescribed form be considered)</strong></p>
         </div>
         <form className="leave-form" onSubmit={handleSubmit}>
-          <div className="form-group">
+         {/* <div className="form-group">
             <div className="input-wrapper">
               <label htmlFor="name">1. Name of Applicant:</label>
             </div>
             <div className="input-wrapper">
               <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
             </div>
-          </div>
+          </div>*/}
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="designation">2. Designation:</label>
+              <label htmlFor="designation">1. Designation:</label>
             </div>
             <div className="input-wrapper">
               <input type="text" id="designation" name="designation" value={formData.designation} onChange={handleChange} />
@@ -182,7 +182,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="natureOfLeave">3. Nature of leave applied for:</label>
+              <label htmlFor="natureOfLeave">2. Nature of leave applied for:</label>
             </div>
             <div className="input-wrapper">
               <select id="natureOfLeave" name="natureOfLeave" value={formData.natureOfLeave} onChange={handleChange} className="full-width-select">
@@ -200,7 +200,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="period">4. The period for and date from which the leave is required:</label>
+              <label htmlFor="period">3. The period for and date from which the leave is required:</label>
             </div>
             <div className="input-wrapper">
               <div>
@@ -215,7 +215,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="permissionToLeaveStation">5. Whether permission to leave the station is required:</label>
+              <label htmlFor="permissionToLeaveStation">4. Whether permission to leave the station is required:</label>
             </div>
             <div className="input-wrapper">
               <input type="text" id="permissionToLeaveStation" name="permissionToLeaveStation" value={formData.permissionToLeaveStation} onChange={handleChange} />
@@ -223,7 +223,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="groundsForLeave">6. Grounds for leave:</label>
+              <label htmlFor="groundsForLeave">5. Grounds for leave:</label>
             </div>
             <div className="input-wrapper">
               <textarea id="groundsForLeave" name="groundsForLeave" value={formData.groundsForLeave} onChange={handleChange} />
@@ -231,7 +231,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="refundUndertaking">7. I undertake to refund the difference between the leave salary and other allowances admissible during leave:</label>
+              <label htmlFor="refundUndertaking">6. I undertake to refund the difference between the leave salary and other allowances admissible during leave:</label>
             </div>
             <div className="input-wrapper">
             
@@ -242,7 +242,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="additionalFile">8. Upload additional file (if any):</label>
+              <label htmlFor="additionalFile">7. Upload additional file (if any):</label>
             </div>
             <div className="input-wrapper">
               <input type="file" id="additionalFile" name="additionalFile" onChange={handleFileChange} />
@@ -250,7 +250,7 @@ function OtherLeaveForm({ userID }) {
           </div>
           <div className="form-group">
             <div className="input-wrapper">
-              <label htmlFor="signature">9. Upload signature:</label>
+              <label htmlFor="signature">8. Upload signature:</label>
             </div>
             <div className="input-wrapper">
               <input type="file" id="signature" name="signature" onChange={handleSignatureUpload} />

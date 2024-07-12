@@ -13,21 +13,21 @@ function OtherLeaveDetailsForChairman() {
   const navigate = useNavigate();
   const [chairmanComment, setChairmanComment] = useState(""); // State for chairman's comment
 
-  var instruction = "Forward to Higher Studies";
 
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       if (leave_id) {
         axios
-          .get("http://localhost:5000/api/leave/other", {
+          .get("http://localhost:5000/api/leave/other/otherLeaveDetails", {
             params: {
               leave_id: leave_id,
             },
           })
           .then((response) => {
-            console.log(response.data.data[0]);
-            setFormData(response.data.data[0]);
-            setAttachmentUrl(response.data.data[0]?.attachments);
+            console.log(response.data[0]);
+            setFormData(response.data[0]);
+            console.log("OK "+formData);
+            setAttachmentUrl(response.data[0]?.attachments);
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -98,7 +98,7 @@ function OtherLeaveDetailsForChairman() {
 
       const addData = {
         leave_id,
-        evaluation_type: "Registrar Primary Approval",
+        evaluation_type: "Registrar Approval",
         applicant_id: formData.applicant_id,
         le_comment: "",
         le_evaluation_time: currentTime,
@@ -107,7 +107,7 @@ function OtherLeaveDetailsForChairman() {
 
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/leave/evaluates/study/update`,
+          `http://localhost:5000/api/leave/evaluates/other/update`,
           updateData,
           {
             headers: {
@@ -116,10 +116,10 @@ function OtherLeaveDetailsForChairman() {
           }
         );
         var result = response.data;
-        if (result.message === "Data Updated Successfully in Study_Leave_Evaluation Table.") {
+        if (result.message === "Data Updated Successfully in Other_Leave_Evaluation Table.") {
           try {
             const response2 = await axios.post(
-              `http://localhost:5000/api/leave/evaluates/study/add`,
+              `http://localhost:5000/api/leave/evaluates/other/add`,
               addData,
               {
                 headers: {
@@ -142,7 +142,7 @@ function OtherLeaveDetailsForChairman() {
   };
 
   const handleCommentChange = (event) => {
-    setRegistrarComment(event.target.value);
+    setChairmanComment(event.target.value);
   };
 
   return (
@@ -168,7 +168,7 @@ function OtherLeaveDetailsForChairman() {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
+                  value={formData.title+" "+formData.first_name+" "+formData.last_name}                  
                   disabled
                   style={{ border: "none" }}
                 />
@@ -267,6 +267,7 @@ function OtherLeaveDetailsForChairman() {
                 <label htmlFor="refundUndertaking">7. I undertake to refund the difference between the leave salary and other allowances admissible during leave:</label>
               </div>
               <div className="input-wrapper">
+                <level className="checkbox-label">
                 <input
                   type="checkbox"
                   id="refundUndertaking"
@@ -275,12 +276,29 @@ function OtherLeaveDetailsForChairman() {
                     salary_acknowledgement === 1}
                   disabled
                   style={{ border: "none" }}
-                />
+                />Yes
+                </level>
               </div>
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="additionalFile">8. Uploaded file (if any):</label>
+                <label htmlFor="signature">8. Attached Signature:</label>
+              </div>
+              <div className="input-wrapper">
+                {formData.signature ? (
+                  <img
+                    src={`http://localhost:5000/files/${formData.signature}`}
+                    alt="Signature"
+                    style={{ maxWidth: "300px", maxHeight: "80px" }}
+                  />
+                ) : (
+                  <p>No signature attached</p>
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="additionalFile">9. Uploaded file (if any):</label>
               </div>
               <div className="input-wrapper">
                 {attachmentUrl ? (
@@ -307,22 +325,7 @@ function OtherLeaveDetailsForChairman() {
               </div>
             </div>
             
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="signature">9. Attached Signature:</label>
-              </div>
-              <div className="input-wrapper">
-                {formData.signature ? (
-                  <img
-                    src={`http://localhost:5000/files/${formData.signature}`}
-                    alt="Signature"
-                    style={{ maxWidth: "300px", maxHeight: "80px" }}
-                  />
-                ) : (
-                  <p>No signature attached</p>
-                )}
-              </div>
-            </div>
+
             <div className="form-group">
               <div className="input-wrapper">
                 <label htmlFor="chairman_comment">Chairman's Comment:</label>
