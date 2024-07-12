@@ -42,18 +42,15 @@ function Chaiman() {
   };
 
   const openOtherLeaveFormPage = (leaveId) => {
-    console.log("From previous pg (Other Leave) " + leaveId);
     navigate('/noc/otherLeaveDetailsForChairman', { state: { id: leaveId } });
   };
 
   const openStudyLeaveProgress = (leaveId) => {
-    console.log("From progress pg (Study Leave) " + leaveId);
     navigate('/noc/progressBar', { state: { id: leaveId } });
   };
 
   const openOtherLeaveProgress = (leaveId) => {
-    console.log("From progress pg (Other Leave) " + leaveId);
-    navigate('/other-leave-progress', { state: { id: leaveId } });
+    navigate('/noc/OtherLeaveProgressBar', { state: { id: leaveId } });
   };
   return (
     <div className="overflow-y-hidden">

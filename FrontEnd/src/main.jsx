@@ -82,7 +82,10 @@ const Main = () => {
           path: '/OtherLeave/progressBar',
           element: <OtherProgressBar></ OtherProgressBar>
         },
-        
+        {
+          path: '/noc/OtherLeaveProgressBar',
+          element: <OtherProgressBar></OtherProgressBar>
+        },
         {
           path: '/noc/studyLeaveForm',
           element: <CheckPermissionForstudyLeaveForm>
