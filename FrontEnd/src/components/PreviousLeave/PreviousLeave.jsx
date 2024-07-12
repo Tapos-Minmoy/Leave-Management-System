@@ -22,7 +22,7 @@ function PreviousLeave() {
     axios
       .get("http://localhost:5000/api/leave/common/appliedLeaveForIndividuals", {
         params: {
-          applicant_id: user_id,
+          applicantId: user_id,
         },
       })
       .then((response) => {
