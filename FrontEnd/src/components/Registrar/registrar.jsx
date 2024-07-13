@@ -23,6 +23,7 @@ function Registrar() {
             evaluation_type: "Registrar Primary Approval",
             evaluation_type2: "Registrar Secondary Approval", 
             evaluation_type3: "Registrar Final Approval",
+            evaluation_type4: "Registrar Approval",
             le_status: "pending", // Replace with your le_status value
           },
         });
