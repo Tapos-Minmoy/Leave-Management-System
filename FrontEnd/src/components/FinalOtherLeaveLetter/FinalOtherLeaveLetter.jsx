@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     header: {
-        fontFamily: 'Roboto-Regular',
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 30,
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
 const PdfDocument = ({ applicantData }) => (
     <Document>
         <Page size="A4" style={styles.page}>
-            <Image src={letterHeader} style={styles.header2} />
+            <Image src={letterHeader} style={styles.letterHeader} />
             <View style={styles.header}>
                 <Text style={styles.headerText}>সূত্র/Ref.: {applicantData.memoNo}</Text>
                 <Text style={styles.headerText}>তারিখ / Date: {applicantData.date}</Text>
@@ -80,7 +79,7 @@ const PdfDocument = ({ applicantData }) => (
             </View>
             <View style={styles.footer}>
                 <View>
-                    <Text>10025.04.24 (K.M.Nur Ahmed)</Text>
+                    <Text>K.M.Nur Ahmed</Text>
                     <Text>Registrar</Text>
                     <Text>University of Chittagong</Text>
                 </View>
@@ -110,6 +109,27 @@ const FinalOtherLeaveLetter = () => {
 
     return (
         <div className="letter-container">
+            <div className="letter-content">
+                <img src={letterHeader} alt="Letter Header" className="letter-header" />
+                <div className="header">
+                    <span className="header-text">সূত্র/Ref.: {applicantData.memoNo}</span>
+                    <span className="header-text">তারিখ / Date: {applicantData.date}</span>
+                </div>
+                <div className="body">
+                    <h2 className="title">TO WHOM IT MAY CONCERN</h2>
+                    <p className="paragraph">
+                        Professor Benu Kumar Dey, Pro-Vice Chancellor(Academic), University of Chittagong, Bangladesh will get permission from the authority if visa is issued to him to visit India at any time.
+                    </p>
+                </div>
+                <div className="footer">
+                    <div>
+                        <p>K.M.Nur Ahmed</p>
+                        <p>Registrar</p>
+                        <p>University of Chittagong</p>
+                    </div>
+                    <img src={seal} alt="Seal" className="seal" />
+                </div>
+            </div>
             <div className="letter-footer">
                 <PDFDownloadLink document={<PdfDocument applicantData={applicantData} />} fileName="PermissionLetter.pdf">
                     {({ blob, url, loading, error }) => (

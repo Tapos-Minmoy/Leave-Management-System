@@ -1,46 +1,71 @@
 .letter-container {
-    font-family: Arial, sans-serif;
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .letter-header {
-    margin-bottom: 20px;
-  }
-  
-  .letter-header h2 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-  }
-  
-  .letter-body h2 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .letter-body p {
-    margin-bottom: 10px;
-  }
-  
-  .letter-footer {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .pdf-download-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .pdf-download-button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.letter-content {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
+.letter-header {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.header-text {
+  font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.body {
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.paragraph {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.seal {
+  width: 100px;
+  height: auto;
+  margin-left: 10px;
+}
+
+.letter-footer {
+  margin-top: 20px;
+}
+
+.pdf-download-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
