@@ -96,14 +96,7 @@ function OtherLeaveDetailsForChairman() {
         le_status: "approved",
       };
 
-      const addData = {
-        leave_id,
-        evaluation_type: "Registrar Approval",
-        applicant_id: formData.applicant_id,
-        le_comment: "",
-        le_evaluation_time: currentTime,
-        le_status: "pending",
-      };
+
 
       try {
         const response = await axios.put(
@@ -118,6 +111,15 @@ function OtherLeaveDetailsForChairman() {
         var result = response.data;
         if (result.message === "Data Updated Successfully in Other_Leave_Evaluation Table.") {
           try {
+            const currentTime2 = new Date().toISOString();
+            const addData = {
+              leave_id,
+              evaluation_type: "Registrar Approval",
+              applicant_id: formData.applicant_id,
+              le_comment: "",
+              le_evaluation_time: currentTime2,
+              le_status: "pending",
+            };
             const response2 = await axios.post(
               `http://localhost:5000/api/leave/evaluates/other/add`,
               addData,

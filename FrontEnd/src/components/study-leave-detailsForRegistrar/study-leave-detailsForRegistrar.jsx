@@ -100,14 +100,7 @@ function StudyLeaveDetailsForRegistrar() {
       else if(evaluation_type==="Register Secondary Approval")evaluation_type_update="VC Approval"
       else evaluation_type_update="Higher Study Final Approval" 
 
-      const addData = {
-        leave_id,
-        evaluation_type: evaluation_type_update,
-        applicant_id: formData.applicant_id,
-        le_comment: "",
-        le_evaluation_time: currentTime,
-        le_status: "pending"
-      };
+
 
       
 
@@ -120,6 +113,16 @@ function StudyLeaveDetailsForRegistrar() {
         var result=response.data;
         if(result.message==="Data Updated Successfully in Study_Leave_Evaluation Table."){
           try{
+            const currentTime2 = new Date().toISOString();
+
+            const addData = {
+              leave_id,
+              evaluation_type: evaluation_type_update,
+              applicant_id: formData.applicant_id,
+              le_comment: "",
+              le_evaluation_time: currentTime2,
+              le_status: "pending"
+            };
             const response2 = await axios.post(`http://localhost:5000/api/leave/evaluates/study/add`, addData, {
               headers: {
                 "Content-Type": "application/json",
