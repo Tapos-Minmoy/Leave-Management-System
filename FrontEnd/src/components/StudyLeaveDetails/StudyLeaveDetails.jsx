@@ -95,6 +95,28 @@ function StudyLeaveDetails() {
           <p style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '18px' }}><strong>(No application except in this prescribed form be considered)</strong></p>
         </div>
           <form className="leave-form">
+          <div className="form-group mt-5">
+              <div className="input-wrapper">
+                <label htmlFor="application_to_chairman">Application to Chairman:</label>
+              </div>
+              <div className="input-wrapper">
+              <button
+                type="button"
+                onClick={openPopup}
+                style={{
+                  display: "inline-block",
+                  padding: "10px 20px",
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                View
+              </button>
+              </div>
+            </div>
             <div className="form-group">
               <div className="input-wrapper">
                 <label htmlFor="name_of_program">1. Name of Program:</label>
@@ -282,28 +304,7 @@ function StudyLeaveDetails() {
                 )}
               </div>
             </div>
-            <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="application_to_chairman">12. Application to Chairman:</label>
-              </div>
-              <div className="input-wrapper">
-              <button
-                type="button"
-                onClick={openPopup}
-                style={{
-                  display: "inline-block",
-                  padding: "10px 20px",
-                  backgroundColor: "#007bff",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              >
-                View
-              </button>
-              </div>
-            </div>
+  
            {/*} <div className="form-group">
               <div className="input-wrapper">
                 <label htmlFor="chairman_comment">Chairman's Comment:</label>
