@@ -308,7 +308,19 @@ studyLeaveEvaluationRouter.get("/pendingApprovalsHigherStudy", async (req, res) 
       res.status(500).json({ message: "Internal server error", error });
   }
 });
+studyLeaveEvaluationRouter.get("/pendingApprovalsVC", async (req, res) => {
+  try {
+    const result = await db.selectFrom("Study_Leave_Evaluation")
+      .selectAll()
+      .where("evaluation_type", "=", "VC Approval")
+      .where("le_status", "=", "pending")
+      .execute();
 
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
 studyLeaveEvaluationRouter.get("/ApplicationToRegistrar", async (req, res) => { 
   try {
     const { evaluation_type,evaluation_type2, evaluation_type3, le_status } = req.query;

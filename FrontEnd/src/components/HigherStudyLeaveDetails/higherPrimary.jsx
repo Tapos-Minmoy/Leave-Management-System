@@ -104,7 +104,7 @@ function StudyLeaveDetailsForHigherPrimary() {
                 evaluation_type: evaluation_type_update,
                 applicant_id: formData.applicant_id,
                 le_comment: "",
-                le_evaluation_time: currentTime,
+                le_evaluation_time: new Date(Date.parse(currentTime) + 1000).toISOString(),
                 le_status: "pending"
             };
 
