@@ -114,7 +114,7 @@ const  OtherProgressBar = () => {
                 </svg>
               </div>
               <div className="flex-grow sm:pl-6 mt-6 sm:mt-0">
-                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Primary Approval</h2>
+                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Approval</h2>
               </div>
             </div>
           </div>

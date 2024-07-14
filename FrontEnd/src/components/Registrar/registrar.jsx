@@ -54,7 +54,7 @@ function Registrar() {
 
   const openOtherLeaveProgress = (leaveId) => {
     console.log("From progress pg (Other Leave) " + leaveId);
-    navigate('/other-leave-progress', { state: { id: leaveId } });
+    navigate('/noc/OtherLeaveProgressBar', { state: { id: leaveId } });
   };
   return (
     <div className="overflow-y-hidden">
