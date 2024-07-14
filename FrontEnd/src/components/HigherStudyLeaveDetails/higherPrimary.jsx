@@ -118,7 +118,7 @@ function StudyLeaveDetailsForHigherPrimary() {
                 });
                 var result = response.data;
                 if (result.message === "Data Updated Successfully in Study_Leave_Evaluation Table.") {
-                    if (evaluation_type_update != 'nai') {
+                    if (evaluation_type_update != 'nothing') {
                         try {
                             const response2 = await axios.post(`http://localhost:5000/api/leave/evaluates/study/add`, addData, {
                                 headers: {
