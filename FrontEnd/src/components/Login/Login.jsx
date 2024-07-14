@@ -86,6 +86,7 @@ const Login = () => {
                 console.log("role is " + loggedInUserRole);
                 if (resultlogin.role.role === "chairman") navigate("/noc/chairman");
                 else if (resultlogin.role.role === "register") navigate("/noc/registrar");
+                else if(resultlogin.role.role === "vice_chancellor")navigate("/noc/VC");
                 else if (resultlogin.role.role === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
                 else navigate("/noc/leaveApplication"); // Adjust the route as necessary
               } else {
@@ -121,6 +122,7 @@ const Login = () => {
         const loggedInUserRole = Cookies.get("role_role") || "";
         if (loggedInUserRole === "chairman") navigate("/noc/chairman");
         else if (loggedInUserRole === "register") navigate("/noc/registrar");
+        else if(loggedInUserRole === "vice_chancellor")navigate("/noc/VC");
         else if (loggedInUserRole === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
         else navigate("/noc/leaveApplication"); // Adjust the route as necessary
       } else {
