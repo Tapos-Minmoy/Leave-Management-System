@@ -296,24 +296,17 @@ studyLeaveEvaluationRouter.get("/ApplicationToOtherEvaluators", async (req, res)
 
 studyLeaveEvaluationRouter.get("/pendingApprovalsHigherStudy", async (req, res) => {
   try {
-      const result = await db
-          .selectFrom("Study_Leave_Evaluation")
-          .selectAll()
-          .where("evaluation_type", "in", ["Higher Study Branch Primary Approval", "Higher Study Branch Final Approval"])
-          .where("le_status", "=", "pending")
-          .execute();
-
-      res.status(200).json(result);
-  } catch (error) {
-      res.status(500).json({ message: "Internal server error", error });
-  }
-});
-studyLeaveEvaluationRouter.get("/pendingApprovalsVC", async (req, res) => {
-  try {
-    const result = await db.selectFrom("Study_Leave_Evaluation")
-      .selectAll()
-      .where("evaluation_type", "=", "VC Approval")
-      .where("le_status", "=", "pending")
+    const result = await db
+      .selectFrom("Study_Leave_Evaluation as e")
+      .innerJoin("Study_Leave_Application as s", "e.leave_id", "s.leave_id")
+      .select([
+        "e.evaluation_type",
+        "e.le_status",
+        "s.leave_id",
+        "s.name_of_program as Leave_Type_Details",
+      ])
+      .where("e.evaluation_type", "in", ["Higher Study Branch Primary Approval", "Higher Study Branch Final Approval"])
+      .where("e.le_status", "=", "pending")
       .execute();
 
     res.status(200).json(result);
@@ -321,6 +314,28 @@ studyLeaveEvaluationRouter.get("/pendingApprovalsVC", async (req, res) => {
     res.status(500).json({ message: "Internal server error", error });
   }
 });
+
+studyLeaveEvaluationRouter.get("/pendingApprovalsVC", async (req, res) => {
+  try {
+    const result = await db
+      .selectFrom("Study_Leave_Evaluation as e")
+      .innerJoin("Study_Leave_Application as s", "e.leave_id", "s.leave_id")
+      .select([
+        "e.evaluation_type",
+        "e.le_status",
+        "s.leave_id",
+        "s.name_of_program as Leave_Type_Details",
+      ])
+      .where("e.evaluation_type", "=", "VC Approval")
+      .where("e.le_status", "=", "pending")
+      .execute();
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
+
 studyLeaveEvaluationRouter.get("/ApplicationToRegistrar", async (req, res) => { 
   try {
     const { evaluation_type,evaluation_type2, evaluation_type3, evaluation_type4,  le_status } = req.query;
