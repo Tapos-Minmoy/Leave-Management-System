@@ -330,7 +330,7 @@ function StudyLeaveDetails() {
             <button className="close-btn" onClick={closePopup}>
               &times;
             </button>
-            <Letter /> {/* Include the Letter component here */}
+            <Letter leaveID={leave_id}  /> {/* Include the Letter component here */}
           </div>
         </div>
       )}

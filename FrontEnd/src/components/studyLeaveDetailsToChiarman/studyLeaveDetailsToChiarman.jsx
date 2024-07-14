@@ -403,8 +403,8 @@ function StudyLeaveDetails() {
           <div className="popup-inner">
             <button className="close-btn" onClick={closePopup}>
               &times;
-            </button>
-            <Letter /> {/* Include the Letter component here */}
+            </button   >
+            <Letter leaveID={leave_id} /> {/* Include the Letter component here */}
           </div>
         </div>
       )}

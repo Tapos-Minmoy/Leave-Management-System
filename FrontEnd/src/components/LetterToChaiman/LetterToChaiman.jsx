@@ -3,6 +3,7 @@ import './LetterToChaiman.css';
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf';
+import axios from "axios";
 
 Font.register({
   family: 'Roboto-Regular',
@@ -78,39 +79,51 @@ const PdfDocument = ({ applicantData }) => (
   </Document>
 );
 
-const Letter = () => {
+const Letter = ({ leaveID }) => {
   const [applicantData, setApplicantData] = useState({
-    name: 'Shajidul Islam',
-    department: 'Computer Science and Engineering',
-    joinDate: '2023-06-09',
-    program: "Master's Degree Program",
-    university: 'Harvard University',
-    country: 'United States',
-    startDate: '2023-07-08',
-    scholarship: 'Chittagong University Welfare Fund',
-    programDuration: '1-year',
+    name: '',
+    department: '',
+    joinDate: '',
+    program: '',
+    university: '',
+    country: '',
+    startDate: '',
+    scholarship: '',
+    programDuration: '',
+    designation:'',
   });
 
-  // Simulate fetching data from the database
+  // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
-      // Replace with actual API call
-      const data = {
-        name: 'Shajidul Islam',
-        department: 'Computer Science and Engineering',
-        joinDate: '2023-06-09',
-        program: "Master's Degree Program",
-        university: 'Harvard University',
-        country: 'United States',
-        startDate: '2023-07-08',
-        scholarship: 'Chittagong University Welfare Fund',
-        programDuration: '1-year',
-      };
-      setApplicantData(data);
+      try {
+        const response = await axios.get("http://localhost:5000/api/leave/common/StudyLeaveLetterToChairmanInfo", {
+          params: {
+            leave_id: leaveID,
+          },
+        });
+
+        const data = response.data[0];
+        console.log(data);
+        setApplicantData({
+          name: `${data.title} ${data.first_name} ${data.last_name}`,
+          department: data.department_name,
+          joinDate: new Date(data.joining_date).toISOString().split('T')[0],
+          program: data.name_of_program,
+          university: data.university,
+          country: data.destination_country,
+          startDate: new Date(data.leave_start_date).toISOString().split('T')[0],
+          scholarship: data.financial_source,
+          programDuration: `${data.duration}-year`,
+          designation:data.designation,
+        });
+      } catch (error) {
+        console.error("Error fetching applicant data:", error);
+      }
     };
 
     fetchData();
-  }, []);
+  }, [leaveID]);
 
   return (
     <div className="letter-container">
@@ -121,7 +134,7 @@ const Letter = () => {
         <p>Chittagong, Bangladesh</p>
       </div>
       <div className="letter-body">
-        <h2>
+        <h2 style={{ textAlign: 'justify' }}>
           Subject: Prayer for issuing study leave to pursue {applicantData.program} at {applicantData.university}, {applicantData.country}
         </h2>
         <p>Dear Sir,</p>
@@ -134,10 +147,10 @@ const Letter = () => {
         <p style={{ textAlign: 'justify' }}>
           Therefore, I earnestly request you to take necessary steps for issuing me study leave from {applicantData.startDate} and allowing me to join this very important academic program.
         </p>
-        <h2>Kind Regards.</h2>
+        <h2 style={{ textAlign: 'justify' }}> Kind Regards.</h2>
         <p>
           {applicantData.name} <br />
-          Lecturer <br />
+          {applicantData.designation} <br />
           Department of {applicantData.department} <br />
           Chittagong, Bangladesh <br />
           University of Chittagong <br />
