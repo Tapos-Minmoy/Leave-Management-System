@@ -34,6 +34,7 @@ import FinalOtherLeaveLetter from './components/FinalOtherLeaveLetter/FinalOther
 import Registrar from './components/Registrar/registrar.jsx'
 import StudyLeaveDetailsForHigherPrimary from './components/HigherStudyLeaveDetails/higherPrimary.jsx';
 import LetterToRegistrar from './components/LetterToRegistrar/LetterToRegistrar';
+import CheckPermissionRegistrar from './components/ProtectedRoute/CheckPermissionRegistrar.jsx';
 const Main = () => {
   // State to store userID
   const [userID, setUserID] = useState("jokjki0oemkJKJL4565"); // Initialize with null or default userID
@@ -147,7 +148,10 @@ const Main = () => {
         },
         {
           path: '/noc/registrar',
-          element: <Registrar></Registrar>
+          element: <CheckPermissionRegistrar>
+                <Registrar></Registrar>
+          </CheckPermissionRegistrar>
+          
         },
         {
           path: '/noc/imageUploader',
