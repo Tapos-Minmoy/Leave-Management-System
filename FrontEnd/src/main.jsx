@@ -34,6 +34,10 @@ import FinalOtherLeaveLetter from './components/FinalOtherLeaveLetter/FinalOther
 import Registrar from './components/Registrar/registrar.jsx'
 import StudyLeaveDetailsForHigherPrimary from './components/HigherStudyLeaveDetails/higherPrimary.jsx';
 import LetterToRegistrar from './components/LetterToRegistrar/LetterToRegistrar';
+import Vc from './components/VC/Vc.jsx';
+import StudyLeaveDetailsVC from './components/StudyLeaveDetailsVC/studyLeaveDetailsVc.jsx';
+import CheckPermissionVC from './components/ProtectedRoute/CheckPermissionVC.jsx';
+import CheckPermissionHigherStudy from './components/ProtectedRoute/CheckPermissionHigherStudy.jsx';
 import CheckPermissionRegistrar from './components/ProtectedRoute/CheckPermissionRegistrar.jsx';
 const Main = () => {
   // State to store userID
@@ -132,7 +136,21 @@ const Main = () => {
         },
         {
           path: '/noc/HigherStudyBranch',
-          element: <HigherStudy></HigherStudy>
+          element: <CheckPermissionHigherStudy>
+                  <HigherStudy></HigherStudy>
+                </CheckPermissionHigherStudy>
+         
+        },
+        {
+          path: '/noc/VC',
+          element: <CheckPermissionVC>
+                 <Vc></Vc>
+                </CheckPermissionVC>
+          
+        },
+        {
+          path: '/noc/studyLeaveDetailsToVC',
+          element: <StudyLeaveDetailsVC></StudyLeaveDetailsVC>
         },
         {
           path: '/noc/LetterToChaiman',
