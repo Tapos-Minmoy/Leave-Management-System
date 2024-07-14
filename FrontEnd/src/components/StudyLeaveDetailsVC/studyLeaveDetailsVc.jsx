@@ -79,69 +79,68 @@ function StudyLeaveDetailsVC() {
     const closePopup = () => {
         setIsPopupOpen(false);
     };
-
-    const handleForwardOfVC = async () => {
-        console.log(leave_id + " " + evaluation_type);
-
+    const handleForwardOfVC= async (e) => {
+        e.preventDefault();
         if (formData) {
-            const currentTime = new Date().toISOString();
-            const updateData = {
-                leave_id,
-                evaluation_type,
-                applicant_id: formData.applicant_id,
-                le_comment: registrarComment,
-                le_evaluation_time: currentTime,
-                le_status: "approved"
-            };
-            var evaluation_type_update;
-           evaluation_type_update = "Registrar Final Approval";
-
-            const addData = {
-                leave_id,
-                evaluation_type: evaluation_type_update,
-                applicant_id: formData.applicant_id,
-                le_comment: "",
-                le_evaluation_time: new Date(Date.parse(currentTime) + 1000).toISOString(),
-                le_status: "pending"
-            };
-
-
-
-            try {
-                const response = await axios.put(`http://localhost:5000/api/leave/evaluates/study/update`, updateData, {
+          const currentTime = new Date().toISOString();
+          const updateData = {
+            leave_id,
+            evaluation_type,
+            applicant_id: formData.applicant_id,
+            le_comment:registrarComment, // Correct reference
+            le_evaluation_time: currentTime,
+            le_status: "approved",
+          };
+    
+          
+ var evaluation_type_update ="Registrar Final Approval";
+    
+          try {
+            const response = await axios.put(
+              `http://localhost:5000/api/leave/evaluates/study/update`,
+              updateData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            var result = response.data;
+            if (result.message === "Data Updated Successfully in Study_Leave_Evaluation Table.") {
+              try {
+                const currentTime2 = new Date(new Date().getTime() + 2000).toISOString(); // Adding 2000 millisecond or 2sec
+    
+                const addData = {
+                  leave_id,
+                  evaluation_type: evaluation_type_update ,
+                  applicant_id: formData.applicant_id,
+                  le_comment: "",
+                  le_evaluation_time: currentTime2,
+                  le_status: "pending",
+                };
+          
+                const response2 = await axios.post(
+                  `http://localhost:5000/api/leave/evaluates/study/add`,
+                  addData,
+                  {
                     headers: {
-                        "Content-Type": "application/json",
+                      "Content-Type": "application/json",
                     },
-                });
-                var result = response.data;
-                if (result.message === "Data Updated Successfully in Study_Leave_Evaluation Table.") {
-                    if (evaluation_type_update != 'nai') {
-                        try {
-                            const response2 = await axios.post(`http://localhost:5000/api/leave/evaluates/study/add`, addData, {
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                            });
-                            result = response2.data;
-
-                        }
-                        catch (error) {
-                            console.error("Error Encountered...", error);
-                            alert("An error occurred. Please try again.");
-                        }
-                    }
-
-                }
-
-                alert("Response Successfully Submitted.");
-                navigate("/noc/HigherStudyBranch");
-
-            } catch (error) {
+                  }
+                );
+                result = response2.data;
+              } catch (error) {
                 console.error("Error Encountered...", error);
                 alert("An error occurred. Please try again.");
+              }
             }
+              navigate("/noc/VC");
+          } catch (error) {
+            console.error("Error Encountered...", error);
+            alert("An error occurred. Please try again.");
+          }
         }
-    };
+      };
 
     const handleCommentChange = (event) => {
         setRegistrarComment(event.target.value);
