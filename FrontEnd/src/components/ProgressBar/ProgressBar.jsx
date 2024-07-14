@@ -70,7 +70,7 @@ const ProgressBar = () => {
   for (let i = 0; i < 7; i++) {
     if (i < stageNum) status[i] = 0;
     if (i == stageNum) status[i] = 1;
-    if (leStatus == 'approved') status[i] = 0;
+    if (leStatus == 'approved' || stageName=='nothing') status[i] = 0;
   }
 
   console.log(status);
