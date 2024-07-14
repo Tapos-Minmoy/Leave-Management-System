@@ -117,9 +117,8 @@ function StudyLeaveDetailsForRegistrar() {
           result.message ===
           "Data Updated Successfully in Study_Leave_Evaluation Table."
         ) {
-          setTimeout(async () => {
             try {
-              const currentTime = new Date().toISOString();
+              const currentTime = new Date(new Date().getTime() + 2000).toISOString(); // Adding 2000 millisecond or 2sec
               var evaluation_type_update;
               if (evaluation_type === "Registrar Primary Approval") {
                 evaluation_type_update = "Higher Study Branch Primary Approval";
@@ -159,7 +158,6 @@ function StudyLeaveDetailsForRegistrar() {
               console.error("Error Encountered...", error);
               alert("An error occurred. Please try again.");
             }
-          }, 1500);
         }
       } catch (error) {
         console.error("Error Encountered...", error);

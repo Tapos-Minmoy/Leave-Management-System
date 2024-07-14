@@ -23,9 +23,7 @@ function OtherLeaveDetailsForRegistrar() {
             },
           })
           .then((response) => {
-            console.log(response.data[0]);
             setFormData(response.data[0]);
-            console.log("OK "+formData);
             setAttachmentUrl(response.data[0]?.attachments);
           })
           .catch((error) => {
@@ -127,15 +125,14 @@ function OtherLeaveDetailsForRegistrar() {
     <div>
       {formData && (
         <div className="form-container">
-          <div className="header">
-            <h2>University of Chittagong</h2>
-            <h3>(Only for Other Leave Application)</h3>
-            <p>
-              <strong>
-                (No application except in this prescribed form be considered)
-              </strong>
-            </p>
-          </div>
+      <div style={{ textAlign: 'center' }}>
+        <div>
+            <h2 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '24px' }}>University of Chittagong</h2>
+          </div>          
+          <h3 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '20px' }}>Form of Application of Leave (other than study leave)</h3>
+
+          <p style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '18px' }}><strong>(No application except in this prescribed form be considered)</strong></p>
+        </div>
           <form className="leave-form">
             <div className="form-group">
               <div className="input-wrapper">

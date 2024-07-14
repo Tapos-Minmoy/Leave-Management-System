@@ -116,7 +116,7 @@ function StudyLeaveDetails() {
         var result = response.data;
         if (result.message === "Data Updated Successfully in Study_Leave_Evaluation Table.") {
           try {
-            const currentTime2 = new Date(new Date().getTime() + 2000).toISOString(); // Adding 1 millisecond
+            const currentTime2 = new Date(new Date().getTime() + 2000).toISOString(); // Adding 2000 millisecond or 2sec
 
             const addData = {
               leave_id,
