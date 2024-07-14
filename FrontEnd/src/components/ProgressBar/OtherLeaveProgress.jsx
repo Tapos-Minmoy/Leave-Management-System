@@ -86,12 +86,11 @@ const  OtherProgressBar = () => {
       {/* Progress bar */}
       <section className="text-gray-600 body-font">
         <div className="container mt-8 mb-12 px-5 py-24 mx-auto flex flex-wrap bg-sky-50 h-5/10 w-2/5 rounded-lg drop-shadow-2xl">
-          {/* Step 1 */}
-          <div className="flex relative pt-5 pb-8 sm:items-center md:w-2/3 mx-auto">
+        <div className="flex relative pt-5 pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-              <div className={`h-full w-1 ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-500' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-300' : 'bg-indigo-200'} pointer-events-none`}></div>
             </div>
-            <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[0] === 0 ? 'bg-green-500' : status[0] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>1</div>
+            <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[0] === 0 ? 'bg-green-300' : status[0] === 1 ? 'bg-yellow-300' : 'bg-indigo-200'} pointer-events-none text-black relative z-10 title-font font-medium text-sm`}>1</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
               <div className="flex-shrink-0 w-24 h-24 bg-indigo-100 text-indigo-500 rounded-full inline-flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-12 h-12"><path d="M224 256A128 128 0 1 1 224 0a128 128 0 1 1 0 256zM209.1 359.2l-18.6-31c-6.4-10.7 1.3-24.2 13.7-24.2H224h19.7c12.4 0 20.1 13.6 13.7 24.2l-18.6 31 33.4 123.9 36-146.9c2-8.1 9.8-13.4 17.9-11.3c70.1 17.6 121.9 81 121.9 156.4c0 17-13.8 30.7-30.7 30.7H285.5c-2.1 0-4-.4-5.8-1.1l.3 1.1H168l.3-1.1c-1.8 .7-3.8 1.1-5.8 1.1H30.7C13.8 512 0 498.2 0 481.3c0-75.5 51.9-138.9 121.9-156.4c8.1-2 15.9 3.3 17.9 11.3l36 146.9 33.4-123.9z" /></svg>
@@ -104,9 +103,9 @@ const  OtherProgressBar = () => {
           {/* Step 2 */}
           <div className="flex relative pb-8 sm:items-center md:w-2/3 mx-auto">
             <div className="h-full w-6 absolute inset-0 flex items-center justify-center">
-              <div className={`h-full w-1 ${status[1] === 0 ? 'bg-green-500' : status[1] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none`}></div>
+              <div className={`h-full w-1 ${status[1] === 0 ? 'bg-green-500' : status[1] === 1 ? 'bg-yellow-300' : 'bg-indigo-200'} pointer-events-none`}></div>
             </div>
-            <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[1] === 0 ? 'bg-green-500' : status[1] === 1 ? 'bg-yellow-400' : 'bg-red-500'} pointer-events-none text-white relative z-10 title-font font-medium text-sm`}>2</div>
+            <div className={`flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center ${status[1] === 0 ? 'bg-green-300' : status[1] === 1 ? 'bg-yellow-300' : 'bg-indigo-200'} pointer-events-none text-black relative z-10 title-font font-medium text-sm`}>2</div>
             <div className="flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row">
               <div className="flex-shrink-0 w-24 h-24 bg-indigo-100 text-indigo-500 rounded-full inline-flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-12 h-12">
@@ -114,7 +113,7 @@ const  OtherProgressBar = () => {
                 </svg>
               </div>
               <div className="flex-grow sm:pl-6 mt-6 sm:mt-0">
-                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Approval</h2>
+                <h2 className="font-medium title-font text-gray-900 mb-1 text-xl">Registrar Primary Approval</h2>
               </div>
             </div>
           </div>
