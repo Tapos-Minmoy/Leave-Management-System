@@ -27,7 +27,11 @@ function PreviousLeave() {
       })
       .then((response) => {
         setData(response.data.evaluations);
-        console.log(response.data.evaluations);
+        console.log(response.data.evaluations)
+        .then(()=>{
+          console.log("OK");
+          console.log(data);
+        })
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -35,23 +39,20 @@ function PreviousLeave() {
   }, []);
 
   const openStudyLeaveFormPage = (leaveId) => {
-    console.log("From previous pg (Study Leave) " + leaveId);
-    navigate('/study-leave-details', { state: { id: leaveId } });
+    navigate('/noc/studyLeaveDetails', { state: { id: leaveId } });
   };
 
   const openOtherLeaveFormPage = (leaveId) => {
-    console.log("From previous pg (Other Leave) " + leaveId);
-    navigate('/other-leave-details', { state: { id: leaveId } });
+    console.log(leaveId);
+    navigate('/noc/otherLeaveDetails', { state: { id: leaveId } });
   };
 
   const openStudyLeaveProgress = (leaveId) => {
-    console.log("From progress pg (Study Leave) " + leaveId);
     navigate('/noc/progressBar', { state: { id: leaveId } });
   };
 
   const openOtherLeaveProgress = (leaveId) => {
-    console.log("From progress pg (Other Leave) " + leaveId);
-    navigate('/other-leave-progress', { state: { id: leaveId } });
+    navigate('/noc/OtherLeaveProgressBar', { state: { id: leaveId } });
   };
 
   return (
@@ -190,7 +191,7 @@ function PreviousLeave() {
                     </div>
                   </td>
                   <td className="border border-gray-200 px-4 py-2">{application.Leave_Type_Details}</td>
-                  <td className="border border-gray-200 px-4 py-2">{application.evaluation_type + " (" + application.le_status + ")"}</td>
+                  <td className="border border-gray-200 px-4 py-2">{application.evaluation_type+" (" + application.le_status + ")"}</td>
                   <td className="border border-gray-200 px-4 py-2">
                     <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
                       <FontAwesomeIcon
@@ -199,7 +200,7 @@ function PreviousLeave() {
                       />
                       <a
                         className="grow my-auto cursor-pointer hover:text-blue-500"
-                        onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveFormPage(application.leave_id) : openStudyLeaveFormPage(application.leave_id)}
+                        onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveFormPage(application.Leave_Id) : openStudyLeaveFormPage(application.Leave_Id)}
                       >
                         Click here
                       </a>

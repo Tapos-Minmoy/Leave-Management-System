@@ -26,6 +26,7 @@ import CheckPermissionForLogin from './components/ProtectedRoute/CheckPermission
 import CheckPermissionForstudyLeaveForm from './components/ProtectedRoute/CheckPermissionForstudyLeaveForm.jsx'
 import FinalLetter from './components/FinalLetter/FinalLetter.jsx';
 import OtherLeaveDetailsForChairman from './components/OtherLeaveDetailsForChairman/OtherLeaveDetailsForChairman.jsx';
+import OtherLeaveDetails from './components/OtherLeaveDetails/OtherLeaveDetails.jsx';
 
 import OtherProgressBar from './components/ProgressBar/OtherLeaveProgress.jsx';
 import HigherStudy from './components/HigherStudy/higherStudy.jsx';
@@ -156,6 +157,12 @@ const Main = () => {
         {
           path: '/noc/imageUploader',
           element: <ImageUploader></ImageUploader>
+        },{
+          path: '/noc/studyLeaveDetails',
+          element: <StudyLeaveDetails></StudyLeaveDetails>
+        },{
+          path: '/noc/otherLeaveDetails',
+          element: <OtherLeaveDetails></OtherLeaveDetails>          
         }
       ],
     },

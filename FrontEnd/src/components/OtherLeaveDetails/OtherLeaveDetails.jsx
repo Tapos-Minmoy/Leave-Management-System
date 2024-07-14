@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Letter from '../LetterToChaiman/LetterToChaiman';
 import axios from "axios";
 
-function OtherLeaveDetailsForChairman() {
+function OtherLeaveDetails() {
   const [formData, setFormData] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -11,7 +11,6 @@ function OtherLeaveDetailsForChairman() {
   const leave_id = location.state?.id;
   const evaluation_type = location.state?.evaluation_type;
   const navigate = useNavigate();
-  const [chairmanComment, setChairmanComment] = useState(""); // State for chairman's comment
 
 
   useEffect(() => {
@@ -24,9 +23,7 @@ function OtherLeaveDetailsForChairman() {
             },
           })
           .then((response) => {
-            console.log(response.data[0]);
             setFormData(response.data[0]);
-            console.log("OK "+formData);
             setAttachmentUrl(response.data[0]?.attachments);
           })
           .catch((error) => {
@@ -38,15 +35,6 @@ function OtherLeaveDetailsForChairman() {
     fetchLeaveDetails();
   }, [leave_id]);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    month = month < 10 ? `0${month}` : month;
-    let day = date.getDate();
-    day = day < 10 ? `0${day}` : day;
-    return `${year}-${month}-${day}`;
-  };
 
   const downloadAttachment = async () => {
     if (attachmentUrl) {
@@ -83,69 +71,16 @@ function OtherLeaveDetailsForChairman() {
     setIsPopupOpen(false);
   };
 
-  const handleForwardOfChairman = async (e) => {
-    e.preventDefault();
-    if (formData) {
-      const currentTime = new Date().toISOString();
-      const updateData = {
-        leave_id,
-        evaluation_type: "Chairman Approval",
-        applicant_id: formData.applicant_id,
-        le_comment: chairmanComment, // Correct reference to chairmanComment
-        le_evaluation_time: currentTime,
-        le_status: "approved",
-      };
-
-
-
-      try {
-        const response = await axios.put(
-          `http://localhost:5000/api/leave/evaluates/other/update`,
-          updateData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        var result = response.data;
-        if (result.message === "Data Updated Successfully in Other_Leave_Evaluation Table.") {
-          try {
-            const currentTime2 = new Date(new Date().getTime() + 2000).toISOString(); // Adding 1 millisecond
-            const addData = {
-              leave_id,
-              evaluation_type: "Registrar Approval",
-              applicant_id: formData.applicant_id,
-              le_comment: "",
-              le_evaluation_time: currentTime2,
-              le_status: "pending",
-            };
-            const response2 = await axios.post(
-              `http://localhost:5000/api/leave/evaluates/other/add`,
-              addData,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-            result = response2.data;
-          } catch (error) {
-            console.error("Error Encountered...", error);
-            alert("An error occurred. Please try again.");
-          }
-        }
-          navigate("/noc/chairman");
-      } catch (error) {
-        console.error("Error Encountered...", error);
-        alert("An error occurred. Please try again.");
-      }
-    }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = month < 10 ? `0${month}` : month;
+    let day = date.getDate();
+    day = day < 10 ? `0${day}` : day;
+    return `${year}-${month}-${day}`;
   };
 
-  const handleCommentChange = (event) => {
-    setChairmanComment(event.target.value);
-  };
 
   return (
     <div>
@@ -327,7 +262,7 @@ function OtherLeaveDetailsForChairman() {
             </div>
             
 
-            <div className="form-group">
+           {/*} <div className="form-group">
               <div className="input-wrapper">
                 <label htmlFor="chairman_comment">Chairman's Comment:</label>
               </div>
@@ -342,12 +277,9 @@ function OtherLeaveDetailsForChairman() {
                   placeholder="Enter comment here..."
                 />
               </div>
-            </div>
+            </div>*/}
           </form>
-          <div className='cancel-submit-btn'>
-            <button className='cancel-btn' >Cancel</button>
-            <button onClick={handleForwardOfChairman}>Forward To Registrar</button>
-          </div>
+
         </div>
       )}
       
@@ -355,4 +287,4 @@ function OtherLeaveDetailsForChairman() {
   );
 }
 
-export default OtherLeaveDetailsForChairman;
+export default OtherLeaveDetails;

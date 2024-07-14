@@ -116,7 +116,7 @@ function StudyLeaveDetails() {
         var result = response.data;
         if (result.message === "Data Updated Successfully in Study_Leave_Evaluation Table.") {
           try {
-            const currentTime2 = new Date().toISOString();
+            const currentTime2 = new Date(new Date().getTime() + 2000).toISOString(); // Adding 1 millisecond
 
             const addData = {
               leave_id,
@@ -157,15 +157,14 @@ function StudyLeaveDetails() {
     <div>
       {formData && (
         <div className="form-container">
-          <div className="header">
-            <h2>University of Chittagong</h2>
-            <h3>(Only for Study Leave Application)</h3>
-            <p>
-              <strong>
-                (No application except in this prescribed form be considered)
-              </strong>
-            </p>
-          </div>
+        <div style={{ textAlign: 'center' }}>
+        <div>
+            <h2 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '24px' }}>University of Chittagong</h2>
+          </div>          
+          <h3 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '20px' }}>(Only for Study Leave Application)</h3>
+
+          <p style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '18px' }}><strong>(No application except in this prescribed form be considered)</strong></p>
+        </div>
           <form className="leave-form">
             <div className="form-group">
               <div className="input-wrapper">

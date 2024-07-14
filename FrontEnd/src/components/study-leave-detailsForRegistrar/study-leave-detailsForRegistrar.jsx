@@ -90,7 +90,7 @@ function StudyLeaveDetailsForRegistrar() {
   const handleForwardOfRegistrar = async (e) => {
     e.preventDefault();
     console.log(leave_id + " " + evaluation_type);
-  
+
     if (formData) {
       const currentTime = new Date().toISOString();
       const updateData = {
@@ -101,7 +101,7 @@ function StudyLeaveDetailsForRegistrar() {
         le_evaluation_time: currentTime,
         le_status: "approved",
       };
-  
+
       try {
         const response = await axios.put(
           `http://localhost:5000/api/leave/evaluates/study/update`,
@@ -136,7 +136,7 @@ function StudyLeaveDetailsForRegistrar() {
                 le_evaluation_time: currentTime,
                 le_status: "pending",
               };
-  
+
               const response2 = await axios.post(
                 `http://localhost:5000/api/leave/evaluates/study/add`,
                 addData,
@@ -167,8 +167,8 @@ function StudyLeaveDetailsForRegistrar() {
       }
     }
   };
-  
-  
+
+
 
   const handleCommentChange = (event) => {
     setRegistrarComment(event.target.value);
@@ -178,14 +178,13 @@ function StudyLeaveDetailsForRegistrar() {
     <div>
       {formData && (
         <div className="form-container">
-          <div className="header">
-            <h2>University of Chittagong</h2>
-            <h3>(Only for Study Leave Application)</h3>
-            <p>
-              <strong>
-                (No application except in this prescribed form be considered)
-              </strong>
-            </p>
+          <div style={{ textAlign: 'center' }}>
+            <div>
+              <h2 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '24px' }}>University of Chittagong</h2>
+            </div>
+            <h3 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '20px' }}>(Only for Study Leave Application)</h3>
+
+            <p style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '18px' }}><strong>(No application except in this prescribed form be considered)</strong></p>
           </div>
           <form className="leave-form">
             <div className="form-group">

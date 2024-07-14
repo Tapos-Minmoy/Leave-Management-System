@@ -1,39 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation ,useNavigate} from "react-router-dom";
+import Letter from '../LetterToChaiman/LetterToChaiman'
 import axios from "axios";
 
-function StudyLeaveDetails({  }) {
+function StudyLeaveDetails() {
   const [formData, setFormData] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const location = useLocation();
   const leave_id = location.state.id;
-  console.log("In study Leave Details");
-  console.log(leave_id);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       axios
-      .get("http://localhost:5000/api/leave/study", {
-        params: {
-          leave_id: leave_id,
-        },
-      })
-      .then((response) => {
-        setFormData(response.data.data[0]);
-        console.log(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+        .get("http://localhost:5000/api/leave/study", {
+          params: {
+            leave_id: leave_id,
+          },
+        })
+        .then((response) => {
+          setFormData(response.data.data[0]);
+          setAttachmentUrl(response.data.data[0]?.attachments);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     };
 
     fetchLeaveDetails();
-  }, []);
-
-  useEffect(() => {
-    console.log("formData");
-    console.log(formData);
-  }, [formData]);
+  }, [leave_id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -44,27 +41,58 @@ function StudyLeaveDetails({  }) {
     day = day < 10 ? `0${day}` : day;
     return `${year}-${month}-${day}`;
   };
-  
-  const downloadAttachment = () => {
-    // Implement the logic to download the attachment file
-    // You can use the attachmentUrl state variable to get the URL of the attachment
-    // For example:
-    window.open(attachmentUrl, "_blank");
+
+  const downloadAttachment = async () => {
+    if (attachmentUrl) {
+      try {
+        const response = await axios.get(`http://localhost:5000/files/${attachmentUrl}`, {
+          responseType: "blob", // Important: responseType must be blob
+        });
+
+        // Create a URL to the blob
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a temporary link element
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", attachmentUrl); // Set filename for download
+        document.body.appendChild(link);
+
+        // Trigger the download
+        link.click();
+
+        // Clean up
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error downloading attachment:", error);
+      }
+    } else {
+      console.error("No attachment URL found");
+    }
   };
 
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+;
   return (
     <div>
       {formData && (
         <div className="form-container">
-          <div className="header">
-            <h2>University of Chittagong</h2>
-            <h3>(Only for Study Leave Application)</h3>
-            <p>
-              <strong>
-                (No application except in this prescribed form be considered)
-              </strong>
-            </p>
-          </div>
+        <div style={{ textAlign: 'center' }}>
+        <div>
+            <h2 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '24px' }}>University of Chittagong</h2>
+          </div>          
+          <h3 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '20px' }}>(Only for Study Leave Application)</h3>
+
+          <p style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '18px' }}><strong>(No application except in this prescribed form be considered)</strong></p>
+        </div>
           <form className="leave-form">
             <div className="form-group">
               <div className="input-wrapper">
@@ -77,7 +105,7 @@ function StudyLeaveDetails({  }) {
                   name="name_of_program"
                   value={formData.name_of_program}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -94,7 +122,7 @@ function StudyLeaveDetails({  }) {
                   name="destination"
                   value={formData.destination}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -109,7 +137,7 @@ function StudyLeaveDetails({  }) {
                   name="department"
                   value={formData.department}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -124,7 +152,7 @@ function StudyLeaveDetails({  }) {
                   name="duration"
                   value={formData.duration}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -141,7 +169,7 @@ function StudyLeaveDetails({  }) {
                   name="destination_country"
                   value={formData.destination_country}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -156,7 +184,7 @@ function StudyLeaveDetails({  }) {
                   name="financial_source"
                   value={formData.financial_source}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -173,7 +201,7 @@ function StudyLeaveDetails({  }) {
                   name="joining_date"
                   value={formatDate(formData.joining_date)}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -188,7 +216,7 @@ function StudyLeaveDetails({  }) {
                   name="leave_start_date"
                   value={formatDate(formData.leave_start_date)}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
@@ -205,11 +233,104 @@ function StudyLeaveDetails({  }) {
                   name="program_start_date"
                   value={formatDate(formData.program_start_date)}
                   disabled
-                  style={{ border: "none" }} // Remove border from disabled input fields
+                  style={{ border: "none" }}
                 />
               </div>
             </div>
+            <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="signature">10. Attached Signature:</label>
+              </div>
+              <div className="input-wrapper">
+                {formData.signature ? (
+                  <img
+                    src={`http://localhost:5000/files/${formData.signature}`}
+                    alt="Signature"
+                    style={{ maxWidth: "300px", maxHeight: "80px" }}
+                  />
+                ) : (
+                  <p>No signature attached</p>
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="attachment">11. Attached Document:</label>
+              </div>
+              <div className="input-wrapper">
+                {attachmentUrl ? (
+                  <button
+                    type="button"
+                    onClick={downloadAttachment}
+                    style={{
+                      display: "inline-block",
+                      padding: "10px 20px",
+                      backgroundColor: "#007bff",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      textAlign: "center",
+                    }}
+                  >
+                    Download Attachment
+                  </button>
+                ) : (
+                  <p>No document attached</p>
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="application_to_chairman">12. Application to Chairman:</label>
+              </div>
+              <div className="input-wrapper">
+              <button
+                type="button"
+                onClick={openPopup}
+                style={{
+                  display: "inline-block",
+                  padding: "10px 20px",
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                View
+              </button>
+              </div>
+            </div>
+           {/*} <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="chairman_comment">Chairman's Comment:</label>
+              </div>
+              <div className="input-wrapper">
+                <textarea
+                  id="chairman_comment"
+                  name="chairman_comment"
+                  rows="4"
+                  cols="50"
+                  value={chairmanComment}
+                  onChange={handleCommentChange}
+                  placeholder="Enter comment here..."
+                />
+              </div>
+            </div>*/}
+
           </form>
+        </div>
+      )}
+      {isPopupOpen && (
+        <div className="popup">
+          <div className="popup-inner">
+            <button className="close-btn" onClick={closePopup}>
+              &times;
+            </button>
+            <Letter /> {/* Include the Letter component here */}
+          </div>
         </div>
       )}
     </div>
