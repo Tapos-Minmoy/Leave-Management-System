@@ -391,7 +391,7 @@ function StudyLeaveDetailsForHigherPrimary() {
                         </div>
                         <div className='cancel-submit-btn'>
                             <button className='cancel-btn'>Cancel</button>
-                            <button type="button" onClick={handleForwardOfHigherPrimary}>{instruction}</button>
+                            <button  onClick={handleForwardOfHigherPrimary}>{instruction}</button>
                         </div>
                     </form>
                 </div>

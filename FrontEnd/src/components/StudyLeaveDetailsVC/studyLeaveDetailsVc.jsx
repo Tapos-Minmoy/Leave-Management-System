@@ -388,7 +388,7 @@ function StudyLeaveDetailsVC() {
                         </div>
                         <div className='cancel-submit-btn'>
                             <button className='cancel-btn'>Cancel</button>
-                            <button type="button" onClick={handleForwardOfVC}>{instruction}</button>
+                            <button  onClick={handleForwardOfVC}>{instruction}</button>
                         </div>
                     </form>
                 </div>
