@@ -10,6 +10,7 @@ function StudyLeaveDetails() {
   const location = useLocation();
   const leave_id = location.state.id;
   const navigate = useNavigate();
+  console.log("leaveID is :"+leave_id);
 
 
   useEffect(() => {

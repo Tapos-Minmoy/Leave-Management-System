@@ -209,7 +209,7 @@ function PreviousLeave() {
                   <td className="border border-gray-200 px-4 py-2">
                     <a
                       className="underline grow my-auto cursor-pointer hover:text-blue-500"
-                      onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveProgress(application.leave_id) : openStudyLeaveProgress(application.leave_id)}
+                      onClick={() => ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details) ? openOtherLeaveProgress(application.Leave_Id) : openStudyLeaveProgress(application.Leave_Id)}
                     >
                       Detailed progress
                     </a>
