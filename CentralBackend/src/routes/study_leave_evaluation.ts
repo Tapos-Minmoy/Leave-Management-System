@@ -308,22 +308,36 @@ studyLeaveEvaluationRouter.get("/pendingApprovalsHigherStudy", async (req, res) 
       res.status(500).json({ message: "Internal server error", error });
   }
 });
+studyLeaveEvaluationRouter.get("/pendingApprovalsVC", async (req, res) => {
+  try {
+    const result = await db.selectFrom("Study_Leave_Evaluation")
+      .selectAll()
+      .where("evaluation_type", "=", "VC Approval")
+      .where("le_status", "=", "pending")
+      .execute();
 
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
 studyLeaveEvaluationRouter.get("/ApplicationToRegistrar", async (req, res) => { 
   try {
-    const { evaluation_type,evaluation_type2, evaluation_type3, le_status } = req.query;
+    const { evaluation_type,evaluation_type2, evaluation_type3, evaluation_type4,  le_status } = req.query;
 
     // Validate query parameters
     const paramsSchema = z.object({
       evaluation_type: z.string(),
       evaluation_type2: z.string(),
       evaluation_type3: z.string(),
+      evaluation_type4: z.string(),
       le_status: z.string(),
     });
-    const { evaluation_type: evalType,evaluation_type2: evalType2,evaluation_type3: evalType3, le_status: leStatus } = paramsSchema.parse({
+    const { evaluation_type: evalType,evaluation_type2: evalType2,evaluation_type3: evalType3,evaluation_type4: evalType4, le_status: leStatus } = paramsSchema.parse({
       evaluation_type,
       evaluation_type2,
       evaluation_type3,
+      evaluation_type4,
       le_status,
     });
 
@@ -337,7 +351,7 @@ studyLeaveEvaluationRouter.get("/ApplicationToRegistrar", async (req, res) => {
         "s.leave_id", 
         "s.name_of_program as Leave_Type_Details",
       ])
-      .where("e.evaluation_type", "in", [evalType,evalType2,evalType3])
+      .where("e.evaluation_type", "in", [evalType,evalType2,evalType3,evalType4])
       .where("e.le_status", "=", leStatus);
 
     // Query to join tables for Other Leave
@@ -350,7 +364,7 @@ studyLeaveEvaluationRouter.get("/ApplicationToRegistrar", async (req, res) => {
         "s.leave_id", 
         "s.nature_of_leave as Leave_Type_Details",
       ])
-      .where("e.evaluation_type", "in", [evalType,evalType2])
+      .where("e.evaluation_type", "in", [evalType,evalType2,evalType3, evalType4])
       .where("e.le_status", "=", leStatus);
 
     // Combine the two queries using union

@@ -11,22 +11,22 @@ function OtherLeaveDetailsForRegistrar() {
   const leave_id = location.state?.id;
   const evaluation_type = location.state?.evaluation_type;
   const navigate = useNavigate();
-  const [registrarComment, setRegistrarComment] = useState("");
-  var instruction = "Forward to Higher Studies";
+  const [registrarComment, setregistrarComment] = useState(""); 
 
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       if (leave_id) {
         axios
-          .get("http://localhost:5000/api/leave/other", {
+          .get("http://localhost:5000/api/leave/other/otherLeaveDetails", {
             params: {
               leave_id: leave_id,
             },
           })
           .then((response) => {
-            console.log(response.data.data[0]);
-            setFormData(response.data.data[0]);
-            setAttachmentUrl(response.data.data[0]?.attachments);
+            console.log(response.data[0]);
+            setFormData(response.data[0]);
+            console.log("OK "+formData);
+            setAttachmentUrl(response.data[0]?.attachments);
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -82,34 +82,36 @@ function OtherLeaveDetailsForRegistrar() {
     setIsPopupOpen(false);
   };
 
-  const handleForwardOfRegistrar = async () => {
-    console.log(leave_id + " " + evaluation_type);
-
+  const handleForwardOfRegistrar = async (e) => {
+    console.log("clicked");
+    e.preventDefault();
     if (formData) {
       const currentTime = new Date().toISOString();
       const updateData = {
         leave_id,
-        evaluation_type,
+        evaluation_type: "Registrar Approval",
         applicant_id: formData.applicant_id,
-        le_comment: registrarComment,
+        le_comment: registrarComment, // Correct reference to chairmanComment
         le_evaluation_time: currentTime,
-        le_status: "approved"
+        le_status: "approved",
       };
 
       
 
       try {
-        const response = await axios.put(`http://localhost:5000/api/leave/evaluates/other/update`, updateData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.put(
+          `http://localhost:5000/api/leave/evaluates/other/update`,
+          updateData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         var result = response.data;
         if (result.message === "Data Updated Successfully in Other_Leave_Evaluation Table.") {
-          alert("Response Successfully Submitted.");
           navigate("/noc/registrar");
         }
-        
       } catch (error) {
         console.error("Error Encountered...", error);
         alert("An error occurred. Please try again.");
@@ -118,7 +120,7 @@ function OtherLeaveDetailsForRegistrar() {
   };
 
   const handleCommentChange = (event) => {
-    setRegistrarComment(event.target.value);
+    setregistrarComment(event.target.value);
   };
 
   return (
@@ -144,7 +146,7 @@ function OtherLeaveDetailsForRegistrar() {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
+                  value={formData.title+" "+formData.first_name+" "+formData.last_name}                  
                   disabled
                   style={{ border: "none" }}
                 />
@@ -181,10 +183,12 @@ function OtherLeaveDetailsForRegistrar() {
               </div>
             </div>
             <div className="form-group">
-              <div className="input-wrapper">
-                <label htmlFor="leave_start_date">4. The period for and date from which the leave is required:</label>
-              </div>
-              <div className="input-wrapper">
+            <div className="input-wrapper">
+              <label htmlFor="period">4. The period for and date from which the leave is required:</label>
+            </div>
+            <div className="input-wrapper">
+              <div>
+                <label style={{ marginLeft: '120px' }}>Period:</label>
                 <input
                   type="text"
                   id="leave_start_date"
@@ -194,7 +198,18 @@ function OtherLeaveDetailsForRegistrar() {
                   style={{ border: "none" }}
                 />
               </div>
+              <label style={{ marginLeft: '90px' }}>leaveStartDate:</label>
+              <input
+                  type="date"
+                  id="leave_start_date"
+                  name="leave_start_date"
+                  value={formatDate(formData.leave_start_date)}
+                  disabled
+                  style={{ border: "none" }}
+                />
             </div>
+          </div>
+
             <div className="form-group">
               <div className="input-wrapper">
                 <label htmlFor="permissionToLeaveStation">5. Whether permission to leave the station is required:</label>
@@ -230,6 +245,7 @@ function OtherLeaveDetailsForRegistrar() {
                 <label htmlFor="refundUndertaking">7. I undertake to refund the difference between the leave salary and other allowances admissible during leave:</label>
               </div>
               <div className="input-wrapper">
+                <level className="checkbox-label">
                 <input
                   type="checkbox"
                   id="refundUndertaking"
@@ -238,12 +254,29 @@ function OtherLeaveDetailsForRegistrar() {
                     salary_acknowledgement === 1}
                   disabled
                   style={{ border: "none" }}
-                />
+                />Yes
+                </level>
               </div>
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="additionalFile">8. Uploaded file (if any):</label>
+                <label htmlFor="signature">8. Attached Signature:</label>
+              </div>
+              <div className="input-wrapper">
+                {formData.signature ? (
+                  <img
+                    src={`http://localhost:5000/files/${formData.signature}`}
+                    alt="Signature"
+                    style={{ maxWidth: "300px", maxHeight: "80px" }}
+                  />
+                ) : (
+                  <p>No signature attached</p>
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="input-wrapper">
+                <label htmlFor="additionalFile">9. Uploaded file (if any):</label>
               </div>
               <div className="input-wrapper">
                 {attachmentUrl ? (
@@ -270,23 +303,27 @@ function OtherLeaveDetailsForRegistrar() {
               </div>
             </div>
             
-            
+
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="registrarComment">9. Comment of the Registrar:</label>
+                <label htmlFor="chairman_comment">Registrar's Comment:</label>
               </div>
               <div className="input-wrapper">
                 <textarea
-                  id="registrarComment"
-                  name="registrarComment"
+                  id="chairman_comment"
+                  name="chairman_comment"
+                  rows="4"
+                  cols="50"
                   value={registrarComment}
                   onChange={handleCommentChange}
+                  placeholder="Enter comment here..."
                 />
               </div>
             </div>
           </form>
-          <div className="button-container">
-            <button className="forward-button" onClick={handleForwardOfRegistrar}>Approve Leave</button>
+          <div className='cancel-submit-btn'>
+            <button className='cancel-btn' >Cancel</button>
+            <button onClick={handleForwardOfRegistrar}>Approve Leave Application</button>
           </div>
         </div>
       )}

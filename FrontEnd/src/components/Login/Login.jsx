@@ -21,7 +21,7 @@ const Login = () => {
       role === "applicant" ? "/api/login/teacher" : "/api/login/";
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`http://bike-csecu.com:5000${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const Login = () => {
 
       if (result.message == "The user is already logged in") {
         try {
-          const responseLogout = await fetch("http://localhost:5000/api/logout", {
+          const responseLogout = await fetch("http://bike-csecu.com:5000/api/logout", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${result.session_id}`,
@@ -52,7 +52,7 @@ const Login = () => {
             });
 
             try {
-              const responselogin = await fetch(`http://localhost:5000${endpoint}`, {
+              const responselogin = await fetch(`http://bike-csecu.com:5000${endpoint}`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -86,6 +86,7 @@ const Login = () => {
                 console.log("role is " + loggedInUserRole);
                 if (resultlogin.role.role === "chairman") navigate("/noc/chairman");
                 else if (resultlogin.role.role === "register") navigate("/noc/registrar");
+                else if (resultlogin.role.role === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
                 else navigate("/noc/leaveApplication"); // Adjust the route as necessary
               } else {
                 alert(resultlogin.message);
@@ -120,6 +121,7 @@ const Login = () => {
         const loggedInUserRole = Cookies.get("role_role") || "";
         if (loggedInUserRole === "chairman") navigate("/noc/chairman");
         else if (loggedInUserRole === "register") navigate("/noc/registrar");
+        else if (loggedInUserRole === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
         else navigate("/noc/leaveApplication"); // Adjust the route as necessary
       } else {
         alert(result.message);

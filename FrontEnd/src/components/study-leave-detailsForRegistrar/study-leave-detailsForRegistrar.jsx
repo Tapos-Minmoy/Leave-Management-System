@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Letter from '../LetterToChaiman/LetterToChaiman';
+import Letter from "../LetterToChaiman/LetterToChaiman";
 import axios from "axios";
 
 function StudyLeaveDetailsForRegistrar() {
@@ -8,13 +8,15 @@ function StudyLeaveDetailsForRegistrar() {
   const [attachmentUrl, setAttachmentUrl] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const location = useLocation();
-  const leave_id = location.state?.id; 
+  const leave_id = location.state?.id;
   const evaluation_type = location.state?.evaluation_type;
   const navigate = useNavigate();
-  const [registrarComment, setRegistrarComment] = useState(""); 
+  const [registrarComment, setRegistrarComment] = useState("");
   var instruction =
-   evaluation_type==="Registrar Secondary Approval"?"Forward To VC" : "Forward to Higher Studies";
-  
+    evaluation_type === "Registrar Secondary Approval"
+      ? "Forward To VC"
+      : "Forward to Higher Studies";
+
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       if (leave_id) {
@@ -50,9 +52,12 @@ function StudyLeaveDetailsForRegistrar() {
   const downloadAttachment = async () => {
     if (attachmentUrl) {
       try {
-        const response = await axios.get(`http://localhost:5000/files/${attachmentUrl}`, {
-          responseType: "blob",
-        });
+        const response = await axios.get(
+          `http://localhost:5000/files/${attachmentUrl}`,
+          {
+            responseType: "blob",
+          }
+        );
 
         const blob = new Blob([response.data], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blob);
@@ -82,9 +87,10 @@ function StudyLeaveDetailsForRegistrar() {
     setIsPopupOpen(false);
   };
 
-  const handleForwardOfRegistrar = async () => {
+  const handleForwardOfRegistrar = async (e) => {
+    e.preventDefault();
     console.log(leave_id + " " + evaluation_type);
-    
+  
     if (formData) {
       const currentTime = new Date().toISOString();
       const updateData = {
@@ -93,50 +99,67 @@ function StudyLeaveDetailsForRegistrar() {
         applicant_id: formData.applicant_id,
         le_comment: registrarComment,
         le_evaluation_time: currentTime,
-        le_status: "approved"
+        le_status: "approved",
       };
-      var evaluation_type_update;
-      if(evaluation_type==="Register Primary Approval")evaluation_type_update="Higher Study Primary Approval"
-      else if(evaluation_type==="Register Secondary Approval")evaluation_type_update="VC Approval"
-      else evaluation_type_update="Higher Study Final Approval" 
-
-      const addData = {
-        leave_id,
-        evaluation_type: evaluation_type_update,
-        applicant_id: formData.applicant_id,
-        le_comment: "",
-        le_evaluation_time: currentTime,
-        le_status: "pending"
-      };
-
-      
-
+  
       try {
-        const response = await axios.put(`http://localhost:5000/api/leave/evaluates/study/update`, updateData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        var result=response.data;
-        if(result.message==="Data Updated Successfully in Study_Leave_Evaluation Table."){
-          try{
-            const response2 = await axios.post(`http://localhost:5000/api/leave/evaluates/study/add`, addData, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            result=response2.data;
-
+        const response = await axios.put(
+          `http://localhost:5000/api/leave/evaluates/study/update`,
+          updateData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
-          catch (error) {
-            console.error("Error Encountered...", error);
-            alert("An error occurred. Please try again.");
-          }
-          
-        }
-        if(result.message==="Data Inserted Successfully in Study_Leave_Evaluation Table.") {
-          alert("Response Successfully Submitted.");
-          navigate("/noc/registrar");
+        );
+        var result = response.data;
+        if (
+          result.message ===
+          "Data Updated Successfully in Study_Leave_Evaluation Table."
+        ) {
+          setTimeout(async () => {
+            try {
+              const currentTime = new Date().toISOString();
+              var evaluation_type_update;
+              if (evaluation_type === "Registrar Primary Approval") {
+                evaluation_type_update = "Higher Study Branch Primary Approval";
+              } else if (evaluation_type === "Registrar Secondary Approval") {
+                evaluation_type_update = "VC Approval";
+              } else {
+                evaluation_type_update = "Higher Study Branch Final Approval";
+              }
+              const addData = {
+                leave_id,
+                evaluation_type: evaluation_type_update,
+                applicant_id: formData.applicant_id,
+                le_comment: "",
+                le_evaluation_time: currentTime,
+                le_status: "pending",
+              };
+  
+              const response2 = await axios.post(
+                `http://localhost:5000/api/leave/evaluates/study/add`,
+                addData,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              result = response2.data;
+              console.log(result);
+              if (
+                result.message ===
+                "Data Inserted Successfully in Study_Leave_Evaluation Table."
+              ) {
+                alert("Response Successfully Submitted.");
+                navigate("/noc/registrar");
+              }
+            } catch (error) {
+              console.error("Error Encountered...", error);
+              alert("An error occurred. Please try again.");
+            }
+          }, 1500);
         }
       } catch (error) {
         console.error("Error Encountered...", error);
@@ -144,6 +167,8 @@ function StudyLeaveDetailsForRegistrar() {
       }
     }
   };
+  
+  
 
   const handleCommentChange = (event) => {
     setRegistrarComment(event.target.value);
@@ -352,7 +377,9 @@ function StudyLeaveDetailsForRegistrar() {
             </div>
             <div className="form-group">
               <div className="input-wrapper">
-                <label htmlFor="application_to_chairman">12. Application to Chairman:</label>
+                <label htmlFor="application_to_chairman">
+                  12. Application to Chairman:
+                </label>
               </div>
               <div className="input-wrapper">
                 <button
@@ -388,9 +415,9 @@ function StudyLeaveDetailsForRegistrar() {
                 />
               </div>
             </div>
-            <div className='cancel-submit-btn'>
-              <button className='cancel-btn'>Cancel</button>
-              <button type="button" onClick={handleForwardOfRegistrar}>{instruction}</button>
+            <div className="cancel-submit-btn">
+              <button className="cancel-btn">Cancel</button>
+              <button className="submit-btn" onClick={handleForwardOfRegistrar}>{instruction}</button>
             </div>
           </form>
         </div>
