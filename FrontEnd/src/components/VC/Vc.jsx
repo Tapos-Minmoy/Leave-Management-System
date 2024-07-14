@@ -147,6 +147,7 @@ function Vc() {
                     >
                       Detailed progress
                     </a>
+                    
                   </td>
                 </tr>
               ))}
