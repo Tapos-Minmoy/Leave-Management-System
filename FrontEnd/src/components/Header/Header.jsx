@@ -3,6 +3,7 @@ import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import logoImage from '../images/logo.png';
+import profileImage from '../images/user.png';
 
 const Header = () => {
   const [userFirstName, setUserFirstName] = useState('');
@@ -78,7 +79,7 @@ const Header = () => {
           arrowIcon={false}
           inline
           label={
-            <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+            <Avatar alt="User settings" img={profileImage} rounded />
           }
         >
           <Dropdown.Header>
