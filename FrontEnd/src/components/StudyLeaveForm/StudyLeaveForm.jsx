@@ -162,10 +162,13 @@ function StudyLeaveForm({  }) {
     <div>
 
       <div className="form-container">
-        <div className="header">
-          <h2>University of Chittagong</h2>
-          <h3>(Only for Study Leave Application)</h3>
-          <p><strong>(No application except in this prescribed form be considered)</strong></p>
+        <div style={{ textAlign: 'center' }}>
+        <div>
+            <h2 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '24px' }}>University of Chittagong</h2>
+          </div>          
+          <h3 style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '20px' }}>(Only for Study Leave Application)</h3>
+
+          <p style={{ display: 'block', margin: '5px 0', fontWeight: 'bold', fontSize: '18px' }}><strong>(No application except in this prescribed form be considered)</strong></p>
         </div>
         <form className="leave-form" onSubmit={handleSubmit}>
           <div className="form-group">

@@ -5,9 +5,13 @@
   font-size: 20px;
 }
 
+.header h2,
+.header h3,
 .header p {
-  font-weight: bold;
+  display: block; /* Ensure they are block elements */
+  margin: 5px 0; /* Add margin for spacing */
 }
+
 
 .form-container {
   background-color: rgb(227, 242, 253);
