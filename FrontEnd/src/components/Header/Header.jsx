@@ -4,8 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import logoImage from '../images/logo.png';
 import profileImage from '../images/user.png';
+import Rules from '../Rules/Rules';
 
 const Header = () => {
+  const [showRules, setShowRules] = useState(false); // State to control Rules visibility
+
+  const handleOpenRules = () => {
+      setShowRules(true);
+  };
+
+  const handleCloseRules = () => {
+      setShowRules(false);
+  };
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [role, setRole] = useState('');
@@ -27,7 +37,7 @@ const Header = () => {
   }, []);
   const logout = async () => {
     const sessionId = Cookies.get('session_id') || '';
-
+  
     try {
       const response = await fetch('http://localhost:5000/api/logout', {
         method: 'POST',
@@ -36,27 +46,26 @@ const Header = () => {
           'Content-Type': 'application/json'
         }
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok && result.message === 'Logged out successfully') {
         // Clear all cookies
         Object.keys(Cookies.get()).forEach(cookieName => {
           Cookies.remove(cookieName);
         });
-
-    const firstName ='';
-    const lastName ='';
-    const userRole ='';
-    const sessionId ='';
-
-
-    // Reset state with retrieved values
-    setUserFirstName(firstName);
-    setUserLastName(lastName);
-    setRole(userRole);
-    setSessionId(sessionId);
-
+  
+        const firstName = '';
+        const lastName = '';
+        const userRole = '';
+        const sessionId = '';
+  
+        // Reset state with retrieved values
+        setUserFirstName(firstName);
+        setUserLastName(lastName);
+        setRole(userRole);
+        setSessionId(sessionId);
+  
         // Navigate to login page
         navigate('/noc/login');
       } else {
@@ -65,8 +74,9 @@ const Header = () => {
     } catch (error) {
       console.error('Error logging out:', error);
       alert('An error occurred. Please try again.');
-    }
+    } // <--- Add the missing semicolon here
   };
+  
 
   return (
     <Navbar fluid rounded>
@@ -98,6 +108,9 @@ const Header = () => {
         <Navbar.Link href="/noc/login" active>Login/Register</Navbar.Link>
         <Navbar.Link href="/instructions">Insturctions</Navbar.Link>
         <Navbar.Link href="/notices">Notices</Navbar.Link>
+        <Navbar.Link href="#" onClick={handleOpenRules}>Rules</Navbar.Link>
+        {/* Rules for rules */}
+        {showRules && <Rules onClose={handleCloseRules} />}
       </Navbar.Collapse>
     </Navbar>
   );
