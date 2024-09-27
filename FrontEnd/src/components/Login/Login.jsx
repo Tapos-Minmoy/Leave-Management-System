@@ -11,7 +11,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const loginData =
       role === "applicant"
         ? { teacher_id: Number(teacherId), password }
@@ -30,8 +29,7 @@ const Login = () => {
       });
 
       const result = await response.json();
-      console.log(result);
-      console.log(result.message);
+
 
       if (result.message == "The user is already logged in") {
         try {
@@ -61,7 +59,6 @@ const Login = () => {
               });
 
               const resultlogin = await responselogin.json();
-
               if (resultlogin.message == "Successfully logged in") {
                 // Store the session ID, user, and role in cookies
                 Cookies.set("session_id", resultlogin.session_id, { expires: 7 }); // Expires in 7 days
@@ -74,20 +71,22 @@ const Login = () => {
                 });
 
                 // Store each field of the role object individually
-                Object.entries(resultlogin.role).forEach(([key, value]) => {
+
+                Object.entries(resultlogin.roles[0]).forEach(([key, value]) => {
                   Cookies.set(
                     `role_${key}`,
                     value === null ? "" : value.toString(),
                     { expires: 7 }
                   );
                 });
+                console.log("ok");
                 // Redirect to a protected route or dashboard
-                const loggedInUserRole = resultlogin.role.role;
-                console.log("role is " + loggedInUserRole);
-                if (resultlogin.role.role === "chairman") navigate("/noc/chairman");
-                else if (resultlogin.role.role === "register") navigate("/noc/registrar");
-                else if(resultlogin.role.role === "vice_chancellor")navigate("/noc/VC");
-                else if (resultlogin.role.role === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
+                const loggedInUserRole = resultlogin.roles[0].role;
+
+                if (resultlogin.roles[0].role === "chairman") navigate("/noc/chairman");
+                else if (resultlogin.roles[0].role === "register") navigate("/noc/registrar");
+                else if(resultlogin.roles[0].role === "vice_chancellor")navigate("/noc/VC");
+                else if (resultlogin.roles[0].role === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
                 else navigate("/noc/leaveApplication"); // Adjust the route as necessary
               } else {
                 alert(resultlogin.message);
