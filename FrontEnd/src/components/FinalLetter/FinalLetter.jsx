@@ -3,6 +3,8 @@ import './FinalLetter.css';
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf';
 import letterHeader from '../../components/images/letterHeader.png';
+import axios from "axios";
+
 
 Font.register({
     family: 'Roboto-Regular',
@@ -48,7 +50,7 @@ const PdfDocument = ({ applicantData }) => (
                 <Text>Memo No: {applicantData.memoNo}</Text>
                 <Text>{applicantData.name}</Text>
                 <Text>{applicantData.position}</Text>
-                <Text>{applicantData.department}</Text>
+                <Text>Department of {applicantData.department}</Text>
                 <Text>{applicantData.university}</Text>
                 <Text>{applicantData.location}</Text>
                 <Text>Dated: {applicantData.date}</Text>
@@ -80,47 +82,60 @@ const PdfDocument = ({ applicantData }) => (
     </Document>
 );
 
-const FinalLetter = () => {
+const FinalLetter = ({leaveID} ) => {
+    console.log("Final "+ leaveID);
     const [applicantData, setApplicantData] = useState({
-        memoNo: '1234',
-        name: 'Sabbir Hasan',
-        position: 'Teacher',
-        department: 'Department of Computer Science and Engineering',
+        memoNo: '',
+        name: '',
+        position: '',
+        department: '',
         university: 'University of Chittagong',
         location: 'Chittagong, Bangladesh',
-        date: '2023-03-01',
-        applicationDate: '2023-03-02',
-        startDate: '2023-04-08',
-        universityName: 'UK_U',
-        country: 'UK',
+        date: '',
+        applicationDate: '',
+        startDate: '',
+        universityName: '',
+        country: '',
         memoNoPrime: '',
         memoDate: '',
-        endDate: '2027-04-08',
+        endDate: '',
     });
+  // Fetch data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/leave/common/StudyLeaveFinalLetter", {
+          params: {
+            leave_id: leaveID,
+          },
+        });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = {
-                memoNo: '1234',
-                name: 'Sabbir Hasan',
-                position: 'Teacher',
-                department: 'Department of Computer Science and Engineering',
-                university: 'University of Chittagong',
-                location: 'Chittagong, Bangladesh',
-                date: '2023-03-01',
-                applicationDate: '2023-03-02',
-                startDate: '2023-04-08',
-                universityName: 'UK_U',
-                country: 'UK',
-                memoNoPrime: '',
-                memoDate: '',
-                endDate: '2027-04-08',
-            };
-            setApplicantData(data);
-        };
+        const data = response.data[0];
+        console.log(response.data);
+        console.log(data);
+        setApplicantData({
+          name: `${data.title} ${data.first_name} ${data.last_name}`,
+          position: data.designation,
+          department: data.department_name,
+          university: 'University of Chittagong',
+          location: 'Chittagong, Bangladesh',
+          date : new Date(data.le_evaluation_time).toISOString().split('T')[0],
+          applicationDate: new Date(data.applied_date).toISOString().split('T')[0],
+          startDate: new Date(data.leave_start_date).toISOString().split('T')[0],
+          universityName: data.destination,
+          country: data.destination_country,
+          memoNoPrime: '',
+          memoDate: '',
+          endDate:''
+        });
+      } catch (error) {
+        console.error("Error fetching applicant data:", error);
+      }
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+  }, [leaveID]);
+
 
     return (
         <div className="letter-container">
@@ -137,7 +152,7 @@ const FinalLetter = () => {
                 <br />
                 <p>{applicantData.name}</p>
                 <p>{applicantData.position}</p>
-                <p>{applicantData.department}</p>
+                <p>Department of {applicantData.department}</p>
                 <p>{applicantData.university}</p>
                 <p>{applicantData.location}</p>
                 <br />
