@@ -77,4 +77,37 @@ commonLeaveUtilitiesRouter.get("/StudyLeaveLetterToChairmanInfo", async (req, re
     res.status(500).json({ message: "Internal server error", error });
   }
 });
+
+commonLeaveUtilitiesRouter.get("/StudyLeaveFinalLetter", async (req, res) => {
+  try {
+    const leaveIdSchema = z.object({
+      leave_id: z.preprocess((val) => Number(val), z.number().int()),  // Convert to number
+    });
+
+
+    const { leave_id } = leaveIdSchema.parse(req.query);
+    console.log(leave_id)
+    const results = await db
+      .selectFrom("Study_Leave_Application as s")
+      .innerJoin("User as u", "u.user_id", "s.applicant_id")
+      .leftJoin("Teacher as t", "t.user_id", "u.user_id")
+      .innerJoin("Department as d","d.department_id","t.department_id")
+      .innerJoin("Study_Leave_Evaluation as e","s.leave_id","e.leave_id")
+      .select([
+        "s.joining_date","s.name_of_program","s.destination_country","s.leave_start_date","s.financial_source","s.duration",
+        "d.department_name", "u.first_name", "u.last_name", "t.title","u.user_id","t.designation",
+        "s.applied_date","s.leave_start_date","e.le_evaluation_time","s.destination"
+      ])
+      .where("s.leave_id", "=", leave_id )
+      .where("e.leave_id", "=", leave_id )
+      .where("e.evaluation_type", "=", "Higher Study Branch Final Approval")
+      .execute();
+      console.log(results);
+
+
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+});
 export default commonLeaveUtilitiesRouter;
