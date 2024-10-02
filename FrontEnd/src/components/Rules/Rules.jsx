@@ -12,13 +12,14 @@ const Rules = ({ onClose }) => {
     }
 
     return (
-        <div ref={modalRef} onClick={closeModal} className=" border-solid border-black  fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center">
+        <div ref={modalRef} onClick={closeModal} className=" border-solid border-black  fixed inset-0 bg-gray-300 bg-opacity-70 backdrop-blur-sm flex items-center justify-center">
 
-            <div className="mt-0 flex flex-col gap-5 text-white p-6 pt-0  rounded-lg shadow-lg  max-w-4xl w-full h-1/2 overflow-y-auto">
+            <div className="mt-0 flex flex-col gap-5 text-white p-6 pt-0  rounded-lg shadow-lg  max-w-4xl w-full max-h-[600px] overflow-y-auto">
                 <button onClick={onClose} className='place-self-end hover:bg-red-700'><X size={20}></X></button>
-                <div className='bg-black px-14 pt-2 rounded-lg shadow-lg'>
-                    <h1 className="text-3xl font-bold">Summary of Leave Rules at Chittagong University</h1>
-                    <div className="space-y-6 text-gray-200">
+                <div className='bg-white px-14 pt-2 rounded-lg shadow-lg'>
+                <h1 className="text-3xl font-bold text-black">Summary of Leave Rules at Chittagong University</h1>
+                    <div className="space-y-6 text-black">
+
                         {/* Casual Leave */}
                         <section>
                             <h2 className="text-xl font-semibold">1. Casual Leave</h2>
