@@ -83,7 +83,6 @@ const Header = () => {
       </Navbar.Brand>
       <div className="flex md:order-2">
         {/* Conditionally render the Dropdown only if userRole is not empty */}
-        {role && (
           <Dropdown
             arrowIcon={false}
             inline
@@ -98,7 +97,6 @@ const Header = () => {
             <Dropdown.Divider />
             <Dropdown.Item onClick={logout}>Sign out</Dropdown.Item>
           </Dropdown>
-        )}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
