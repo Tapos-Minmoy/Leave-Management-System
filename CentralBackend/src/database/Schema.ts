@@ -10,14 +10,16 @@ import {
 // Related to result processing
 
 export interface FormTable {
-  clearance_level: number | 1;
+  clearance_level: Generated<number | null>;
   current_address_id: number | null;
-  description_of_other_programs: string | null;
+  description_of_other_programs: Generated<string | null>;
+  exam_id: number | null;
   form_id: Generated<number>;
   form_submission_time: Date | null;
   permanent_address_id: number | null;
-  previous_charges: string | null;
+  previous_charges: Generated<string | null>;
   student_id: number | null;
+  student_status: Generated<"Improvement" | "Irregular" | "Regular">;
 }
 
 export interface FormEvaluationTable {
@@ -32,6 +34,7 @@ export interface ImageTable {
   image_id: Generated<number>;
   image_path: string | null;
   image_type: string | null;
+  remote_image_url: string | null
 }
 
 export interface ExamCommitteeTable {

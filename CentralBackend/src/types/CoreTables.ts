@@ -13,13 +13,19 @@ export interface UniversityTable {
 }
 
 export interface DepartmentTable {
-  department_abbrev: string;
+  department_abbr: string;
   department_id: Generated<number>;
   department_name: string;
   faculty: string;
   grad_semester_no: number;
   undergrad_semester_no: number;
   university_id: number;
+}
+
+export interface ProgramTable {
+  program_abbr: string;
+  program_id: Generated<number>;
+  program_name: string;
 }
 
 export interface ExamCommitteeTable {
@@ -43,10 +49,10 @@ export interface HallTable {
 }
 
 export interface AcademicSessionTable {
-  academic_session: string;
-  academic_session_id: Generated<number>;
-  program: string;
+  academic_session_id: number;
+  program_id: number;
   semester: number;
+  session: string;
 }
 export interface CourseTable {
   course_code: string;
@@ -60,7 +66,14 @@ export interface CourseTable {
 
 export interface CoursesInSemesterTable {
   academic_session_id: number;
+  catm_submit_date: Date | null;
   course_id: number;
+  is_catm_submitted: Generated<number>;
+  result_status: Generated<"Completed" | "Pending" | "Unassigned">;
+  result_submit_date: Date | null;
+  is_decoded: Generated<number>;
+  set_A_sumitted: Generated<number>;
+  set_B_sumitted: Generated<number>;
 }
 
 export interface ExamTable {
@@ -74,6 +87,8 @@ export interface ExamTable {
   exam_start_date: Date | null;
   is_result_submitted: Generated<number>;
   result_submit_date: Date | null;
+  committee_created: Generated<number>;
+  is_result_completed: Generated<number>;
 }
 
 export interface AddressTable {
@@ -91,7 +106,8 @@ export interface AddressTable {
 }
 
 export interface UserTable {
-  address_id: number;
+  permanent_address_id: number;
+  present_address_id: number;
   blood_group: string | null;
   dob: Date;
   email: string;
@@ -111,7 +127,7 @@ export interface UserTable {
 }
 
 export interface StudentTable {
-  academic_session: string | null;
+  academic_session_id: number | null;
   department_id: number;
   fathers_name: string | null;
   fathers_name_bn: string | null;
@@ -142,7 +158,7 @@ export interface FormCoursesTable {
 }
 
 export interface UniversityTable {
-  university_abbrev: string;
+  university_abbr: string;
   university_id: Generated<number>;
   university_name: string;
 }
@@ -166,6 +182,28 @@ export interface UserTable {
   sign_id: number | null;
   user_id: Generated<string>;
 }
+
+export interface SoS_UserTable {
+  mobile: string;
+  password: string;
+  user_name: string | null;
+}
+
+export interface SoS_MessageTable {
+  mobile: string;
+  message_id: Generated<number>;
+  content: string;
+  attachment: string | null;
+  timestamp: Generated<EpochTimeStamp>;
+}
+
+export type SoS_User = Selectable<SoS_UserTable>;
+export type NewSoS_User = Insertable<SoS_UserTable>;
+export type SoS_UserUpdate = Updateable<SoS_UserTable>;
+
+export type SoS_Message = Selectable<SoS_MessageTable>;
+export type NewSoS_Message = Insertable<SoS_MessageTable>;
+export type SoS_MessageUpdate = Updateable<SoS_MessageTable>;
 
 export type Address = Selectable<AddressTable>;
 export type NewAddress = Insertable<AddressTable>;
@@ -222,3 +260,7 @@ export type AcademicSessionUpdate = Updateable<AcademicSessionTable>;
 export type FormCourse = Selectable<FormCoursesTable>;
 export type NewFormCourse = Insertable<FormCoursesTable>;
 export type FormCourseUpdate = Updateable<FormCoursesTable>;
+
+export type Program = Selectable<ProgramTable>;
+export type NewProgram = Insertable<ProgramTable>;
+export type ProgramUpdate = Updateable<ProgramTable>;

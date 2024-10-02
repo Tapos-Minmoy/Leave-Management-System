@@ -29,5 +29,16 @@ export function addCourseSemesterFilter(
     );
   }
 
+  if (
+    req.query.is_catm_submitted &&
+    z.coerce.number().safeParse(req.query.is_catm_submitted).success
+  ) {
+    query = query.where(
+      "Courses_in_Semester.is_catm_submitted",
+      "=",
+      z.coerce.number().parse(req.query.is_catm_submitted),
+    );
+  }
+
   return query;
 }

@@ -22,13 +22,13 @@ export function addStudentFilter(
     );
   }
   if (
-    req.query.academic_session &&
-    z.string().safeParse(req.query.academic_session).success
+    req.query.academic_session_id &&
+    z.coerce.number().safeParse(req.query.academic_session_id).success
   ) {
     query = query.where(
-      "Student.academic_session",
+      "Student.academic_session_id",
       "=",
-      req.query.academic_session as string,
+      z.coerce.number().parse(req.query.academic_session_id),
     );
   }
   if (

@@ -58,17 +58,17 @@ loginRouter.post("/student", async (req, res) => {
 
     // Get user role
     const role = await db
-    .selectFrom("Roles")
-    .selectAll()
-    .where("user_id", "=", user.user_id)
-    .executeTakeFirst();
+      .selectFrom("Roles")
+      .selectAll()
+      .where("user_id", "=", user.user_id)
+      .executeTakeFirst();
 
     // Return the session id
     res.status(200).send({
       message: "Successfully logged in",
       session_id: session?.session_id,
       user: user,
-      role: role ?? 'student',
+      role: role ?? "student",
     });
   } catch (error) {
     var typeError: z.ZodError | undefined;
@@ -84,7 +84,7 @@ loginRouter.post("/student", async (req, res) => {
 });
 
 const teacherLoginReqBody = z.object({
-  teacher_id: z.number().min(100000),
+  teacher_id: z.number().min(1000),
   password: z.string().min(8),
 });
 loginRouter.post("/teacher", async (req, res) => {
@@ -104,6 +104,11 @@ loginRouter.post("/teacher", async (req, res) => {
     }
 
     user.password = "";
+
+    const rolesQuery = db
+      .selectFrom("Roles")
+      .where("Roles.user_id", "=", user.user_id)
+      .selectAll();
 
     // Generate a session id
     var session: { session_id: string } | undefined;
@@ -129,25 +134,32 @@ loginRouter.post("/teacher", async (req, res) => {
         .where("Auth_Session.user_id", "=", user.user_id)
         .executeTakeFirst();
 
+      var query = db
+        .selectFrom("User")
+        .where("User.user_id", "=", user.user_id)
+        .innerJoin("Teacher", "Teacher.user_id", "User.user_id");
+
+      const data = await query.selectAll().executeTakeFirst();
+      data!.password = "";
+      const roles = await rolesQuery.execute();
+
       return res.status(200).json({
         message: "The user is already logged in",
         session_id: session?.session_id,
+        user: data,
+        roles,
       });
     }
 
     // Get user role
-    const role = await db
-    .selectFrom("Roles")
-    .selectAll()
-    .where("user_id", "=", user.user_id)
-    .executeTakeFirst();
+    const roles = await rolesQuery.execute();
 
     // Return the session id
     res.status(200).send({
       message: "Successfully logged in",
       session_id: session?.session_id,
       user: user,
-      role: role ?? 'teacher'
+      roles: roles ?? "teacher",
     });
   } catch (error) {
     var typeError: z.ZodError | undefined;
@@ -217,17 +229,17 @@ loginRouter.post("/", async (req, res) => {
 
     // Get user role
     const role = await db
-    .selectFrom("Roles")
-    .selectAll()
-    .where("user_id", "=", user.user_id)
-    .executeTakeFirst();
+      .selectFrom("Roles")
+      .selectAll()
+      .where("user_id", "=", user.user_id)
+      .executeTakeFirst();
 
     // Return the session id
     res.status(200).send({
       message: "Successfully logged in",
       session_id: session?.session_id,
       user: user,
-      role: role
+      role: role,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

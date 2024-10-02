@@ -45,19 +45,39 @@ studentRouter.get(
   verifySession,
   checkPermissions,
   async (req: PermissionRequest, res: Response) => {
-    if (req.role != Role.Teacher && req.role != Role.Staff) {
-      return res.status(403).json({
-        message: "You don't have enough permissions to access this document.",
-      });
-    }
-
     try {
       const student_id = z.coerce.number().parse(req.params.id);
+      const sid = await db
+        .selectFrom("Student")
+        .where("Student.user_id", "=", req.session?.user_id!)
+        .select("student_id")
+        .executeTakeFirst();
+
+      var flag =
+        sid?.student_id === student_id ||
+        req.role === Role.Teacher ||
+        req.role === Role.Staff;
+      if (!flag) {
+        return res.status(403).json({
+          message: "You don't have enough permissions to access this document.",
+        });
+      }
 
       const data = await db
         .selectFrom("Student")
         .where("Student.student_id", "=", student_id)
         .innerJoin("User", "Student.user_id", "User.user_id")
+        .innerJoin(
+          "Department",
+          "Department.department_id",
+          "Student.department_id",
+        )
+        .leftJoin(
+          "Academic_Session",
+          "Academic_Session.academic_session_id",
+          "Student.academic_session_id",
+        )
+        .leftJoin("Hall", "Hall.hall_id", "Student.hall_id")
         .selectAll()
         .executeTakeFirst();
 
@@ -67,7 +87,25 @@ studentRouter.get(
         });
       }
 
-      return res.status(200).json(data);
+      data.password = "";
+
+      var addressQuery = db.selectFrom("Address").selectAll();
+      const permanentAddress = await addressQuery
+        .where("Address.address_id", "=", data.permanent_address_id ?? 0)
+        .executeTakeFirst();
+      const presentAddress = await addressQuery
+        .where("Address.address_id", "=", data.present_address_id ?? 0)
+        .executeTakeFirst();
+      const guardiansAddress = await addressQuery
+        .where("Address.address_id", "=", data.guardian_address_id ?? 0)
+        .executeTakeFirst();
+
+      return res.status(200).json({
+        ...data,
+        permanent_address: permanentAddress,
+        present_address: presentAddress,
+        guardians_address: guardiansAddress,
+      });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({

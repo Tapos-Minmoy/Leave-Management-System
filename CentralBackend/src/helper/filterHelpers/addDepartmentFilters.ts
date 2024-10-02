@@ -12,7 +12,7 @@ export function addDepartmentFilters(
     z.string().safeParse(req.query.abbrev).success
   ) {
     query = query.where(
-      "Department.department_abbrev",
+      "Department.department_abbr",
       "=",
       req.query.department_abbrev as string,
     );

@@ -105,5 +105,16 @@ export function addExamFilters(
     );
   }
 
+  if (
+    req.query.committee_created &&
+    z.coerce.number().safeParse(req.query.committee_created).success
+  ) {
+    query = query.where(
+      "Exam.committee_created",
+      "=",
+      z.coerce.number().parse(req.query.committee_created),
+    );
+  }
+
   return query;
 }

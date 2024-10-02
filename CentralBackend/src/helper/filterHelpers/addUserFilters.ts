@@ -12,13 +12,23 @@ export function addUserFilters(
     query = query.where("User.email", "=", req.query.email as string);
   }
   if (
-    req.query.address_id &&
-    z.coerce.number().safeParse(req.query.address_id).success
+    req.query.permanent_address_id &&
+    z.coerce.number().safeParse(req.query.permanent_address_id).success
   ) {
     query = query.where(
-      "User.address_id",
+      "User.permanent_address_id",
       "=",
-      z.coerce.number().parse(req.query.address_id),
+      z.coerce.number().parse(req.query.permanent_address_id),
+    );
+  }
+  if (
+    req.query.present_address_id &&
+    z.coerce.number().safeParse(req.query.present_address_id).success
+  ) {
+    query = query.where(
+      "User.present_address_id",
+      "=",
+      z.coerce.number().parse(req.query.present_address_id),
     );
   }
   if (

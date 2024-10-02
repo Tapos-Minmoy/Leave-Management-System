@@ -1,20 +1,28 @@
 import { Request } from "express";
 import { SelectQueryBuilder } from "kysely";
 import { Database, TableName } from "../database";
+import { addAcademicSessionFilters } from "./filterHelpers/addAcademicSessionFilters";
 import { addAddressFilters } from "./filterHelpers/addAddressFilters";
+import { addCourseFilters } from "./filterHelpers/addCourseFilters";
 import { addDepartmentFilters } from "./filterHelpers/addDepartmentFilters";
 import { addExamCommitteeFilter } from "./filterHelpers/addExamCommitteeFilters";
 import { addExamFilters } from "./filterHelpers/addExamFilter";
+import { addExamActivityFilters } from "./filterHelpers/addExamActivityFilters";
+import { addEvaluatesActivityFilters } from "./filterHelpers/addEvaluatesActivityFilters";
+import { addExaminerFilters } from "./filterHelpers/addExaminerFilters";
 import { addFormEvaluationFilters } from "./filterHelpers/addFormEvaluationFilter";
 import { addFormFilters } from "./filterHelpers/addFormFilters";
-import { addStudentFilter } from "./filterHelpers/addStudentFilters";
-import { addTeacherFilters } from "./filterHelpers/addTeacherFilters";
-import { addUserFilters } from "./filterHelpers/addUserFilters";
-import { addStudyLeaveApplicationFilter } from "./filterHelpers/addStudyLeaveApplicationFilter";
 import { addOtherLeaveApplicationFilter } from "./filterHelpers/addOtherLeaveApplicationFilter";
-import { addStudyLeaveEvaluationFilter } from "./filterHelpers/addStudyLeaveEvaluationFilter";
 import { addOtherLeaveEvaluationFilter } from "./filterHelpers/addOtherLeaveEvaluationFilter";
-import { addCourseFilters } from "./filterHelpers/addCourseFilters";
+import { addStudentFilter } from "./filterHelpers/addStudentFilters";
+import { addStudyLeaveApplicationFilter } from "./filterHelpers/addStudyLeaveApplicationFilter";
+import { addStudyLeaveEvaluationFilter } from "./filterHelpers/addStudyLeaveEvaluationFilter";
+import { addTeacherFilters } from "./filterHelpers/addTeacherFilters";
+import { addUniversityFilters } from "./filterHelpers/addUniversityFilter";
+import { addUserFilters } from "./filterHelpers/addUserFilters";
+import { addQuestionMarkFilters } from "./filterHelpers/addQuestionMarkFilters";
+import { addTotalPaperMarkFilters } from "./filterHelpers/addTotalPaperMarkFilters";
+import { addExamActivityFactorsFilters } from "./filterHelpers/addExamActivityFactorsFilters";
 
 export function addFiltration(
   table: TableName,
@@ -54,24 +62,39 @@ export function addFiltration(
     query = addExamFilters(req, query as any);
   } else if (table === "Exam_Committee") {
     query = addExamCommitteeFilter(req, query as any);
+  } else if (table === "Exam_Activity") {
+    query = addExamActivityFilters(req, query as any);
+  } else if (table === "Exam_Activity_Factors") {
+    query = addExamActivityFactorsFilters(req, query as any);
+  } else if (table === "Evaluates_Activity") {
+    query = addEvaluatesActivityFilters(req, query as any);
   } else if (table === "Form") {
     query = addFormFilters(req, query as any);
   } else if (table === "Form_Evaluation") {
     query = addFormEvaluationFilters(req, query as any);
-  } else if (table === "Course") {	
-    query = addCourseFilters(req, query as SelectQueryBuilder<Database, "Course", {}>);
-  }
-  else if(table==="Study_Leave_Application"){
-    query=addStudyLeaveApplicationFilter(req, query as any)
-  }
-  else if(table==="Other_Leave_Application"){
-    query=addOtherLeaveApplicationFilter(req, query as any)
-  }
-  else if(table==="Study_Leave_Evaluation"){
-    query=addStudyLeaveEvaluationFilter(req, query as any)
-  }
-  else if(table==="Other_Leave_Evaluation"){
-    query=addOtherLeaveEvaluationFilter(req, query as any)
+  } else if (table === "Course") {
+    query = addCourseFilters(
+      req,
+      query as SelectQueryBuilder<Database, "Course", {}>,
+    );
+  } else if (table === "Study_Leave_Application") {
+    query = addStudyLeaveApplicationFilter(req, query as any);
+  } else if (table === "Other_Leave_Application") {
+    query = addOtherLeaveApplicationFilter(req, query as any);
+  } else if (table === "Study_Leave_Evaluation") {
+    query = addStudyLeaveEvaluationFilter(req, query as any);
+  } else if (table === "Other_Leave_Evaluation") {
+    query = addOtherLeaveEvaluationFilter(req, query as any);
+  } else if (table === "University") {
+    query = addUniversityFilters(req, query as any);
+  } else if (table === "Examiner") {
+    query = addExaminerFilters(req, query as any);
+  } else if (table === "Academic_Session") {
+    query = addAcademicSessionFilters(req, query as any);
+  } else if (table === "Question_Mark") {
+    query = addQuestionMarkFilters(req, query as any);
+  } else if (table === "Total_Paper_Mark") {
+    query = addTotalPaperMarkFilters(req, query as any);
   }
 
   return query as any;

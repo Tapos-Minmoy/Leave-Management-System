@@ -78,5 +78,15 @@ export function addCourseFilters(
       z.coerce.number().parse(req.query.exam_minutes),
     );
   }
+  if (
+    req.query.course_id &&
+    z.coerce.number().safeParse(req.query.course_id).success
+  ) { 
+    query = query.where(
+      "Course.course_id",
+      "=",
+      z.coerce.number().parse(req.query.course_id),
+    );
+  }
   return query;
 }

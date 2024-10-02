@@ -115,7 +115,7 @@ formRouter.put(
         });
       }
 
-      if (form.clearance_level < 1) {
+      if (!form.clearance_level || form.clearance_level < 1) {
         return res.status(400).json({
           message: "Form with id " + form_id + " has been rejected",
         });
@@ -225,12 +225,14 @@ formRouter.put(
   },
 );
 
-const InsertFormBozy = z.object({
+const InsertFormBody = z.object({
   current_address_id: z.number(),
   courses: z.number().array().nonempty(),
   permanent_address_id: z.number().nullable().optional(),
   previous_charges: z.string().nullable().optional(),
   description_of_other_programs: z.string().nullable().optional(),
+  student_status: z.enum(["Irregular", "Improvement", "Regular"]).optional(),
+  exam_id: z.number().optional(),
 });
 
 formRouter.post(
@@ -249,7 +251,9 @@ formRouter.post(
           permanent_address_id,
           previous_charges,
           description_of_other_programs,
-        } = InsertFormBozy.parse(req.body);
+          student_status,
+          exam_id,
+        } = InsertFormBody.parse(req.body);
 
         await db
           .insertInto("Form")
@@ -261,6 +265,8 @@ formRouter.post(
             permanent_address_id: permanent_address_id ?? current_address_id,
             previous_charges: previous_charges,
             student_id: student_id,
+            student_status,
+            exam_id,
           })
           .execute();
 
@@ -343,7 +349,29 @@ formRouter.get(
       }
     }
 
-    if (req.role == Role.Teacher || req.role == Role.Staff) {
+    if (req.role == Role.Teacher) {
+      // Get all forms of all students of the same department
+      const deptInfo = await db
+        .selectFrom("Teacher")
+        .where("Teacher.user_id", "=", req.session?.user_id!)
+        .select(["department_id"])
+        .executeTakeFirst();
+
+      var deptForms = db
+        .selectFrom("Form")
+        .innerJoin("Student", "Student.student_id", "Form.student_id")
+        .where("Student.department_id", "=", deptInfo?.department_id!)
+        .orderBy("Form.form_id", "desc")
+        .selectAll();
+
+      deptForms = addFiltration("Form", deptForms, req);
+      deptForms = addFiltration("Student", deptForms, req);
+      // forms = addFiltration("Form", forms, req) as any;
+
+      return await paginatedResults(deptForms, req, res);
+    }
+
+    if (req.role == Role.Staff) {
       // Get all forms of all students
       var forms = db
         .selectFrom("Form")
@@ -373,16 +401,16 @@ async function getFormData(form_id: number) {
     .selectFrom("Form_Courses")
     .where("Form_Courses.form_id", "=", form_id)
     .innerJoin("Course", "Form_Courses.course_id", "Course.course_id")
-    .innerJoin(
-      "Courses_in_Semester",
-      "Course.course_id",
-      "Courses_in_Semester.course_id",
-    )
-    .innerJoin(
-      "Academic_Session",
-      "Courses_in_Semester.academic_session_id",
-      "Academic_Session.academic_session_id",
-    )
+    // .innerJoin(
+    //   "Courses_in_Semester",
+    //   "Course.course_id",
+    //   "Courses_in_Semester.course_id",
+    // )
+    // .innerJoin(
+    //   "Academic_Session",
+    //   "Courses_in_Semester.academic_session_id",
+    //   "Academic_Session.academic_session_id",
+    // )
     .selectAll()
     .execute();
   return { evaluation, courses };

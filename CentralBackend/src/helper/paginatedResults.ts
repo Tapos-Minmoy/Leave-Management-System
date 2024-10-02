@@ -9,6 +9,10 @@ export async function paginatedResults(
   res: Response,
 ) {
   try {
+    if (req.query.limit === "all") {
+      const data = await query.execute();
+      return res.status(200).json(data);
+    }
     const page = Math.max(1, Number(req.query.page) || 1);
     const limit = Math.max(3, Number(req.query.limit) || 10);
 
@@ -26,7 +30,7 @@ export async function paginatedResults(
 
     // console.log(`Received ${req.method} request for ${req.url}`);
     // console.log('Query Parameters:', req.query);
-    // console.log('Body:', req.body); 
+    // console.log('Body:', req.body);
 
     const result = {
       total_records: totalRecords,
