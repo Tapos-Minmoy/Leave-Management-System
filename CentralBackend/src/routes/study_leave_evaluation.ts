@@ -195,12 +195,14 @@ studyLeaveEvaluationRouter.get("/ApplicationToChaiman", async (req, res) => {
       le_status,
       factor,
     });
+    console.log(factor);
 
     // Query to join tables for Study Leave
     const studyLeaveQuery = db
       .selectFrom("Study_Leave_Evaluation as e")
       .innerJoin("Study_Leave_Application as s", "e.leave_id", "s.leave_id")
-      .innerJoin("Roles as r", "e.applicant_id", "r.user_id")
+      .innerJoin("Teacher as t","e.applicant_id","t.user_id")
+      .innerJoin("Department as d", "d.department_id","t.department_id")
       .select([
         "e.le_status", 
         "s.leave_id", 
@@ -208,14 +210,15 @@ studyLeaveEvaluationRouter.get("/ApplicationToChaiman", async (req, res) => {
       ])
       .where("e.evaluation_type", "=", evalType)
       .where("e.le_status", "=", leStatus)
-      .where("r.factor", "=", roleFactor)
+      .where("d.department_abbr", "=", roleFactor)
       .distinct();
 
     // Query to join tables for Other Leave
     const otherLeaveQuery = db
       .selectFrom("Other_Leave_Evaluation as e")
       .innerJoin("Other_Leave_Application as s", "e.leave_id", "s.leave_id")
-      .innerJoin("Roles as r", "e.applicant_id", "r.user_id")
+      .innerJoin("Teacher as t","e.applicant_id","t.user_id")
+      .innerJoin("Department as d", "d.department_id","t.department_id")
       .select([
         "e.le_status", 
         "s.leave_id", 
@@ -223,7 +226,7 @@ studyLeaveEvaluationRouter.get("/ApplicationToChaiman", async (req, res) => {
       ])
       .where("e.evaluation_type", "=", evalType)
       .where("e.le_status", "=", leStatus)
-      .where("r.factor", "=", roleFactor)
+      .where("d.department_abbr", "=", roleFactor)
       .distinct();
 
     // Combine the two queries using union

@@ -27,6 +27,7 @@ function PreviousLeave() {
       })
       .then((response) => {
         setData(response.data.evaluations);
+        console.log(response.data.evaluations);
       })
       .catch((error) => {
         console.error("Error:", error);
