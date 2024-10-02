@@ -1,109 +1,41 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>ERP Web server | API Doc</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="container bg-slate-200">
-    <main class="flex flex-col gap-2 p-4">
-      <h1
-        class="text-4xl font-bold underline decoration-green-500 decoration-4"
-      >
-        Welcome to the ERP Web Server | API Doc
-      </h1>
-      <p class="text-lg">
-        The ERP Web server is a REST API server that provides a robust backend
-        for managing various aspects for
-        <a href="https://cu.ac.bd/cse/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+<html lang="en">
 
-          <b>Department of CSE, University of Chittagong</b>
-        </a>. It is built on top
-        of a MySQL database; designed and implemented by
-        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"> <b>Database Administration Team | Level 1</b> </a>. Read
-        the database documentaion <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><b>here</b></a
-        >. This API serves as a back-end for the following systems. You can
-        learn more about these systems by following the accompanyng
-        documentation.
-      </p>
-      <table class="table table-auto border border-black">
-        <thead>
-          <tr class="border-b border-black">
-            <td class="border-r border-black">System</td>
-            <td>Developed by</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="border-r border-black">System 1</td>
-            <td>Group 1</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 2</td>
-            <td>Group 2</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 3</td>
-            <td>Group 3</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 4</td>
-            <td>Group 4</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 5</td>
-            <td>Group 5</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 6</td>
-            <td>Group 6</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 7</td>
-            <td>Group 7</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 8</td>
-            <td>Group 8</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 9</td>
-            <td>Group 9</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 10</td>
-            <td>Group 10</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 11</td>
-            <td>Group 11</td>
-          </tr>
-          <tr>
-            <td class="border-r border-black">System 12</td>
-            <td>Group 12</td>
-          </tr>
-        </tbody>
-      </table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSECU Web Server | API Doc</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="styles/index.css" />
+</head>
 
-      <h2
-        class="text-2xl font-bold underline decoration-green-500 decoration-4"
-      >
-        API Endpoints Specifications
-      </h2>
+<body>
+    <nav>
+        <div class="m-container">
+            <a href="/">CSECU Web Server</a>
+            <span class="flex-grow"></span>
+            <a href="#">Visit Portal</a>
+        </div>
+    </nav>
 
-      <p class="text-lg">The API endpoint specifications are listed below.</p>
+    <main>
+        <h1>Welcome to CSECU Web Server Documentation</h1>
+        <p>
+            Welcome to the REST API (Web server) documentation for the Department of Computer Science and Engineering at the University of Chittagong (CSECU). Our API provides seamless and reliable access to the numerous computerized systems and subsystems of the department, allowing them to communicate effectively with our centralized database. In addition, the CSECU web server hosts a variety of static resources, including images and files, enhancing the integration and functionality of departmental applications. Whether you're building new features, integrating systems, or managing data, our API offers robust and efficient solutions tailored to the needs of the CSECU community. Dive into our documentation to discover how you can leverage the CSECU API to streamline your projects and enhance your interactions with our digital infrastructure.
+        </p>
 
-      <ul class="list-disc list-inside">
-        <li>
-          <a href="/docs/auth" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Authentication Endpoints</a>
-        </li>
-        <li>
-          <a href="/docs/public" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Public Access Endpoints</a>
-        </li>
+        <h2>Getting Started</h2>
+        <p>Get started with CSECU Web server right away. Learn how to use our services from <a href='/docs'>here</a></p>
 
-        <li>
-          <a href="/docs/protected" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Authentication Required Endpoints</a>
-        </li>
-      </ul>
+        <h2>Endpoints</h2>
+
+        <ul class="list-disc list-inside">
+            <li><a href="/docs/static.html">Resources</a></li>
+            <li><a href="/docs/auth.html">Authentication Endpoints</a></li>
+            <li><a href="/docs/public-access/index.html">Public Access Endpoints</a></li>
+            <li><a href="/docs/private-access/index.html">Private Access Endpoints</a></li>
+        </ul>
     </main>
-  </body>
+</body>
+
 </html>
