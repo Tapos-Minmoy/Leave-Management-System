@@ -14,7 +14,7 @@ import axios from "axios";
 function Chaiman() {
   const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // State for current page
-  const itemsPerPage = 8; // Number of items per page
+  const itemsPerPage = 5; // Number of items per page
   const navigate = useNavigate();
 
   useEffect(() => {

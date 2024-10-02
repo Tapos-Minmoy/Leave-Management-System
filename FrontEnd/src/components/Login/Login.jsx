@@ -118,12 +118,15 @@ const Login = () => {
           });
         });
         // Redirect to a protected route or dashboard
+        window.location.reload();
         const loggedInUserRole = Cookies.get("role_role") || "";
         if (loggedInUserRole === "chairman") navigate("/noc/chairman");
         else if (loggedInUserRole === "register") navigate("/noc/registrar");
         else if(loggedInUserRole === "vice_chancellor")navigate("/noc/VC");
         else if (loggedInUserRole === "Higher Study Branch") navigate("/noc/HigherStudyBranch");
         else navigate("/noc/leaveApplication"); // Adjust the route as necessary
+        
+
       } else {
         alert(result.message);
       }

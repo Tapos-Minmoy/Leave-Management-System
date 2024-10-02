@@ -181,6 +181,12 @@ const Main = () => {
         },{
           path: '/noc/otherLeaveDetails',
           element: <OtherLeaveDetails></OtherLeaveDetails>          
+        },{
+            path: '',
+            element: <CheckPermissionForLogin> 
+                      <Login></Login>
+            
+                  </CheckPermissionForLogin>,
         }
       ],
     },
