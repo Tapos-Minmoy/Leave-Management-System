@@ -70,6 +70,7 @@ app.use("/api/exam", examRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/user", userRouter);
 app.use("/api/notice", noticeRouter);
+// File access routes
 
 // Course-Semester Router [x]
 import courseSemesterRouter from "./routes/courses-semester";
@@ -172,8 +173,10 @@ app.use("/api/cuers/evaluates-activity", evaluatesActivityRouter);
 app.use("/api/cuers/calculate-bill", calculateBillRouter);
 app.use("/api/course-teacher", courseTeacherRouter);
 // Start the server
+import fileGetRouter from "./routes/file-get";
+app.use("/files", fileGetRouter);
 app.listen(port, () => {
   console.log(
     `ERP API is listening to port ${port}\nURL: http://localhost:${port}`,
-  );
+  );
 });
