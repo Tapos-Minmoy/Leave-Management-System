@@ -6,6 +6,8 @@ const commonLeaveUtilitiesRouter = express.Router();
 
 commonLeaveUtilitiesRouter.get("/appliedLeaveForIndividuals", async (req, res) => {
   try {
+    console.log("OK");
+    console.log(req.query.applicantId);
     var query1 = db.with("latestEvaluations", (db) => db
       .selectFrom("Study_Leave_Evaluation as e")
       .select(({ fn }) => ["e.applicant_id", "e.leave_id", fn.max("e.le_evaluation_time").as("latest_evaluation_time")])
@@ -43,6 +45,8 @@ commonLeaveUtilitiesRouter.get("/appliedLeaveForIndividuals", async (req, res) =
       query1 = query1.where("s.applicant_id", "=", applicantId);
       query2 = query2.where("o.applicant_id", "=", applicantId);
     }
+
+    
 
     const [results1, results2] = await Promise.all([query1.execute(), query2.execute()]);
     const unifiedResults = [...results1, ...results2];

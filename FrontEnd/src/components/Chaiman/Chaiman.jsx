@@ -13,29 +13,39 @@ import axios from "axios";
 
 function Chaiman() {
   const [data, setData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // State for current page
+  const itemsPerPage = 8; // Number of items per page
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/ApplicationToChaiman", {
           params: {
-            evaluation_type: "chairman approval", // Replace with your evaluation_type value
-            le_status: "Pending", // Replace with your le_status 
+            evaluation_type: "chairman approval",
+            le_status: "Pending",
             factor: "CSE"
           },
         });
         setData(response.data);
         console.log(response.data);
       } catch (error) {
-        setError(error.response?.data?.message || "Something went wrong");
-        setLoading(false);
+        console.error("Error:", error);
       }
     };
 
     fetchData();
   }, []);
+
+  // Logic to calculate which items to display on the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data ? data.slice(indexOfFirstItem, indexOfLastItem) : [];
+
+  // Calculate total number of pages
+  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const openStudyLeaveFormPage = (leaveId) => {
     navigate('/noc/studyLeaveDetailsToChariman', { state: { id: leaveId } });
@@ -52,9 +62,10 @@ function Chaiman() {
   const openOtherLeaveProgress = (leaveId) => {
     navigate('/noc/OtherLeaveProgressBar', { state: { id: leaveId } });
   };
+
   return (
     <div className="overflow-y-hidden">
-      <div className="h-screen flex justify-center bg-white max-md:px-5 mt-10">
+      <div className="min-h-screen flex justify-center bg-white max-md:px-5 mt-10 pb-10">
         <div className="flex flex-col w-full max-w-[1123px] max-md:mt-10 max-md:max-w-full">
           {/* Button Container */}
           <div className="flex justify-end mb-5">
@@ -66,13 +77,13 @@ function Chaiman() {
               My Leave
             </button>
           </div>
-          
+
           {/* Header */}
           <div className="self-center text-4xl font-bold leading-9 text-center text-black max-md:max-w-full">
             Applications For Chairman Approval
           </div>
-          
-          {/* Dropdown and checkboxes */}
+
+          {/* Dropdown */}
           <div className="flex justify ml-5 gap-5 mt-9">
             <Dropdown label="All Leaves">
               <div className="flex gap-1 justify-between items-center p-2.5 tracking-normal bg-white">
@@ -92,7 +103,7 @@ function Chaiman() {
             </Dropdown>
           </div>
 
-          {/* code for table */}
+          {/* Table */}
           <table className="table-auto w-full border-collapse border border-gray-200">
             <thead>
               <tr>
@@ -104,25 +115,23 @@ function Chaiman() {
               </tr>
             </thead>
             <tbody>
-              {data && data.map(application => (
+              {currentItems.map(application => (
                 <tr key={application.leave_id}>
                   <td className="border border-gray-200 px-4 py-2">
-                    <div>
-                      <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
-                        <img
-                          className="w-5 h-5 rounded-full shadow-lg"
-                          src={
-                            ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
-                              ? processingImage // Replace with a suitable image for other leaves
-                              : capImage // Default image for study leave
-                          }
-                          alt="Leave type image"
-                        />
-                        <div className="grow my-auto">
-                          {["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
-                            ? "Other Leave Application"
-                            : "Study Leave Application"}
-                        </div>
+                    <div className="flex gap-2.5 justify-between p-2.5 mt-2 tracking-normal bg-white">
+                      <img
+                        className="w-5 h-5 rounded-full shadow-lg"
+                        src={
+                          ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
+                            ? processingImage
+                            : capImage
+                        }
+                        alt="Leave type image"
+                      />
+                      <div className="grow my-auto">
+                        {["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
+                          ? "Other Leave Application"
+                          : "Study Leave Application"}
                       </div>
                     </div>
                   </td>
@@ -154,6 +163,19 @@ function Chaiman() {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination controls */}
+          <div className="flex justify-center mt-5">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`px-4 py-2 mx-1 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

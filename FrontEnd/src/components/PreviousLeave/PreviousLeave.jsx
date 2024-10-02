@@ -3,20 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faPenToSquare,
-  faRightLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "flowbite-react";
 import capImage from "../images/cap.png";
 import processingImage from "../images/color_processing.webp";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from 'js-cookie';
 
 function PreviousLeave() {
   const user_id = Cookies.get('user_user_id');
   const [data, setData] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // State for current page
+  const itemsPerPage = 5; // Number of items per page
   const navigate = useNavigate();
-  console.log(user_id);
   
   useEffect(() => {
     axios
@@ -27,23 +27,27 @@ function PreviousLeave() {
       })
       .then((response) => {
         setData(response.data.evaluations);
-        console.log(response.data.evaluations)
-        .then(()=>{
-          console.log("OK");
-          console.log(data);
-        })
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }, []);
 
+  // Logic to calculate which items to display on the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data ? data.slice(indexOfFirstItem, indexOfLastItem) : [];
+
+  // Calculate total number of pages
+  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const openStudyLeaveFormPage = (leaveId) => {
     navigate('/noc/studyLeaveDetails', { state: { id: leaveId } });
   };
 
   const openOtherLeaveFormPage = (leaveId) => {
-    console.log(leaveId);
     navigate('/noc/otherLeaveDetails', { state: { id: leaveId } });
   };
 
@@ -57,32 +61,14 @@ function PreviousLeave() {
 
   return (
     <div className="overflow-y-hidden">
-      <div className="h-screen flex justify-center  bg-white max-md:px-5 mt-10">
-        <div className=" flex flex-col w-full max-w-[1123px] max-md:mt-10 max-md:max-w-full">
-          {/* code for header */}
+      <div className="h-screen flex justify-center bg-white max-md:px-5 mt-10">
+        <div className="flex flex-col w-full max-w-[1123px] max-md:mt-10 max-md:max-w-full">
           <div className="self-center text-4xl font-bold leading-9 text-center text-black max-md:max-w-full">
             Previous Application Details
           </div>
 
-          {/* code for dropdown 
-          <div className='flex justify-start mt-6'>
-
-            <Dropdown label="All Leaves" dismissOnClick={false}>
-              <div className="flex gap-1 justify-between items-center p-2.5 tracking-normal bg-white">
-                <Dropdown.Item>Study Leave</Dropdown.Item>
-                <FontAwesomeIcon className='cursor-pointer hover:text-blue-500' icon={faCheck} />
-              </div>
-              <div className="flex gap-1 justify-center items-center p-2.5 tracking-normal bg-white">
-                <Dropdown.Item>Other Leaves</Dropdown.Item>
-                <FontAwesomeIcon className='cursor-pointer hover:text-blue-500' icon={faCheck} />
-              </div>
-            </Dropdown>
-
-          </div>*/}
-
-          {/* code for checkboxes */}
           <div className="flex justify-end gap-5 mt-9">
-            <Dropdown label="All Leaves" >
+            <Dropdown label="All Leaves">
               <div className="flex gap-1 justify-between items-center p-2.5 tracking-normal bg-white">
                 <Dropdown.Item>Study Leave</Dropdown.Item>
                 <FontAwesomeIcon
@@ -98,65 +84,9 @@ function PreviousLeave() {
                 />
               </div>
             </Dropdown>
-            <div class="flex items-center">
-              <input
-                id="link-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="link-checkbox"
-                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                All
-              </label>
-            </div>
-            <div class="flex items-center">
-              <input
-                id="link-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="link-checkbox"
-                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Pending{" "}
-              </label>
-            </div>
-            <div class="flex items-center">
-              <input
-                id="link-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="link-checkbox"
-                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Active{" "}
-              </label>
-            </div>
-            <div class="flex items-center">
-              <input
-                id="link-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="link-checkbox"
-                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Rejected{" "}
-              </label>
-            </div>
           </div>
 
-          {/* code for table */}
+          {/* Table to display currentItems */}
           <table className="table-auto w-full border-collapse border border-gray-200">
             <thead>
               <tr>
@@ -168,7 +98,7 @@ function PreviousLeave() {
               </tr>
             </thead>
             <tbody>
-              {data && data.map(application => (
+              {currentItems.map(application => (
                 <tr key={application.leave_id}>
                   <td className="border border-gray-200 px-4 py-2">
                     <div>
@@ -177,8 +107,8 @@ function PreviousLeave() {
                           className="w-5 h-5 rounded-full shadow-lg"
                           src={
                             ["Casual Leave", "Maternity Leave", "Medical Leave", "Earned Leave", "Special Disability Leave", "Duty Leave", "Leave on Deputation", "Quarantine Leave"].includes(application.Leave_Type_Details)
-                              ? processingImage // Replace with a suitable image for other leaves
-                              : capImage // Default image for study leave
+                              ? processingImage
+                              : capImage
                           }
                           alt="Leave type image"
                         />
@@ -191,7 +121,7 @@ function PreviousLeave() {
                     </div>
                   </td>
                   <td className="border border-gray-200 px-4 py-2">{application.Leave_Type_Details}</td>
-                  <td className="border border-gray-200 px-4 py-2">{application.evaluation_type+" (" + application.le_status + ")"}</td>
+                  <td className="border border-gray-200 px-4 py-2">{application.evaluation_type + " (" + application.le_status + ")"}</td>
                   <td className="border border-gray-200 px-4 py-2">
                     <div className="flex gap-2.5 justify-between items-center p-2.5 mt-2 tracking-normal bg-white">
                       <FontAwesomeIcon
@@ -218,6 +148,19 @@ function PreviousLeave() {
               ))}
             </tbody>
           </table>
+
+          {/* Pagination controls */}
+          <div className="flex justify-center mt-5 mb-50"> {/* Added bottom margin */}
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`px-4 py-2 mx-1 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
