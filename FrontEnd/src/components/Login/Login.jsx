@@ -20,7 +20,7 @@ const Login = () => {
       role === "applicant" ? "/api/login/teacher" : "/api/login/";
 
     try {
-      const response = await fetch(`http://bike-csecu.com:5000${endpoint}`, {
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Login = () => {
 
       if (result.message == "The user is already logged in") {
         try {
-          const responseLogout = await fetch("http://bike-csecu.com:5000/api/logout", {
+          const responseLogout = await fetch("http://localhost:5000/api/logout", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${result.session_id}`,
@@ -50,7 +50,7 @@ const Login = () => {
             });
 
             try {
-              const responselogin = await fetch(`http://bike-csecu.com:5000${endpoint}`, {
+              const responselogin = await fetch(`http://localhost:5000${endpoint}`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -104,6 +104,7 @@ const Login = () => {
         }
       } else if (result.message == "Successfully logged in") {
         // Store the session ID, user, and role in cookies
+        console.log(result)
         Cookies.set("session_id", result.session_id, { expires: 7 }); // Expires in 7 days
         Object.entries(result.user).forEach(([key, value]) => {
           Cookies.set(`user_${key}`, value === null ? "" : value.toString(), {
