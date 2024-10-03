@@ -83,7 +83,6 @@ const PdfDocument = ({ applicantData }) => (
 );
 
 const FinalLetter = ({leaveID} ) => {
-    console.log("Final "+ leaveID);
     const [applicantData, setApplicantData] = useState({
         memoNo: '',
         name: '',
