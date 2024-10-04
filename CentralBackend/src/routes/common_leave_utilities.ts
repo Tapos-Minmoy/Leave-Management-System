@@ -90,7 +90,6 @@ commonLeaveUtilitiesRouter.get("/StudyLeaveFinalLetter", async (req, res) => {
 
 
     const { leave_id } = leaveIdSchema.parse(req.query);
-    console.log(leave_id)
     const results = await db
       .selectFrom("Study_Leave_Application as s")
       .innerJoin("User as u", "u.user_id", "s.applicant_id")
@@ -106,7 +105,6 @@ commonLeaveUtilitiesRouter.get("/StudyLeaveFinalLetter", async (req, res) => {
       .where("e.leave_id", "=", leave_id )
       .where("e.evaluation_type", "=", "Higher Study Branch Final Approval")
       .execute();
-      console.log(results);
 
 
     res.status(200).json(results);

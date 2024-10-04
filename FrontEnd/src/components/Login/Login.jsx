@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const Login = () => {
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("applicant");
   const [teacherId, setTeacherId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -155,7 +155,7 @@ const Login = () => {
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="roles" className="block font-medium text-white">
-                  Roles:
+                  User name type:
                 </label>
                 <select
                   id="roles"
@@ -164,9 +164,9 @@ const Login = () => {
                   onChange={(e) => setRole(e.target.value)}
                   required
                 >
-                  <option value="">Select Role</option>
-                  <option value="applicant">Teachers</option>
-                  <option value="evaluator">Officials</option>
+                  <option value="">Select user name type</option>
+                  <option value="applicant">Teachers ID</option>
+                  <option value="evaluator">Email</option>
                 </select>
               </div>
 
