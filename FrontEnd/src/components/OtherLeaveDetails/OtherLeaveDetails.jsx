@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Letter from '../LetterToChaiman/LetterToChaiman';
 import axios from "axios";
-
+const base_url = import.meta.env.VITE_API_URL;
 function OtherLeaveDetails() {
   const [formData, setFormData] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState(null);
@@ -17,7 +17,7 @@ function OtherLeaveDetails() {
     const fetchLeaveDetails = async () => {
       if (leave_id) {
         axios
-          .get("http://localhost:5000/api/leave/other/otherLeaveDetails", {
+          .get(`${base_url}/api/leave/other/otherLeaveDetails`, {
             params: {
               leave_id: leave_id,
             },
@@ -39,7 +39,7 @@ function OtherLeaveDetails() {
   const downloadAttachment = async () => {
     if (attachmentUrl) {
       try {
-        const response = await axios.get(`http://localhost:5000/files/${attachmentUrl}`, {
+        const response = await axios.get(`${base_url}/files/${attachmentUrl}`, {
           responseType: "blob",
         });
 
@@ -223,7 +223,7 @@ function OtherLeaveDetails() {
               <div className="input-wrapper">
                 {formData.signature ? (
                   <img
-                    src={`http://localhost:5000/files/${formData.signature}`}
+                    src={`${base_url}/files/${formData.signature}`}
                     alt="Signature"
                     style={{ maxWidth: "300px", maxHeight: "80px" }}
                   />

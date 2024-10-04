@@ -10,7 +10,7 @@ import processingImage from "../images/color_processing.webp";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from 'js-cookie';
-
+const base_url = import.meta.env.VITE_API_URL;
 function PreviousLeave() {
   const user_id = Cookies.get('user_user_id');
   const [data, setData] = useState(null);
@@ -20,7 +20,7 @@ function PreviousLeave() {
   
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/leave/common/appliedLeaveForIndividuals", {
+      .get(`${base_url}/api/leave/common/appliedLeaveForIndividuals`, {
         params: {
           applicantId: user_id,
         },

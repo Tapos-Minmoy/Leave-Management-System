@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";  // Import axios
 import { useLocation } from "react-router-dom";
+const base_url = import.meta.env.VITE_API_URL;
 //take leave id from location state
 const  OtherProgressBar = () => {
   const [data, setData] = useState(null);
@@ -19,7 +20,7 @@ const  OtherProgressBar = () => {
     const fetchData = async () => {
    //   if(!leaveId)return ;
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/evaluates/other/latest", {
+        const response = await axios.get(`${base_url}/api/leave/evaluates/other/latest`, {
           params: {
             leave_id: leaveId
           },

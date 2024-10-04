@@ -10,7 +10,7 @@ import capImage from "../images/cap.png";
 import processingImage from "../images/color_processing.webp";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const base_url = import.meta.env.VITE_API_URL;
 function Chaiman() {
   const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // State for current page
@@ -20,7 +20,7 @@ function Chaiman() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/ApplicationToChaiman", {
+        const response = await axios.get(`${base_url}/api/leave/evaluates/study/ApplicationToChaiman`, {
           params: {
             evaluation_type: "chairman approval",
             le_status: "Pending",

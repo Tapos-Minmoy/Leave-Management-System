@@ -5,7 +5,7 @@ import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf';
 import FontForHeader from '../../assets/Fonts/NotoSansBengali-Regular.ttf';
 import letterHeader from '../../components/images/header2.png';
 import seal from '../../components/images/seal.png';
-
+const base_url = import.meta.env.VITE_API_URL;
 Font.register({
     family: 'Roboto-Regular',
     src: MyCustomFont,

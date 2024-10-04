@@ -4,7 +4,7 @@ import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Font, Image } 
 import MyCustomFont from '../../assets/Fonts/Roboto-Regular.ttf';
 import letterHeader from '../../components/images/letterHeader.png';
 import axios from "axios";
-
+const base_url = import.meta.env.VITE_API_URL;
 
 Font.register({
     family: 'Roboto-Regular',
@@ -103,7 +103,7 @@ const FinalLetter = ({leaveID} ) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/common/StudyLeaveFinalLetter", {
+        const response = await axios.get(`${base_url}/api/leave/common/StudyLeaveFinalLetter`, {
           params: {
             leave_id: leaveID,
           },

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation ,useNavigate} from "react-router-dom";
 import Letter from '../LetterToChaiman/LetterToChaiman'
 import axios from "axios";
-
+const base_url = import.meta.env.VITE_API_URL;
 function StudyLeaveDetails() {
   const [formData, setFormData] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState(null);
@@ -16,7 +16,7 @@ function StudyLeaveDetails() {
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       axios
-        .get("http://localhost:5000/api/leave/study", {
+        .get(`${base_url}/api/leave/study`, {
           params: {
             leave_id: leave_id,
           },
@@ -46,7 +46,7 @@ function StudyLeaveDetails() {
   const downloadAttachment = async () => {
     if (attachmentUrl) {
       try {
-        const response = await axios.get(`http://localhost:5000/files/${attachmentUrl}`, {
+        const response = await axios.get(`${base_url}/files/${attachmentUrl}`, {
           responseType: "blob", // Important: responseType must be blob
         });
 
@@ -105,7 +105,7 @@ function StudyLeaveDetails() {
 
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/leave/evaluates/study/update`,
+          `${base_url}/api/leave/evaluates/study/update`,
           updateData,
           {
             headers: {
@@ -128,7 +128,7 @@ function StudyLeaveDetails() {
             };
       
             const response2 = await axios.post(
-              `http://localhost:5000/api/leave/evaluates/study/add`,
+              `${base_url}/api/leave/evaluates/study/add`,
               addData,
               {
                 headers: {
@@ -316,7 +316,7 @@ function StudyLeaveDetails() {
               <div className="input-wrapper">
                 {formData.signature ? (
                   <img
-                    src={`http://localhost:5000/files/${formData.signature}`}
+                    src={`${base_url}/files/${formData.signature}`}
                     alt="Signature"
                     style={{ maxWidth: "300px", maxHeight: "80px" }}
                   />

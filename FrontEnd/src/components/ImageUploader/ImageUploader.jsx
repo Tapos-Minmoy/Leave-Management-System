@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+const base_url = import.meta.env.VITE_API_URL;
 const PdfUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
@@ -20,7 +20,7 @@ const PdfUpload = () => {
     formData.append("items", selectedFile); // Ensure the key matches the multer middleware setup on the backend
 
     try {
-      const response = await axios.post("http://localhost:5000/api/upload/", formData, {
+      const response = await axios.post(`${base_url}/api/upload/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -46,7 +46,7 @@ const PdfUpload = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:5000/files/${uploadedFileName}`, {
+      const response = await axios.get(`${base_url}/files/${uploadedFileName}`, {
         responseType: "blob", // Important: responseType must be blob
       });
 

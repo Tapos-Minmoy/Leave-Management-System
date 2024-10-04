@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";  // Import axios
 import { useLocation } from "react-router-dom";
-import Letter from '../FinalLetter/FinalLetter'
+import Letter from '../FinalLetter/FinalLetter';
+const base_url = import.meta.env.VITE_API_URL;
 //take leave id from location state
 const ProgressBar = () => {
   const [data, setData] = useState(null);
@@ -22,7 +23,7 @@ const ProgressBar = () => {
     const fetchData = async () => {
    //   if(!leaveId)return ;
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/latest", {
+        const response = await axios.get(`${base_url}/api/leave/evaluates/study/latest`, {
           params: {
             leave_id: leaveId
           },

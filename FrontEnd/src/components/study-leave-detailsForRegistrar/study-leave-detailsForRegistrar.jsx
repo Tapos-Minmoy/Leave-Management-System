@@ -16,12 +16,12 @@ function StudyLeaveDetailsForRegistrar() {
     evaluation_type === "Registrar Secondary Approval"
       ? "Forward To VC"
       : "Forward to Higher Studies";
-
+      const base_url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchLeaveDetails = async () => {
       if (leave_id) {
         axios
-          .get("http://localhost:5000/api/leave/study", {
+          .get(`${base_url}/api/leave/study`, {
             params: {
               leave_id: leave_id,
             },
@@ -53,7 +53,7 @@ function StudyLeaveDetailsForRegistrar() {
     if (attachmentUrl) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/files/${attachmentUrl}`,
+          `${base_url}/files/${attachmentUrl}`,
           {
             responseType: "blob",
           }
@@ -104,7 +104,7 @@ function StudyLeaveDetailsForRegistrar() {
 
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/leave/evaluates/study/update`,
+          `${base_url}/api/leave/evaluates/study/update`,
           updateData,
           {
             headers: {
@@ -137,7 +137,7 @@ function StudyLeaveDetailsForRegistrar() {
               };
 
               const response2 = await axios.post(
-                `http://localhost:5000/api/leave/evaluates/study/add`,
+                `${base_url}/api/leave/evaluates/study/add`,
                 addData,
                 {
                   headers: {
@@ -335,7 +335,7 @@ function StudyLeaveDetailsForRegistrar() {
               <div className="input-wrapper">
                 {formData.signature ? (
                   <img
-                    src={`http://localhost:5000/files/${formData.signature}`}
+                    src={`${base_url}/files/${formData.signature}`}
                     alt="Signature"
                     style={{ maxWidth: "300px", maxHeight: "80px" }}
                   />

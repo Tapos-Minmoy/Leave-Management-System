@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
 import {  useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+const base_url = import.meta.env.VITE_API_URL;
 import './StudyLeaveForm.css'; // Import CSS file for styling
 
 function StudyLeaveForm({  }) {
@@ -78,7 +78,7 @@ function StudyLeaveForm({  }) {
     formData.append("items", file); // Ensure the key matches the multer middleware setup on the backend
 
     try {
-      const response = await axios.post("http://localhost:5000/api/upload/", formData, {
+      const response = await axios.post(`${base_url}/api/upload/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -139,7 +139,7 @@ function StudyLeaveForm({  }) {
         formDataToSend.signature = uploadedSignature;
       }
   
-      const response = await axios.post('http://localhost:5000/api/leave/study/add', formDataToSend, {
+      const response = await axios.post(`${base_url}/api/leave/study/add`, formDataToSend, {
         headers: {
           'Content-Type': 'application/json',
         },

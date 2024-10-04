@@ -5,7 +5,7 @@ import capImage from '../images/cap.png';
 import processingImage from '../images/color_processing.webp';
 import Progress from '../images/progress.jpg';
 import './LeaveApplication.css';
-
+const base_url = import.meta.env.VITE_API_URL;
 function LeaveApplication() {
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');

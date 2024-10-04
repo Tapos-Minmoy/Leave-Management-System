@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './OtherLeaveForm.css';
-
+const base_url = import.meta.env.VITE_API_URL;
 function OtherLeaveForm({ userID }) {
   const navigate = useNavigate();
   const [signatureFile, setSignatureFile] = useState(null);
@@ -81,7 +81,7 @@ function OtherLeaveForm({ userID }) {
     formData.append("items", file);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/upload/", formData, {
+      const response = await axios.post(`${base_url}/api/upload/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -141,7 +141,7 @@ function OtherLeaveForm({ userID }) {
         formDataToSend.signature = uploadedSignature;
       }
 
-      const response = await axios.post('http://localhost:5000/api/leave/other/add', formDataToSend, {
+      const response = await axios.post(`${base_url}/api/leave/other/add`, formDataToSend, {
         headers: {
           'Content-Type': 'application/json',
         },

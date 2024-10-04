@@ -9,7 +9,7 @@ import { Dropdown } from "flowbite-react";
 import capImage from "../images/cap.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const base_url = import.meta.env.VITE_API_URL;
 function HigherStudy() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function HigherStudy() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/leave/evaluates/study/pendingApprovalsHigherStudy", {
+        const response = await axios.get(`${base_url}/api/leave/evaluates/study/pendingApprovalsHigherStudy`, {
     
         });
         setData(response.data);

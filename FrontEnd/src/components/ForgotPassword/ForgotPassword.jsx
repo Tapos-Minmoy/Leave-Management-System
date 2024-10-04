@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+const base_url = import.meta.env.VITE_API_URL;
 const ForgotPassword = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
