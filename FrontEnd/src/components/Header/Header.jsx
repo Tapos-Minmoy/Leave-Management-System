@@ -13,6 +13,9 @@ const Header = () => {
   const [role, setRole] = useState('');
   const [sessionId, setSessionId] = useState('');
   const navigate = useNavigate();
+  const base_url = import.meta.env.VITE_API_URL;
+  console.log(base_url)
+
 
   useEffect(() => {
     // Retrieve values from cookies
@@ -32,7 +35,7 @@ const Header = () => {
     const sessionId = Cookies.get('session_id') || '';
 
     try {
-      const response = await fetch('http://localhost:5000/api/logout', {
+      const response = await fetch(`${base_url}/api/logout`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${sessionId}`,

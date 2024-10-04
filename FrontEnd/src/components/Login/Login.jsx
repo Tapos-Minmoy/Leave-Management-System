@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const base_url = import.meta.env.VITE_API_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loginData =
@@ -20,7 +20,7 @@ const Login = () => {
       role === "applicant" ? "/api/login/teacher" : "/api/login/";
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${base_url}${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Login = () => {
 
       if (result.message == "The user is already logged in") {
         try {
-          const responseLogout = await fetch("http://localhost:5000/api/logout", {
+          const responseLogout = await fetch(`${base_url}/api/logout`, {
             method: "POST",
             headers: {
               Authorization: `Bearer ${result.session_id}`,
@@ -50,7 +50,7 @@ const Login = () => {
             });
 
             try {
-              const responselogin = await fetch(`http://localhost:5000${endpoint}`, {
+              const responselogin = await fetch(`${base_url}${endpoint}` , {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
