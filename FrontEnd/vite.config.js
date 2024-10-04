@@ -10,5 +10,10 @@ export default defineConfig({
       
       credentials: true, // If you want to allow cookies or authorization headers
     }
-  }
+  },
+  server: {
+    hmr: {
+        host: 'localhost',
+    },
+}
 })
