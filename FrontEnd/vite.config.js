@@ -7,7 +7,7 @@ export default defineConfig({
     cors: {
       origin: '*', // Allows all origins, you can specify specific origins like 'https://example.com'
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Specifies allowed methods
-      
+      allowedHeaders: '*',
       credentials: true, // If you want to allow cookies or authorization headers
     }
   }
