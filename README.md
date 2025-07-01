@@ -213,14 +213,6 @@ This project is licensed under the **MIT License**.
 
 ---
 
-## Contact
-**Sabbir Hasan Bhuiyan**  
-📧 Email: sabbirhasan675@gmail.com  
-💼 LinkedIn: [linkedin.com/in/SabbirHasanBhuiyan](https://linkedin.com/in/SabbirHasanBhuiyan)  
-🐙 GitHub: [github.com/SabbirHasanBhuiyan](https://github.com/SabbirHasanBhuiyan)
-
----
-
 ## Acknowledgments
 - Developed as part of University ERP System coursework
 - Special thanks to 6 ohter team members and the Web Engineering course instructors Dr. Rudra Pratap Deb Nath and Dr. Iqbal Ahmed
